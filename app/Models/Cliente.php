@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
+
 
 class Cliente extends Model
 {
@@ -26,6 +29,7 @@ class Cliente extends Model
         'cidade_id',
         'statuscliente_id',
         'rg_file',
+        'comentario',
         'passaporte_file',
         'cnh_file',
         'endereco_file'
@@ -51,12 +55,35 @@ class Cliente extends Model
         'endereco_file' => 'string'
     ];
 
+    public function getNomeAttribute($value)
+    {
+        return Str::of($value)->title();
+    }
+
+    public function getTelefoneAttribute($value)
+    {
+        $adjusted = Str::start($value, '(');
+        $adjusted =  Str::substrReplace($adjusted, ')',4,0);
+        $adjusted =  Str::substrReplace($adjusted, ' ',5,0);
+        $adjusted =   Str::substrReplace($adjusted, '-',11,0);
+        return Str::substrReplace($adjusted, '-', 15,0);
+
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        if($value) {
+
+            return Carbon::parse($value)->format('d-m-y');
+        }
+    }
+
     public function statusCliente()
     {
         return $this->belongsTo(StatusCliente::class, 'statuscliente_id', 'id');
     }
 
-    public function ordensServico()
+    public function ordens()
     {
         return $this->hasMany(OrdemServico::class, 'cliente_id', 'id');
     }

@@ -19,15 +19,15 @@ class CreateOrdemServicoTable extends Migration
             $table->foreign('cliente_id')->references('id')->on('cliente');
             $table->unsignedBigInteger('tiposervico_id');
             $table->foreign('tiposervico_id')->references('id')->on('tipo_servico');
-            $table->unsignedBigInteger('fornecedor_id');
+            $table->unsignedBigInteger('fornecedor_id')->nullable();
             $table->foreign('fornecedor_id')->references('id')->on('fornecedor');
-            $table->unsignedBigInteger('statusordem_id');
+            $table->unsignedBigInteger('statusordem_id')->nullable();
             $table->foreign('statusordem_id')->references('id')->on('status_ordem');
-            $table->date('data_inicio');
-            $table->date('data_fim');
-            $table->float('receita', 8,2);
-            $table->float('custo', 8,2);
-            $table->float('cotacao', 8,2);
+            $table->date('data_inicio')->nullable();
+            $table->date('data_fim')->nullable();
+            $table->float('receita', 8,2)->nullable();
+            $table->float('custo', 8,2)->nullable();
+            $table->float('cotacao', 8,2)->nullable();
             $table->timestamps();
         });
     }

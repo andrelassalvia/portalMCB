@@ -1,0 +1,32 @@
+// create
+.container {
+    .row {
+        .customer-details {
+            header {
+                background-color: #363b3b;
+                padding: 20px;
+                h3 {
+                    color: #fff;
+                    font-size: 20px;
+                }
+            }
+        }
+        .form-label {
+            font-size: 14px;
+            font-weight: 700;
+        }
+    }
+}
+
+// Modal Edit
+.modal-body {
+    .row {
+        align-items: center;
+        div {
+            .form-text {
+                font-size: 1.1em;
+                color: #363b3b;
+            }
+        }
+    }
+}

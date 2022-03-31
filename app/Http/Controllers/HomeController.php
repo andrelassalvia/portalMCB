@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cliente;
+use App\Models\OrdemServico;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $clientes = Cliente::with(['ordens'])
+                        ->where('statuscliente_id', 1)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);         
+        return view ('home', compact('clientes'));   
+       
+       
     }
 }

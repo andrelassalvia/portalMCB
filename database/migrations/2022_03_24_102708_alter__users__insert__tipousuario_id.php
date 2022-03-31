@@ -15,7 +15,7 @@ class AlterUsersInsertTipousuarioId extends Migration
     {
         Schema::table('users', function(Blueprint $table)
         {
-            $table->unsignedBigInteger('tipousuario_id')->after('status');
+            $table->unsignedBigInteger('tipousuario_id')->after('status')->nullable();
             $table->foreign('tipousuario_id')->references('id')->on('tipo_usuario');
         });
     }

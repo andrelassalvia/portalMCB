@@ -1,0 +1,41 @@
+.base-body {
+    background-color: #f1f1f1;
+    .base-header {
+        background-color: #fff;
+        nav {
+            div {
+                .navbar-text {
+                    display: none;
+                }
+                a {
+                    .logo--welcome {
+                        width: 180px;
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .base-body {
+        .base-header {
+            nav {
+                div {
+                    .navbar-text {
+                        display: block;
+                        font-size: 26px;
+                    }
+
+                    a {
+                        .logo--welcome {
+                            width: 240px;
+                            height: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

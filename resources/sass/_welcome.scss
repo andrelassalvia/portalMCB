@@ -1,0 +1,94 @@
+// Header
+body {
+    background-color: #fff;
+}
+.welcome--header {
+    div {
+        span {
+            font-size: medium;
+        }
+    }
+    .logo--welcome {
+        width: 100px;
+        height: auto;
+    }
+
+    @media (min-width: 576px) {
+        .logo--welcome {
+            width: 150px;
+            height: auto;
+        }
+
+        div {
+            span {
+                font-size: 18px;
+            }
+        }
+    }
+    @media (min-width: 768px) {
+        .logo--welcome {
+            width: 190px;
+            height: auto;
+        }
+
+        div {
+            span {
+                font-size: 22px;
+            }
+        }
+    }
+    @media (min-width: 992px) {
+        .logo--welcome {
+            width: 210px;
+            height: auto;
+        }
+
+        div {
+            span {
+                font-size: 24px;
+            }
+        }
+    }
+    @media (min-width: 1200px) {
+        div {
+            span {
+                font-size: 26px;
+            }
+        }
+    }
+    @media (min-width: 1400px) {
+        .logo--welcome {
+            width: 240px;
+            height: auto;
+        }
+        div {
+            span {
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+// Main
+.login {
+    .message {
+        font-size: 12px;
+    }
+
+    .label {
+        font-size: smaller;
+    }
+
+    @media (min-width: 576px) {
+        .message,
+        .label {
+            font-size: 14px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .message {
+            font-size: 16px;
+        }
+    }
+}

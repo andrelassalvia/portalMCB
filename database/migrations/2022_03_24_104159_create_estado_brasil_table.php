@@ -16,6 +16,7 @@ class CreateEstadoBrasilTable extends Migration
         Schema::create('estado_brasil', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->string('code');
             $table->timestamps();
         });
     }

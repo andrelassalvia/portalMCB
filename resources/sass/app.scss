@@ -1,8 +1,20 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+
+// Welcome Page
+@import "welcome";
+
+// Base Blade
+@import "base";
+
+// Home Blade
+@import "home";
+
+// Customer Blade
+@import "customer";
