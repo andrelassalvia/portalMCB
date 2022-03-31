@@ -117,7 +117,7 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::find($id);
         
-        return view ('admin.cliente.show');
+        
     }
 
     /**
@@ -173,5 +173,11 @@ class ClienteController extends Controller
         $update = $cliente->update(['statuscliente_id' => 2]);
 
         return redirect()->route('home')->with(['success' => 'Cliente inativado com sucesso'])->withInput();
+    }
+
+    public function loadCards($id)
+    {
+        $cliente = Cliente::find($id);
+        return response()->json($cliente);
     }
 }

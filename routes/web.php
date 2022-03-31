@@ -37,4 +37,5 @@ Route::prefix('/clientes')
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
             route::get('/load_cidades/{estado}', 'loadCidades');
             route::any('/inativar/{cliente}', 'inactive')->name('clientes.inactive');
+            route::get('/cards/{cliente}', 'loadCards')->name('clientes.cards');
         });

@@ -11457,6 +11457,21 @@ body {
   text-decoration: underline;
 }
 
+.row-link {
+  display: block;
+  text-decoration: none;
+  color: #363b3b;
+}
+
+tr {
+  cursor: pointer;
+}
+
+.card-header {
+  background-color: #363b3b;
+  color: #fff;
+}
+
 .container .row .customer-details header {
   background-color: #363b3b;
   padding: 20px;
