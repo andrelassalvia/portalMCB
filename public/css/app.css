@@ -11363,22 +11363,24 @@ body {
 .base-body .base-header {
   background-color: #fff;
 }
-.base-body .base-header nav div .navbar-text {
-  display: none;
-}
 .base-body .base-header nav div a .logo--welcome {
-  width: 180px;
+  width: 250px;
   height: auto;
 }
 
 @media (min-width: 992px) {
-  .base-body .base-header nav div .navbar-text {
-    display: block;
-    font-size: 26px;
-  }
   .base-body .base-header nav div a .logo--welcome {
-    width: 240px;
+    width: 320px;
     height: auto;
+  }
+  .base-body .nav-link {
+    color: #25064c !important;
+    font-weight: bold;
+    font-size: medium;
+  }
+  .base-body .nav-link:hover {
+    font-weight: lighter;
+    text-decoration: overline;
   }
 }
 .page-link {
@@ -11387,6 +11389,12 @@ body {
 
 .btn-sm, .btn-group-sm > .btn {
   font-size: 0.6rem;
+}
+
+.btn-novo-cliente {
+  font-weight: bold;
+  font-size: 0.7rem;
+  align-self: center;
 }
 
 .modal-header {
@@ -11491,4 +11499,12 @@ tr {
 .modal-body .row div .form-text {
   font-size: 1.1em;
   color: #363b3b;
+}
+
+.card-body {
+  background-color: #f1f1f1;
+}
+.card-body div div .form-label {
+  font-size: 14px;
+  font-weight: 700;
 }

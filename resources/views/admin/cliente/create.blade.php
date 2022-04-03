@@ -110,7 +110,7 @@
                   </div>                      
                 </div> 
                 <div class="row d-flex justify-content-center mt-3">        
-                  <button type="submit" class="col-2 btn btn-outline-secondary">Save</button>       
+                  <button type="submit" class="col-2 btn btn-outline-secondary">Salvar</button>       
               </div>         
             </form>    
           </section>                  
@@ -121,17 +121,14 @@
           </header>
           <div>
             <ul>
-              <li><a href="{{route('clientes.create')}}">Cadastro Clientes</a></li>
-              <li><a href="">Cadastro Fornecedores</a></li>
-              <li><a href="">Cadastro Serviços</a></li>
-              <li><a href="">Cadastro Ordens de Serviço</a></li>              
+
             </ul>
           </div>
         </aside>                            
       </div>      
     </div>
   </main>
-
+  
   <script type="text/javascript">
     $(document).ready(function(){
      
@@ -142,6 +139,26 @@
        $('#cidade_brasil').find("option").not(':first').remove();
 
        // AJAX 
+       $.ajax({
+          url: "http://192.168.1.85:8000/clientes/load_cidades/"+estado,
+          type: "get",
+          dataType: "json",
+          success: function(response){            
+            var len = 0;
+            if(response !=null){
+              len = response.length;
+            }
+            if(len>0){
+              for (let i = 0; i < len; i++) {
+                var id = response[i].id;
+                var name = response[i].nome;
+                var option = "<option value='"+id+"'>"+name+"</option>";
+
+                $('#cidade_brasil').append(option);
+              }
+            }
+          }
+       });
        $.ajax({
           url: "http://localhost:8000/clientes/load_cidades/"+estado,
           type: "get",

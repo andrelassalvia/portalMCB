@@ -18,8 +18,9 @@
         {{-- Lista Ultimos Contatos --}}
         <div class="col-lg-8 p-3 ps-xl-4">         
           <section class="home-clients-list mb-3 border-1"> 
-            <header>
-              <h3>Últimos Contatos</h3>  
+            <header class="d-flex">
+              <h3>Últimos Contatos</h3> 
+              <a class="btn btn-light ms-auto btn-sm btn-novo-cliente" href="{{route('clientes.create')}}">Novo Cliente</a> 
             </header> 
             <div>              
               <table class="table table-hover">
@@ -126,7 +127,12 @@
                           
                         </td>   
                         <td width=120>
-                          <a class="btn btn-success btn-sm">OS</a>
+                          <a 
+                            class="btn btn-success btn-sm"
+                            href="{{route('ordens.create')}}"
+                          >
+                            OS
+                          </a>
                           <a 
                             class="btn btn-danger btn-sm" 
                             type="button" 
@@ -160,28 +166,16 @@
           </section> 
         </div>
 
+        {{-- Card do cliente --}}
         <aside class="col-lg-4 home-quick-links p-3 pe-lg-4 pe-xl-5">
           <div class="card">
             <h5 class="card-header">Cliente</h5>
-            <div class="card-body">
-              {{-- <h5 class="card-title">Andre Lassalvia</h5>
-              <p class="card-text">This is some text within a card body.</p> --}}
+            <div class="card-body">              
             </div>
             <div class="card-footer">
               <button class="btn btn-outline-secondary btn-sm">Alterar</button>
             </div>
-          </div>
-          {{-- <header>
-            <h3>Links</h3>
-          </header>
-          <div>
-            <ul>
-              <li><a href="{{route('clientes.create')}}">Novo Cliente</a></li>
-              <li><a href="">Cadastro Fornecedores</a></li>
-              <li><a href="">Cadastro Serviços</a></li>
-              <li><a href="">Cadastro Ordens de Serviço</a></li>              
-            </ul>
-          </div> --}}
+          </div>          
         </aside>
  
       </div>
@@ -203,9 +197,27 @@
 
          // AJAX 
        $.ajax({
+          url: "http://192.168.1.85:8000/clientes/cards/"+id,
+          type: "get",
+          dataType: "json",
+          timeout:5000,
+          success: function(response){             
+            if(response.nome !== undefined) {
+              var name = response.nome;
+              var comments = response.comentario;
+              var h5 = "<h5 class='card-title'>"+name+"</h5>"
+              var p = "<p class='card-text'>"+comments+"</p>"
+              $('.card-body').append(h5);
+              $('.card-body').append(p);      
+
+            }                                                                                      
+          }
+       });
+       $.ajax({
           url: "http://localhost:8000/clientes/cards/"+id,
           type: "get",
           dataType: "json",
+          timeout:5000,
           success: function(response){             
             if(response.nome !== undefined) {
               var name = response.nome;

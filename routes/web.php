@@ -36,6 +36,15 @@ Route::prefix('/clientes')
             route::post('{cliente}', 'update')->name('clientes.update');
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
             route::get('/load_cidades/{estado}', 'loadCidades');
+            route::get('/load_cities/{country}', 'loadCities');
             route::any('/inativar/{cliente}', 'inactive')->name('clientes.inactive');
             route::get('/cards/{cliente}', 'loadCards')->name('clientes.cards');
+        });
+
+// ORDENS
+Route::prefix('/ordens')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Admin\OrdemController')
+        ->group(function(){
+            route::get('/create', 'create')->name('ordens.create');
         });

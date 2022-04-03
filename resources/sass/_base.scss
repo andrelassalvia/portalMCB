@@ -4,12 +4,9 @@
         background-color: #fff;
         nav {
             div {
-                .navbar-text {
-                    display: none;
-                }
                 a {
                     .logo--welcome {
-                        width: 180px;
+                        width: 250px;
                         height: auto;
                     }
                 }
@@ -23,19 +20,23 @@
         .base-header {
             nav {
                 div {
-                    .navbar-text {
-                        display: block;
-                        font-size: 26px;
-                    }
-
                     a {
                         .logo--welcome {
-                            width: 240px;
+                            width: 320px;
                             height: auto;
                         }
                     }
                 }
             }
+        }
+        .nav-link {
+            color: rgba(37 6 76 / 100%) !important;
+            font-weight: bold;
+            font-size: medium;
+        }
+        .nav-link:hover {
+            font-weight: lighter;
+            text-decoration: overline;
         }
     }
 }

@@ -17,8 +17,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // Estado_Brasil::class,
             // Cidade_Brasil::class,
-            // Tipo_Servico::class,
-            Status_Cliente::class
+            // Tipo_Servico::class
+            // Status_Cliente::class,
+            // PaisSeeder::class,
+            UnitedKingdomSeeder::class
         ]);        
     }
 }
