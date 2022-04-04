@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Apoio;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\OrdemServico;
 use App\Models\CidadeBrasil;
-use App\Models\EstadoBrasil;
-use App\Models\Pais;
+use Illuminate\Http\Request;
 
-class OrdemController extends Controller
+class CidadeBrasilController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,7 +25,7 @@ class OrdemController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -50,7 +47,9 @@ class OrdemController extends Controller
      */
     public function show($id)
     {
-        //
+        $cidadeBrasil = CidadeBrasil::find($id);
+
+        return response()->json($cidadeBrasil);
     }
 
     /**

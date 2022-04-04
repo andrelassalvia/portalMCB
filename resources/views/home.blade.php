@@ -3,6 +3,7 @@
 @section('content')
 
   <main>
+    {{-- Mensagem de alerta --}}
     <div class="home-container">
       <div class="row">
         <div class="col-md-4 offset-md-4 offset-lg-2 p-3 ps-xl-4">
@@ -129,7 +130,7 @@
                         <td width=120>
                           <a 
                             class="btn btn-success btn-sm"
-                            href="{{route('ordens.create')}}"
+                            href="{{route('clientes.edit', $item)}}"
                           >
                             OS
                           </a>
@@ -146,7 +147,9 @@
                       @endforeach
                     </tbody>
                   </table>                    
-            </div>   
+            </div> 
+            
+            {{-- Paginacao --}}
             <div class="pagination">
               {{ $clientes->links() }}
             </div>           

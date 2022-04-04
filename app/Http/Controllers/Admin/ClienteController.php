@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
+use App\Models\Pais;
 use App\Models\TipoServico;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cliente;
@@ -65,6 +66,7 @@ class ClienteController extends Controller
                 'firma_aberta' => 'boolean',
                 'cnh' => 'boolean',
                 'cpf' => 'boolean',
+                'certificacao_digital' => 'boolean',
                 'comentario' => 'nullable|min:3|max:200'
             ]
         );
@@ -85,6 +87,7 @@ class ClienteController extends Controller
                 'firma_aberta' => $validated['firma_aberta'],
                 'cnh' => $validated['cnh'],
                 'cpf' => $validated['cpf'],
+                'certificacao_digital' => $validated['certificacao_digital'],
                 'estadobrasil_id' => $validated['estado_brasil'],
                 'cidadebrasil_id' => $validated['cidade_brasil'],
                 'comentario' => $validated['comentario'],
@@ -128,7 +131,15 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cliente = Cliente::find($id);
+        // dd($cliente);
+        $states = EstadoBrasil::orderBy('nome')->get();
+        $cities = CidadeBrasil::all();
+        $countries = Pais::orderBy('nome')->get();
+        return 
+            view ('admin.ordem.create', 
+            compact('states', 'cities', 'countries', 'cliente')
+            );        
     }
 
     /**

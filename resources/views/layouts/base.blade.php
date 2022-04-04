@@ -30,7 +30,7 @@
     <body class="base-body">
         <div id="app">
             <div class="container-fluid">
-                <header class="base-header pt-3 mb-5">
+                <header class="base-header pt-3">
                     <nav class="navbar navbar-expand-lg navbar-light justify-content-between">          
                         <div>
                             <a class="navbar-brand" href="{{ url('/home') }}">

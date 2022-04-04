@@ -49,7 +49,11 @@
                     >
                     <option value="">Selecione</option>
                     @foreach ($services as $item)
-                        <option value="{{$item->id}}">{{$item->nome}}</option>
+                        <option 
+                          value="{{$item->id}}" {{old('tipo_servico') == $item->id ? 'selected' : ''}}
+                        >
+                          {{$item->nome}}
+                        </option>
                     @endforeach
                     </select>
                   </div>
@@ -62,7 +66,9 @@
                     >
                       <option value="">Selecione</option>
                       @foreach ($states as $item)
-                        <option value="{{$item->id}}">{{$item->nome}}</option>                
+                        <option value="{{$item->id}}">
+                          {{$item->nome}}
+                        </option>                
                       @endforeach            
                     </select>
                   </div>
@@ -71,31 +77,62 @@
                     <select 
                       class="form-select" 
                       name="cidade_brasil"
-                      id="cidade_brasil"
+                      id="cidade_brasil"                      
                     >
                       <option value="">Selecione</option>                
                     </select>
                   </div>      
-                  <div class="d-flex mb-3">
-                    <div class="form-check me-3">
-                      <input type="hidden" name="firma_aberta" value="0">
-                      <input class="form-check-input" type="checkbox" name="firma_aberta" value="1" id="firma_aberta">
-                      <label class="form-check-label" for="firma_aberta">
-                        Firma aberta
-                      </label>
+                  <div class="d-flex mb-3 justify-content-between">
+                    <div class="form-check me-3">                      
+                        <input type="hidden" name="firma_aberta" value="0">
+                        <input 
+                          class="form-check-input" 
+                          type="checkbox" 
+                          name="firma_aberta" 
+                          value="1" {{old('firma_aberta') == 1 ? 'checked' : ''}}
+                          id="firma_aberta"
+                        >
+                        <label class="form-check-label" for="firma_aberta">
+                          Firma aberta
+                        </label>                                                
                     </div>
-                    <div class="form-check me-3">
+                    <div class="form-check me-3">                      
                       <input type="hidden" name="cnh" value="0">
-                      <input class="form-check-input" type="checkbox" name="cnh" value="1" id="cnh">
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        name="cnh" 
+                        value="1" {{old('cnh') == 1 ? 'checked' : ''}}
+                        id="cnh"
+                      >
                       <label class="form-check-label" for="cnh">
                         CNH
                       </label>
                     </div>
-                    <div class="form-check">
+                    <div class="form-check me-3">
                       <input type="hidden" name="cpf" value="0">
-                      <input class="form-check-input" type="checkbox" name="cpf" value="1" id="cpf">
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        name="cpf" 
+                        value="1" {{old('cpf') == 1 ? 'checked' : ''}}
+                        id="cpf"
+                      >
                       <label class="form-check-label" for="cpf">
                         CPF
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input type="hidden" name="certificacao_digital" value="0">
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        name="certificacao_digital" 
+                        value="1" {{old('certificacao_digital') == 1 ? 'checked' : ''}}
+                        id="certificacao_digital"
+                      >
+                      <label class="form-check-label" for="certificacao_digital">
+                        Certificação Digital
                       </label>
                     </div>
                   </div>  
@@ -131,6 +168,11 @@
   
   <script type="text/javascript">
     $(document).ready(function(){
+
+      var urlsLoadCidades = [
+        'http://192.168.1.85:8000/clientes/load_cidades/',
+        'http://localhost:8000/clientes/load_cidades/',
+      ];      
      
      $('#estado_brasil').change(function(){
        var estado = $(this).val(); 
@@ -139,8 +181,9 @@
        $('#cidade_brasil').find("option").not(':first').remove();
 
        // AJAX 
-       $.ajax({
-          url: "http://192.168.1.85:8000/clientes/load_cidades/"+estado,
+       $.each(urlsLoadCidades, function(i, u){
+        $.ajax(u+estado,
+        {          
           type: "get",
           dataType: "json",
           success: function(response){            
@@ -154,32 +197,59 @@
                 var name = response[i].nome;
                 var option = "<option value='"+id+"'>"+name+"</option>";
 
-                $('#cidade_brasil').append(option);
-              }
-            }
-          }
-       });
-       $.ajax({
-          url: "http://localhost:8000/clientes/load_cidades/"+estado,
-          type: "get",
-          dataType: "json",
-          success: function(response){            
-            var len = 0;
-            if(response !=null){
-              len = response.length;
-            }
-            if(len>0){
-              for (let i = 0; i < len; i++) {
-                var id = response[i].id;
-                var name = response[i].nome;
-                var option = "<option value='"+id+"'>"+name+"</option>";
+                console.log(option);
 
                 $('#cidade_brasil').append(option);
               }
             }
           }
-       });
+        });
+       });              
      });
-   });
+    });
  </script> 
+
+{{-- Script para recuperar old estado e cidade - validacao falhar --}}
+ <script type="text/javascript">
+  $(document).ready(function(){
+
+    var urlsLoadCidades = [
+        'http://192.168.1.85:8000/clientes/load_cidades/',
+        'http://localhost:8000/clientes/load_cidades/',
+      ]; 
+
+    var oldEstado = '{{old('estado_brasil')}}';
+    var oldCidade = '{{old('cidade_brasil')}}';
+  
+    if(oldEstado !==''){
+      $('#estado_brasil').val(oldEstado);
+      
+      if(oldCidade !==''){
+        $('#cidade_brasil').find('option').remove();
+        $.each(urlsLoadCidades, function(i, u){
+
+          $.ajax(u+oldEstado, {
+
+            dataType:'json',
+            type:'get',
+            success:function(data){
+              
+              for (let i = 0; i < data.length; i++) {
+                const elementId = data[i].id;
+                const elementName = data[i].nome;
+                
+                if(elementId == oldCidade){
+                  
+                  var option = "<option value='"+elementId+"'>"+elementName+"</option>";
+                  
+                  $('#cidade_brasil').append(option);
+                }                
+              }
+            }
+          });
+        });
+      }
+    }
+  });
+</script>
 @endsection

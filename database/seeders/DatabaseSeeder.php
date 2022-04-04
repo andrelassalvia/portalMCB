@@ -20,7 +20,12 @@ class DatabaseSeeder extends Seeder
             // Tipo_Servico::class
             // Status_Cliente::class,
             // PaisSeeder::class,
-            UnitedKingdomSeeder::class
+            // UnitedKingdomSeeder::class,
+            // SpainSeeder::class,
+            // FranceSeeder::class,
+            // PortugalSeeder::class,
+            // ItalySeeder::class
         ]);        
     }
 }
+

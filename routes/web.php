@@ -48,3 +48,11 @@ Route::prefix('/ordens')
         ->group(function(){
             route::get('/create', 'create')->name('ordens.create');
         });
+
+// CIDADE BRASIL
+Route::prefix('/cidadesBrasil')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Apoio\CidadeBrasilController')
+        ->group(function(){
+            route::get('/{cidadeBrasil}', 'show')->name('cidadesBrasil.show');
+        });
