@@ -15,6 +15,12 @@ use Carbon\Carbon;
 
 class ClienteController extends Controller
 {
+
+    public function __construct(Cliente $cliente)
+    {
+        $this->cliente = $cliente;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -67,9 +73,11 @@ class ClienteController extends Controller
                 'cnh' => 'boolean',
                 'cpf' => 'boolean',
                 'certificacao_digital' => 'boolean',
-                'comentario' => 'nullable|min:3|max:200'
+                'comentario' => 'nullable|min:3|max:1000'
             ]
         );
+
+        
         
         // Check Database
         $tel = $validated['telefone'];
@@ -132,13 +140,23 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
-        // dd($cliente);
+        $ordem = $cliente->ordens()->get();        
         $states = EstadoBrasil::orderBy('nome')->get();
         $cities = CidadeBrasil::all();
         $countries = Pais::orderBy('nome')->get();
+        $demandas = TipoServico::orderBy('nome')->get();
+        $today = Carbon::now()->parse()->format('Y-m-d');
+
         return 
-            view ('admin.ordem.create', 
-            compact('states', 'cities', 'countries', 'cliente')
+            view ('admin.ordem.create',   compact(
+                'states', 
+                'cities', 
+                'countries', 
+                'cliente', 
+                'demandas', 
+                'today',
+                'ordem'
+                )
             );        
     }
 
@@ -151,9 +169,33 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cliente = $this->cliente->find($id);
+        $dataForm = $request->validate(
+            [
+                'nome' => 'required|min:3|max:50|string',
+                'telefone' =>'required',
+                'email' => 'email|nullable',
+                'data_nascimento' => 'date|nullable',
+                'firma_aberta' => 'boolean',
+                'cnh' => 'boolean',
+                'cpf' => 'boolean',
+                'certificacao_digital' => 'boolean',
+                'rg' => 'boolean',
+                'passaporte' => 'boolean',
+                'estadobrasil_id' => 'integer|nullable',
+                'cidadebrasil_id' => 'integer|nullable',
+                'pais_id' => 'integer|nullable',
+                'cidade_id' => 'integer|nullable',
+                'rg_file' => 'file|nullable',
+                'passaporte_file' => 'file|nullable',
+                'cnh_file' => 'file|nullable',
+                'endereco_file' => 'file|nullable',
+                'comentario' => 'max:1000|string|nullable'
+            ]
+        );
+        // dd($dataForm);   
+        $cliente->update($dataForm);             
     }
-
     /**
      * Remove the specified resource from storage.
      *

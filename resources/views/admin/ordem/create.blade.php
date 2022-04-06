@@ -3,9 +3,10 @@
 @section('content')
     <main title="Ordem de Servico">
 
-      {{-- Formulario Dados Cliente --}}
-      <form action="" method="post">
-        @csrf        
+      {{-- Formulario Dados Cliente --}}      
+      <form action="{{route('clientes.update', $cliente)}}" method="POST" id="clientUpdate" class="formUpdate">
+        @csrf     
+        @method('PATCH')
           <div class="col-10 col-xl-8 mx-auto mb-5">
             <section title="Dados do cliente" class="card shadow">
               <h5 class="card-header">Dados do Cliente</h5>
@@ -63,9 +64,20 @@
                     <div class="col-12 d-md-flex">
                       <div class="form-check d-flex d-md-block col-2 align-items-center">
                         @if ($cliente->firma_aberta == 1)
-                          <input type="checkbox" checked id="firma_aberta">
+                          <input 
+                            type="checkbox" 
+                            name="firma_aberta" 
+                            value="1" 
+                            checked 
+                            id="firma_aberta"
+                          >
                         @else
-                          <input type="hidden" name="firma_aberta" value="0" id="firma_aberta">
+                          <input 
+                            type="hidden" 
+                            name="firma_aberta" 
+                            value="0" 
+                            id="firma_aberta"
+                          >
                           <input 
                             class="form-check-input" 
                             type="checkbox" 
@@ -80,9 +92,20 @@
                       </div>
                       <div class="form-check col-2">
                         @if ($cliente->cnh == 1)
-                          <input type="checkbox" checked id="cnh">
+                          <input 
+                            type="checkbox" 
+                            name="cnh" 
+                            checked 
+                            id="cnh"
+                            value="1"
+                          >
                         @else
-                          <input type="hidden" name="cnh" value="0">
+                          <input 
+                            type="hidden" 
+                            name="cnh" 
+                            value="0"
+                            id="cnh"
+                          >
                           <input 
                             class="form-check-input" 
                             type="checkbox" 
@@ -97,9 +120,20 @@
                       </div>
                       <div class="form-check col-2">
                         @if ($cliente->cpf == 1)
-                          <input type="checkbox" checked id="cpf">    
+                          <input 
+                            type="checkbox" 
+                            name="cpf"
+                            checked 
+                            id="cpf"
+                            value="1"
+                          >    
                         @else
-                          <input type="hidden" name="cpf" value="0">
+                          <input 
+                            type="hidden" 
+                            name="cpf" 
+                            value="0"
+                            id="cpf"
+                          >
                           <input 
                             class="form-check-input" 
                             type="checkbox" 
@@ -114,9 +148,20 @@
                       </div>
                       <div class="form-check col-2">
                         @if ($cliente->certificacao_digital == 1)
-                          <input type="checkbox" checked id="certificacao_digital">    
+                          <input 
+                            type="checkbox" 
+                            checked 
+                            id="certificacao_digital"
+                            name="certificacao_digital"
+                            value="1"
+                          >    
                         @else
-                          <input type="hidden" name="certificacao_digital" value="0">
+                          <input 
+                            type="hidden" 
+                            name="certificacao_digital" 
+                            value="0"
+                            id="certificacao_digital"
+                          >
                           <input 
                             class="form-check-input" 
                             type="checkbox" 
@@ -130,7 +175,12 @@
                         </label>
                       </div>
                       <div class="form-check col-2">
-                        <input type="hidden" name="rg" value="0">
+                        <input 
+                          type="hidden" 
+                          name="rg" 
+                          value="0"
+                          id="rg"
+                        >
                         <input 
                           class="form-check-input" 
                           type="checkbox" 
@@ -143,7 +193,12 @@
                         </label>
                       </div>
                       <div class="form-check col-2">
-                        <input type="hidden" name="passaporte" value="0">
+                        <input 
+                          type="hidden" 
+                          name="passaporte" 
+                          value="0"
+                          id="passaporte"
+                        >
                         <input 
                           class="form-check-input" 
                           type="checkbox" 
@@ -163,7 +218,7 @@
                       <label for="estado_brasil" class="form-label">Estado</label>
                       <select 
                         class="form-select" 
-                        name="estado_brasil" 
+                        name="estadobrasil_id" 
                         id="estado_brasil" 
                       >
                         <option value="">Selecione</option>
@@ -178,7 +233,7 @@
                       <label for="cidade_brasil" class="form-label">Cidade</label>
                       <select 
                         class="form-select" 
-                        name="cidade_brasil"
+                        name="cidadebrasil_id"
                         id="cidade_brasil"
                       >
                         <option value="">Selecione</option>                
@@ -203,14 +258,14 @@
                       <label for="cidade" class="form-label">Cidade no exterior</label>
                       <select 
                         class="form-select" 
-                        name="cidade"
+                        name="cidade_id"
                         id="cidade"
                       >
                         <option value="">Selecione</option>                
                       </select>
                     </div>
                   </div>
-                  <div class="row">
+                  <div class="row mb-3">
                     <div class="col-md-3">
                       <label for="rgFileCliente" class="form-label">RG:</label>
                       <input type="file" class="form-control" name="rg_file" id="rgFileCliente">
@@ -227,16 +282,27 @@
                       <label for="enderecoFileCliente" class="form-label">RG:</label>
                       <input type="file" class="form-control" name="endereco_file" id="enderecoFileCliente">
                     </div>
-                  </div>                                      
+                  </div>   
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label for="comentario" class="form-label">Comentários</label>  
+                      <input                       
+                      class="form-control" 
+                      id="comentario" 
+                      name="comentario"
+                      value="{{$cliente->comentario ?? old('nome')}}"
+                    >
+                    </div>
+                  </div>                                   
                 </div>
             </section>
           </div>                                  
       </form>
 
-      {{-- Formulario Dados OS --}}
-      <form action="" method="post">
+      {{-- Formulario Dados OS --}}            
+      <form action="{{route('ordens.update', $ordem[0])}}" method="post" id="orderUpdate" class="formUpdate">
         @csrf
-        <input type="hidden" name="">
+        @method('PATCH')
         <div class="col-10 col-xl-8 mx-auto mb-5">
           <section title="Dados da OS" class="card shadow">
             <h5 class="card-header">Dados da Ordem de Serviço</h5>
@@ -249,10 +315,14 @@
                       name="tiposervico_id" 
                       id="tipoServico" 
                     >
-                      <option value="">Selecione</option>
-                      @foreach ($states as $item)
-                        <option value=""></option>                
-                      @endforeach            
+                        <option value="">Selecione</option>
+                        @foreach ($demandas as $item)
+                          <option 
+                            value="{{$item->id}}"{{$cliente->ordens[0]->tipoServico->id == $item->id ? 'selected' : ''}}
+                          >
+                            {{$item->nome}}
+                          </option>                                                                                                                                   
+                        @endforeach                       
                     </select>
                   </div>
                   <div class="col-md-6">
@@ -262,17 +332,20 @@
                       name="fornecedor_id" 
                       id="fornecedor" 
                     >
-                      <option value="">Selecione</option>
-                      @foreach ($states as $item)
-                        <option value=""></option>                
-                      @endforeach            
+                      <option value="">Selecione</option>                      
                     </select>
                   </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3 d-none">
                   <div class="col-md-6">
                     <label for="dataInicio" class="form-label">Data Início:</label>
-                    <input type="date" class="form-control" name="data_inicio" id="dataInicio">
+                    <input 
+                      type="date" 
+                      class="form-control" 
+                      name="data_inicio" 
+                      id="dataInicio"
+                      value="{{$today}}"
+                    >
                   </div>
                   <div class="col-md-6">
                     <label for="dataConclusão" class="form-label">Data de Conclusão:</label>
@@ -287,15 +360,15 @@
                 <div class="row mb-3 mx-auto">
                   <div class="col-md-4">
                     <label class="form-label" for="">Receita:</label>
-                    <input class="form-control" type="number" step="0.01">
+                    <input class="form-control" type="number" step="0.01" name="receita">
                   </div>
                   <div class="col-md-4">
                     <label class="form-label" for="">Custo:</label>
-                    <input class="form-control" type="number" step="0.01">
+                    <input class="form-control" type="number" step="0.01" name="custo">
                   </div>
                   <div class="col-md-4">
                     <label class="form-label" for="">Cotação Moeda:</label>
-                    <input class="form-control" type="number" step="0.01">
+                    <input class="form-control" type="number" step="0.01" name="cotacao">
                   </div>
                 </div>                                                                                                                                                                                                                            
               </div>
@@ -303,130 +376,15 @@
         </div>         
       </form>  
       <div class="text-center">
-        <button type="submit" class="btn btn-outline-secondary">Salvar</button>
+        <button id="submitButton" class="btn btn-outline-secondary">Salvar</button>
       </div>
     </main>
 
     {{-- ============================================================ --}}
 
+   {{-- Enviar ambos formularios ao mesmo tempo --}}
+  <script type="text/javascript" src="{{asset('js/ordem/create/sendForms.js')}}"></script>
 
-  <script type="text/javascript">
-    $(document).ready(function(){
-      var estadoCadastrado = $('#estado_brasil').val();
-      var idCadastrado = $(this).find('input[data-id]').data('id');        
-      if (typeof estadoCadastrado != undefined) {
-
-        var urlsCards = [
-          'http://localhost:8000/clientes/cards/', 
-          'http://192.168.1.85:8000/clientes/cards/'
-        ];
-
-        var urlsCidadesBrasil = [
-          'http://localhost:8000/cidadesBrasil/',
-          'http://192.168.1.85:8000/cidadesBrasil/'
-        ];
-
-        var urlsLoadCidades = [
-          'http://192.168.1.85:8000/clientes/load_cidades/',
-          'http://localhost:8000/clientes/load_cidades/'
-        ];
-
-        var urlsLoadCities = [
-          'http://localhost:8000/clientes/load_cities/',
-          'http://192.168.1.85:8000/clientes/load_cities/'
-        ];
-                        
-        // AJAX
-        $.each(urlsCards, function(i, u){
-          $.ajax(u+idCadastrado,
-          {          
-            type:'get',
-            dataType:'json',
-            success: function(response){
-              if(response.cidadebrasil_id != null){
-                var cidadebrasilId = response.cidadebrasil_id;
-                
-                $.each(urlsCidadesBrasil, function(i, u){
-                  $.ajax(u+cidadebrasilId,
-                  {
-                  // url:"http://localhost:8000/cidadesBrasil/"+cidadebrasilId,
-                    type:'get',
-                    dataType:'json',
-                    success: function(response){
-                      // empty dropdown
-                      $('#cidade_brasil').find('option').remove();
-                      var cidadebrasilNome = response.nome;
-                      var option = "<option value='"+cidadebrasilId+"'>"+cidadebrasilNome+"</option>"
-                      $('#cidade_brasil').append(option);
-                    }
-                  }); 
-                });                          
-              }            
-            }
-          });
-        });        
-      } 
-      
-      $('#estado_brasil').change(function(){
-        var estado = $(this).val(); 
-        
-        // empty the dropdown
-        $('#cidade_brasil').find("option").not(':first').remove();
-
-        // AJAX 
-        $.each(urlsLoadCidades, function(i, u){
-          $.ajax(u+estado,
-          {          
-            type: "get",
-            dataType: "json",
-            success: function(response){            
-              var len = 0;
-              if(response !=null){
-                len = response.length;
-              }
-              if(len>0){
-                for (let i = 0; i < len; i++) {
-                  var id = response[i].id;
-                  var name = response[i].nome;
-                  var option = "<option value='"+id+"'>"+name+"</option>";
-
-                  $('#cidade_brasil').append(option);
-                }
-              }
-            }
-          });
-        });                
-      });
-
-      $('#pais_id').change(function(){
-        var country = $(this).val();
-
-        // empty dropdown
-        $('#cidade').find('option').not(':first').remove();
-
-        // AJAX
-        $.each(urlsLoadCities, function(i, u){
-          $.ajax(u+country,
-          {            
-            type:"get",
-            dataType:"json",
-            success: function(response){
-              var len = 0;
-              if(response !=null){
-                len = response.length;
-              }
-              if(len>0){
-                for (let i = 0; i < len; i++) {
-                  var id = response[i].id;
-                  var name = response[i].nome;
-                  var option = "<option value='"+id+"'>"+name+"</option>";
-                  $('#cidade').append(option);                
-                }
-              }
-            }
-          });
-        });
-      });
-    });
-  </script> 
+  {{-- cria dropdown das cidades vinculadas a estado e pais --}}
+  <script type="text/javascript" src="{{asset('js/ordem/create/dropdownCities.js')}}"></script> 
 @endsection

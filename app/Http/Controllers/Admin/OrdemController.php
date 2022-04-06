@@ -11,6 +11,11 @@ use App\Models\Pais;
 
 class OrdemController extends Controller
 {
+
+    public function __construct(OrdemServico $ordem)
+    {
+        $this->ordem = $ordem;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -73,7 +78,19 @@ class OrdemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ordem = $this->ordem->find($id);
+        $dataForm = $request->validate(
+            [
+                'tiposervico_id' => 'integer|required',
+                'fornecedor_id' => 'integer|nullable',
+                'data_inicio' => 'date',
+                'receita' => 'numeric|nullable',
+                'custo' => 'numeric|nullable',
+                'cotacao' => 'numeric|nullable'
+            ]
+        );
+        // dd($dataForm);
+        $ordem->update($dataForm);
     }
 
     /**

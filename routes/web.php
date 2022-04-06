@@ -33,12 +33,12 @@ Route::prefix('/clientes')
             route::post('/', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
-            route::post('{cliente}', 'update')->name('clientes.update');
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
             route::get('/load_cidades/{estado}', 'loadCidades');
             route::get('/load_cities/{country}', 'loadCities');
             route::any('/inativar/{cliente}', 'inactive')->name('clientes.inactive');
             route::get('/cards/{cliente}', 'loadCards')->name('clientes.cards');
+            route::any('/{id}/update', 'update')->name('clientes.update');
         });
 
 // ORDENS
@@ -47,6 +47,7 @@ Route::prefix('/ordens')
         ->controller('App\Http\Controllers\Admin\OrdemController')
         ->group(function(){
             route::get('/create', 'create')->name('ordens.create');
+            route::any('/{id}/update', 'update')->name('ordens.update');
         });
 
 // CIDADE BRASIL
