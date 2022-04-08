@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             // SpainSeeder::class,
             // FranceSeeder::class,
             // PortugalSeeder::class,
-            // ItalySeeder::class
+            // ItalySeeder::class,
+            // OccupationSeeder::class
         ]);        
     }
 }

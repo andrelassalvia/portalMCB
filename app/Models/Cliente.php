@@ -18,9 +18,12 @@ class Cliente extends Model
         'telefone',
         'email',
         'data_nascimento',
+        'maritalstatus_id',
+        'occupation_id',
         'firma_aberta',
         'cnh',
         'cpf',
+        'certificacao_digital',
         'rg',
         'passaporte',
         'estadobrasil_id',
@@ -37,11 +40,13 @@ class Cliente extends Model
     protected $casts = [
         'nome' => 'string',
         'telefone' => 'string',
-        'email' => 'string',
-        'data_nascimento' => 'date',
+        'email' => 'string',        
         'firma_aberta' => 'boolean',
+        'maritalstatus_id' => 'integer',
+        'occupation_id' => 'integer',
         'cnh' => 'boolean',
         'cpf' => 'boolean',
+        'certificacao_digital' => 'boolean',
         'rg' => 'boolean',
         'passaporte' => 'boolean',
         'estadobrasil_id' => 'integer',
@@ -52,7 +57,8 @@ class Cliente extends Model
         'rg_file' => 'string',
         'passaporte_file' => 'string',
         'cnh_file' => 'string',
-        'endereco_file' => 'string'
+        'endereco_file' => 'string',
+        'comentario' => 'string'
     ];
 
     public function getNomeAttribute($value)
@@ -62,11 +68,17 @@ class Cliente extends Model
 
     public function getTelefoneAttribute($value)
     {
-        $adjusted = Str::start($value, '(');
-        $adjusted =  Str::substrReplace($adjusted, ')',4,0);
-        $adjusted =  Str::substrReplace($adjusted, ' ',5,0);
-        $adjusted =   Str::substrReplace($adjusted, '-',11,0);
-        return Str::substrReplace($adjusted, '-', 15,0);
+        // Evitar recadastramento com multiplicidade de parenteses e hifens
+        if(Str::startsWith($value, '(')){
+            return $value;
+        } else {
+            $adjusted = Str::start($value, '(');
+            $adjusted =  Str::substrReplace($adjusted, ')',4,0);
+            $adjusted =  Str::substrReplace($adjusted, ' ',5,0);
+            $adjusted =   Str::substrReplace($adjusted, '-',11,0);
+            return Str::substrReplace($adjusted, '-', 15,0);
+        }
+        
 
     }
 
@@ -90,7 +102,7 @@ class Cliente extends Model
 
     public function estadoBrasil()
     {
-        return $this->belongsTo(EsatadoBrasil::class, 'estadobrasil_id', 'id');
+        return $this->belongsTo(EstadoBrasil::class, 'estadobrasil_id', 'id');
     }
 
     public function cidadeBrasil()

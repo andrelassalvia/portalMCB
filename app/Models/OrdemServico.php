@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class OrdemServico extends Model
 {
@@ -19,7 +20,8 @@ class OrdemServico extends Model
         'data_fim',
         'receita',
         'custo',
-        'cotacao'
+        'cotacao',
+        'comentario'
     ];
     protected $casts = [
         'cliente_id' => 'integer',
@@ -30,8 +32,17 @@ class OrdemServico extends Model
         'data_fim' => 'date',
         'receita' => 'float',
         'custo' => 'float',
-        'cotacao' => 'float'
+        'cotacao' => 'float',
+        'comentario' => 'string'
     ];
+
+    public function getDataInicioAttribute($value)
+    {
+        if($value) {
+
+            return Carbon::parse($value)->format('d-m-y');
+        }
+    }
 
     public function tipoServico()
     {

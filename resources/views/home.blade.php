@@ -5,23 +5,20 @@
   <main>
     {{-- Mensagem de alerta --}}
     <div class="home-container">
+      @include('admin._components.successMessage')     
       <div class="row">
-        <div class="col-md-4 offset-md-4 offset-lg-2 p-3 ps-xl-4">
-          @if (Session::has('success'))
-            <div class="alert alert-success">
-              {{Session::get('success')}}
-            </div>
-          @endif
-        </div>
-      </div>      
-      <div class="row">
-
+       
         {{-- Lista Ultimos Contatos --}}
         <div class="col-lg-8 p-3 ps-xl-4">         
-          <section class="home-clients-list mb-3 border-1"> 
+          <section title="Lista de potenciais clientes" class="home-clients-list mb-3 border-1"> 
             <header class="d-flex">
               <h3>Últimos Contatos</h3> 
-              <a class="btn btn-light ms-auto btn-sm btn-novo-cliente" href="{{route('clientes.create')}}">Novo Cliente</a> 
+              <a 
+                class="btn btn-light ms-auto btn-sm btn-novo-cliente" 
+                href="{{route('clientes.create')}}"
+              >
+                Novo Cliente
+              </a> 
             </header> 
             <div>              
               <table class="table table-hover">
@@ -145,27 +142,73 @@
                         </td>                     
                       </tr>
                       @endforeach
-                    </tbody>
-                  </table>                    
+                    </tbody>                    
+                  </table>                                       
             </div> 
-            
+
             {{-- Paginacao --}}
-            <div class="pagination">
+            <div class="pagination mt-1">
               {{ $clientes->links() }}
-            </div>           
+            </div>                      
           </section>           
 
-          {{-- Ordens em andamento --}}
-          <section class="home-orders-list">
-            <header>{{-- Header Lista ordens em andamento --}}
-              <h3>Lista de Ordens</h3>  
-            </head>  
+          {{-- Lista Ordens em andamento --}}
+          <section title="Lista de ordens em andamento" class="home-orders-list border-1">
+            <header class="d-flex">
+              <h3>Lista de Ordens em andamento</h3>  
+              <a 
+              class="btn btn-light ms-auto btn-sm btn-novo-cliente" 
+              href="#"
+              >
+                Nova OS
+              </a>
+            </header>  
             <div>
-              <table>{{-- tabela com a lista das ultimas ordens e botoes --}}</table>  
+              @if (isset($orders))
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Data Início</th>  
+                    <th scope="col">Nome</th>  
+                    <th scope="col">Telefone</th>  
+                    <th scope="col">Demanda</th>  
+                    <th scope="col">Estado</th>  
+                    <th scope="col">Cidade</th>  
+                    <th scope="col" width=120 style="text-align: center">Ações</th>  
+                  </tr>  
+                </thead> 
+                <tbody>
+                  @foreach ($orders as $item)                 
+                      <tr>
+                        <th scope="row">{{$item->ordens[0]->data_inicio}}</th>
+                        <td>{{$item->nome}}</td>
+                        <td>{{$item->telefone}}</td>
+                        <td>{{$item->ordens[0]->tipoServico->nome}}</td>
+                        <td>{{$item->estadoBrasil->nome}}</td>
+                        <td>{{$item->cidadeBrasil->nome}}</td>
+                        <td width=120>
+                          <a 
+                            title="Encerrar ordem de serviço" 
+                            href="#" 
+                            class="btn btn-sm btn-primary"
+                          >
+                            Encerra
+                          </a>
+                          <a title="Altera ordem de serviço" href="#" class="btn btn-sm btn-warning">Altera</a>
+                        </td>
+                      </tr>
+                  @endforeach
+                </tbody> 
+              </table>
+              @endif
+                
             </div> 
             <div>
               <a href="">{{-- Botao para ver todos as ordens --}}</a>
             </div>
+            <div class="pagination mt-1">
+              {{ $orders->links() }}
+            </div>  
           </section> 
         </div>
 

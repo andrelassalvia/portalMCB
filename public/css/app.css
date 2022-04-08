@@ -11504,7 +11504,7 @@ tr {
 .card-body {
   background-color: #f1f1f1;
 }
-.card-body div div .form-label {
+.card-body .form-label {
   font-size: 14px;
   font-weight: 700;
 }

@@ -4,15 +4,9 @@
 
   <main>    
     <div class="container">
+      @include('admin._components.errorMessage')
       <div class="row">
-        <div class="col-lg-8 p-3 ps-xl-4">
-          @if (isset($errors) && count($errors)>0)
-              <div class="alert alert-warning">
-                @foreach ($errors->all() as $error)
-                    <p>{{$error}}</p>
-                @endforeach
-              </div>
-          @endif
+        <div class="col-lg-8 p-3 ps-xl-4">          
           <section class="customer-details">
             <header>
               <h3>Detalhes do Cliente</h2>

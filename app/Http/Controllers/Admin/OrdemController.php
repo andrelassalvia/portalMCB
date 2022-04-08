@@ -86,11 +86,26 @@ class OrdemController extends Controller
                 'data_inicio' => 'date',
                 'receita' => 'numeric|nullable',
                 'custo' => 'numeric|nullable',
-                'cotacao' => 'numeric|nullable'
+                'cotacao' => 'numeric|nullable',
+                'comentario' => 'max:1000|string|nullable'
             ]
         );
-        // dd($dataForm);
-        $ordem->update($dataForm);
+        
+        $update = $ordem->update($dataForm);
+        // if($update) {
+        //     return redirect()
+        //         ->route('home')
+        //         ->with(['success' => 'OS cadastrada com sucesso'])
+        //         ->withInput();
+        // } else {
+        //     return redirect()
+        //         ->route('ordens.create')
+        //         ->withErrors(['errors' => 'Falha no cadastramento'])
+        //         ->withInput();
+        // } 
+        if($update) {
+            return response()->json(['route' => 'home', 'success' => 'oS cadastrada com sucesso']);
+        }       
     }
 
     /**

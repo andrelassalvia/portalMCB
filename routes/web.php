@@ -57,3 +57,11 @@ Route::prefix('/cidadesBrasil')
         ->group(function(){
             route::get('/{cidadeBrasil}', 'show')->name('cidadesBrasil.show');
         });
+
+// CIDADE
+Route::prefix('/cities')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Apoio\CitiesController')
+        ->group(function(){
+            route::get('/{cities}', 'show')->name('cities.show');
+        });

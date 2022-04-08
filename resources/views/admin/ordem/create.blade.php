@@ -1,8 +1,9 @@
 @extends('layouts.base')
 
 @section('content')
-    <main title="Ordem de Servico">
-
+    <main title="Salvar Ordem de Servico">
+      @include('admin._components.errorMessage')
+   
       {{-- Formulario Dados Cliente --}}      
       <form action="{{route('clientes.update', $cliente)}}" method="POST" id="clientUpdate" class="formUpdate">
         @csrf     
@@ -13,9 +14,20 @@
                 <div class="card-body">
                   <div class="row mb-3">
                     <div class="col-md-6">
+
+                      {{-- Inputs hidden necessarios para outras partes do codigo --}}
                       <input 
                         type="hidden"
                         data-id="{{$cliente->id}}"
+                      >
+                      <input
+                        type="hidden"
+                        data-pais_id="{{$cliente->pais_id}}"
+                      >
+                      <input
+                        type="hidden"
+                        name="statuscliente_id"
+                        value="3"
                       >
                       <label for="nomeCliente" class="form-label">Nome:</label>
                       <input 
@@ -61,161 +73,214 @@
                     </div>
                   </div> 
                   <div class="row mb-3">
-                    <div class="col-12 d-md-flex">
-                      <div class="form-check d-flex d-md-block col-2 align-items-center">
-                        @if ($cliente->firma_aberta == 1)
-                          <input 
-                            type="checkbox" 
-                            name="firma_aberta" 
-                            value="1" 
-                            checked 
-                            id="firma_aberta"
-                          >
-                        @else
-                          <input 
-                            type="hidden" 
-                            name="firma_aberta" 
-                            value="0" 
-                            id="firma_aberta"
-                          >
-                          <input 
-                            class="form-check-input" 
-                            type="checkbox" 
-                            name="firma_aberta" 
-                            value="1" {{old('firma_aberta') == 1 ? 'checked' : ''}} 
-                            id="firma_aberta"
-                          >                          
-                        @endif
-                        <label class="form-check-label" for="firma_aberta">
-                          Firma aberta
-                        </label>
-                      </div>
-                      <div class="form-check col-2">
-                        @if ($cliente->cnh == 1)
-                          <input 
-                            type="checkbox" 
-                            name="cnh" 
-                            checked 
-                            id="cnh"
-                            value="1"
-                          >
-                        @else
-                          <input 
-                            type="hidden" 
-                            name="cnh" 
-                            value="0"
-                            id="cnh"
-                          >
-                          <input 
-                            class="form-check-input" 
-                            type="checkbox" 
-                            name="cnh" 
-                            value="1" {{old('cnh') == 1 ? 'checked' : ''}}
-                            id="cnh"
-                          >                          
-                        @endif
-                        <label class="form-check-label" for="cnh">
-                          CNH
-                        </label>
-                      </div>
-                      <div class="form-check col-2">
-                        @if ($cliente->cpf == 1)
-                          <input 
-                            type="checkbox" 
-                            name="cpf"
-                            checked 
-                            id="cpf"
-                            value="1"
-                          >    
-                        @else
-                          <input 
-                            type="hidden" 
-                            name="cpf" 
-                            value="0"
-                            id="cpf"
-                          >
-                          <input 
-                            class="form-check-input" 
-                            type="checkbox" 
-                            name="cpf" 
-                            value="1" {{old('cpf') == 1 ? 'checked' : ''}}
-                            id="cpf"
-                          >                          
-                        @endif
-                        <label class="form-check-label" for="cpf">
-                          CPF
-                        </label>
-                      </div>
-                      <div class="form-check col-2">
-                        @if ($cliente->certificacao_digital == 1)
-                          <input 
-                            type="checkbox" 
-                            checked 
-                            id="certificacao_digital"
-                            name="certificacao_digital"
-                            value="1"
-                          >    
-                        @else
-                          <input 
-                            type="hidden" 
-                            name="certificacao_digital" 
-                            value="0"
-                            id="certificacao_digital"
-                          >
-                          <input 
-                            class="form-check-input" 
-                            type="checkbox" 
-                            name="certificacao_digital" 
-                            value="1" {{old('certificacao_digital') == 1 ? 'checked' : ''}}
-                            id="certificacao_digital"
-                          >                          
-                        @endif
-                        <label class="form-check-label" for="certificacao_digital">
-                          Certificação Digital
-                        </label>
-                      </div>
-                      <div class="form-check col-2">
-                        <input 
-                          type="hidden" 
-                          name="rg" 
-                          value="0"
-                          id="rg"
-                        >
-                        <input 
-                          class="form-check-input" 
-                          type="checkbox" 
-                          name="rg" 
-                          value="1" {{old('rg') == 1 ? 'checked' : ''}}
-                          id="rg"
-                        >
-                        <label class="form-check-label" for="rg">
-                          RG
-                        </label>
-                      </div>
-                      <div class="form-check col-2">
-                        <input 
-                          type="hidden" 
-                          name="passaporte" 
-                          value="0"
-                          id="passaporte"
-                        >
-                        <input 
-                          class="form-check-input" 
-                          type="checkbox" 
-                          name="passaporte" 
-                          value="1" {{old('passaporte') == 1 ? 'checked' : ''}}
-                          id="passaporte"
+                    <div class="col-md-6">
+                      <label for="occupation" class="form-label">Ocupação:</label>
+                      <select 
+                        class="form-select" 
+                        name="occupation_id" 
+                        id="occupation" 
                       >
-                        <label class="form-check-label" for="passaporte">
-                          Passaporte
-                        </label>
-                      </div>
+                        <option value="">Selecione</option>
+                        @foreach ($occupations as $key => $item)                        
+                          <option value="{{$item->id}}" {{$cliente->occupation_id == $item->id ? 'selected' : ''}} >
+                            {{$item->nome}}
+                          </option>                
+                        @endforeach            
+                      </select>
                     </div>
-                    
-                  </div>                                                                                                   
+                    <div class="col-md-6">
+                      <label for="maritalStatus" class="form-label">Estado Civil:</label>
+                      <select 
+                        class="form-select" 
+                        name="maritalstatus_id" 
+                        id="maritalStatus" 
+                      >
+                        <option value="">Selecione</option>
+                        @foreach ($maritalStatus as $key => $item)                        
+                          <option value="{{$item->id}}" {{$cliente->maritalstatus_id == $item->id ? 'selected' : ''}} >
+                            {{$item->nome}}
+                          </option>                
+                        @endforeach            
+                      </select>
+                    </div>
+                  </div> 
+                  <label for="" class="form-label">Documentos:</label>
+                    <div class="row mb-3">
+                      <div class="col-12 d-md-flex">
+                        <div class="form-check d-flex d-md-block col-2 align-items-center">
+                          @if ($cliente->firma_aberta == 1)
+                            <input 
+                              type="checkbox" 
+                              name="firma_aberta" 
+                              value="1" 
+                              checked 
+                              id="firma_aberta"
+                            >
+                          @else
+                            <input 
+                              type="hidden" 
+                              name="firma_aberta" 
+                              value="0" 
+                              id="firma_aberta"
+                            >
+                            <input 
+                              class="form-check-input" 
+                              type="checkbox" 
+                              name="firma_aberta" 
+                              value="1" {{old('firma_aberta') == 1 ? 'checked' : ''}} 
+                              id="firma_aberta"
+                            >                          
+                          @endif
+                          <label class="form-check-label" for="firma_aberta">
+                            Firma aberta
+                          </label>
+                        </div>
+                        <div class="form-check col-2">
+                          @if ($cliente->cnh == 1)
+                            <input 
+                              type="checkbox" 
+                              name="cnh" 
+                              checked 
+                              id="cnh"
+                              value="1"
+                            >
+                          @else
+                            <input 
+                              type="hidden" 
+                              name="cnh" 
+                              value="0"
+                              id="cnh"
+                            >
+                            <input 
+                              class="form-check-input" 
+                              type="checkbox" 
+                              name="cnh" 
+                              value="1" {{old('cnh') == 1 ? 'checked' : ''}}
+                              id="cnh"
+                            >                          
+                          @endif
+                          <label class="form-check-label" for="cnh">
+                            CNH
+                          </label>
+                        </div>
+                        <div class="form-check col-2">
+                          @if ($cliente->cpf == 1)
+                            <input 
+                              type="checkbox" 
+                              name="cpf"
+                              checked 
+                              id="cpf"
+                              value="1"
+                            >    
+                          @else
+                            <input 
+                              type="hidden" 
+                              name="cpf" 
+                              value="0"
+                              id="cpf"
+                            >
+                            <input 
+                              class="form-check-input" 
+                              type="checkbox" 
+                              name="cpf" 
+                              value="1" {{old('cpf') == 1 ? 'checked' : ''}}
+                              id="cpf"
+                            >                          
+                          @endif
+                          <label class="form-check-label" for="cpf">
+                            CPF
+                          </label>
+                        </div>
+                        <div class="form-check col-2">
+                          @if ($cliente->certificacao_digital == 1)
+                            <input 
+                              type="checkbox"                            
+                              name="certificacao_digital"
+                              checked 
+                              id="certificacao_digital"
+                              value="1"
+                            >    
+                          @else
+                            <input 
+                              type="hidden" 
+                              name="certificacao_digital" 
+                              value="0"
+                              id="certificacao_digital"
+                            >
+                            <input 
+                              class="form-check-input" 
+                              type="checkbox" 
+                              name="certificacao_digital" 
+                              value="1" {{old('certificacao_digital') == 1 ? 'checked' : ''}}
+                              id="certificacao_digital"
+                            >                          
+                          @endif
+                          <label class="form-check-label" for="certificacao_digital">
+                            Certificação Digital
+                          </label>
+                        </div>
+                        <div class="form-check col-2">
+                          @if ($cliente->rg == 1)
+                            <input 
+                              type="checkbox"
+                              name="rg"
+                              checked
+                              id="rg"
+                              value="1"
+                            >                            
+                          @else
+                            <input 
+                              type="hidden" 
+                              name="rg" 
+                              value="0"
+                              id="rg"
+                            >
+                            <input 
+                              class="form-check-input" 
+                              type="checkbox" 
+                              name="rg" 
+                              value="1" {{old('rg') == 1 ? 'checked' : ''}}
+                              id="rg"
+                            >                            
+                          @endif
+                          <label class="form-check-label" for="rg">
+                            RG
+                          </label>
+                        </div>
+                        <div class="form-check col-2">
+                          @if ($cliente->passaporte == 1)
+                              <input 
+                                type="checkbox"
+                                name="passaporte"
+                                checked
+                                id="passsaporte"
+                                value="1"
+                              >
+                          @else
+                            <input 
+                              type="hidden" 
+                              name="passaporte" 
+                              value="0"
+                              id="passaporte"
+                            >
+                            <input 
+                              class="form-check-input" 
+                              type="checkbox" 
+                              name="passaporte" 
+                              value="1" {{old('passaporte') == 1 ? 'checked' : ''}}
+                              id="passaporte"
+                            >                            
+                          @endif
+                          <label class="form-check-label" for="passaporte">
+                            Passaporte
+                          </label>
+                        </div>
+                      </div>                      
+                    </div> 
+                                                                                                                    
                   <div class="row mb-3">
                     <div class="col-md-6">
-                      <label for="estado_brasil" class="form-label">Estado</label>
+                      <label for="estado_brasil" class="form-label">Estado:</label>
                       <select 
                         class="form-select" 
                         name="estadobrasil_id" 
@@ -230,7 +295,7 @@
                       </select>
                     </div>
                     <div class="col-md-6">
-                      <label for="cidade_brasil" class="form-label">Cidade</label>
+                      <label for="cidade_brasil" class="form-label">Cidade:</label>
                       <select 
                         class="form-select" 
                         name="cidadebrasil_id"
@@ -242,7 +307,7 @@
                   </div>                                      
                   <div class="row mb-3">
                     <div class="col-md-6">
-                      <label for="pais_id" class="form-label">País</label>
+                      <label for="pais_id" class="form-label">País:</label>
                       <select 
                         class="form-select" 
                         name="pais_id" 
@@ -250,12 +315,14 @@
                       >
                         <option value="">Selecione</option>
                         @foreach ($countries as $item)
-                          <option value="{{$item->id}}">{{$item->nome}}</option>                
+                          <option value="{{$item->id}}" {{$cliente->pais_id == $item->id ? 'selected' : ''}}>
+                            {{$item->nome}}
+                          </option>                
                         @endforeach            
                       </select>
                     </div>
                     <div class="col-md-6">
-                      <label for="cidade" class="form-label">Cidade no exterior</label>
+                      <label for="cidade" class="form-label">Cidade no exterior:</label>
                       <select 
                         class="form-select" 
                         name="cidade_id"
@@ -286,12 +353,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <label for="comentario" class="form-label">Comentários</label>  
-                      <input                       
-                      class="form-control" 
-                      id="comentario" 
-                      name="comentario"
-                      value="{{$cliente->comentario ?? old('nome')}}"
-                    >
+                      <textarea  class="form-control" id="comentario" name="comentario">{{$cliente->comentario ?? old('comentario')}}</textarea>                                                                
                     </div>
                   </div>                                   
                 </div>
@@ -307,7 +369,7 @@
           <section title="Dados da OS" class="card shadow">
             <h5 class="card-header">Dados da Ordem de Serviço</h5>
               <div class="card-body">
-                <div class="row mb-3">
+                <div class="row mb-3 mx-auto">
                   <div class="col-md-6">
                     <label for="tipoServico" class="form-label">Tipo de Serviço:</label>
                     <select 
@@ -339,13 +401,23 @@
                 <div class="row mb-3 d-none">
                   <div class="col-md-6">
                     <label for="dataInicio" class="form-label">Data Início:</label>
-                    <input 
-                      type="date" 
-                      class="form-control" 
-                      name="data_inicio" 
-                      id="dataInicio"
-                      value="{{$today}}"
-                    >
+                    @if ($ordem[0]->data_inicio)
+                      <input 
+                        type="date" 
+                        class="form-control" 
+                        name="data_inicio" 
+                        id="dataInicio"
+                        value="{{$ordem[0]->data_inicio}}"
+                      >
+                    @else
+                      <input 
+                        type="date" 
+                        class="form-control" 
+                        name="data_inicio" 
+                        id="dataInicio"
+                        value="{{$today}}"
+                      >                        
+                    @endif
                   </div>
                   <div class="col-md-6">
                     <label for="dataConclusão" class="form-label">Data de Conclusão:</label>
@@ -359,24 +431,31 @@
                 </div> 
                 <div class="row mb-3 mx-auto">
                   <div class="col-md-4">
-                    <label class="form-label" for="">Receita:</label>
-                    <input class="form-control" type="number" step="0.01" name="receita">
+                    <label class="form-label" for="receita">Receita:</label>
+                    <input class="form-control" type="number" step="0.01" name="receita" value="{{$ordem[0]->receita ?? old('receita')}}">
                   </div>
                   <div class="col-md-4">
-                    <label class="form-label" for="">Custo:</label>
-                    <input class="form-control" type="number" step="0.01" name="custo">
+                    <label class="form-label" for="custo">Custo:</label>
+                    <input class="form-control" type="number" step="0.01" name="custo" value="{{$ordem[0]->custo ?? old('custo')}}">
                   </div>
                   <div class="col-md-4">
-                    <label class="form-label" for="">Cotação Moeda:</label>
-                    <input class="form-control" type="number" step="0.01" name="cotacao">
+                    <label class="form-label" for="cotacao">Cotação Moeda:</label>
+                    <input class="form-control" type="number" step="0.01" name="cotacao" value="{{$ordem[0]->cotacao ?? old('cotacao')}}">
                   </div>
-                </div>                                                                                                                                                                                                                            
+                </div>   
+                <div class="row mb-3 mx-auto">
+                  <div class="col-md-12">
+                    <label for="comentario" class="form-label">Comentários</label>
+                    <textarea  name="comentario" class="form-control">{{$ordem[0]->comentario ?? old('comentario')}}</textarea>
+                  </div>  
+                </div>                                                                                                                                                                                                                         
               </div>
           </section>
         </div>         
       </form>  
       <div class="text-center">
-        <button id="submitButton" class="btn btn-outline-secondary">Salvar</button>
+        <a title="Voltar para Home" id="cancelButton" class="btn btn-outline-secondary me-2" href="{{route('home')}}">Cancelar</a>
+        <button title="Salvar dados da Ordem de Serviço" id="submitButton" class="btn btn-outline-secondary">Salvar</button>
       </div>
     </main>
 

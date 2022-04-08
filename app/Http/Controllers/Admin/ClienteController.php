@@ -11,6 +11,8 @@ use App\Models\TipoServico;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cliente;
 use App\Models\OrdemServico;
+use App\Models\Occupation;
+use App\Models\MaritalStatus;
 use Carbon\Carbon;
 
 class ClienteController extends Controller
@@ -41,6 +43,7 @@ class ClienteController extends Controller
         $states = EstadoBrasil::orderBy('nome')->get();
         $cities = CidadeBrasil::all();
         $services = TipoServico::orderBy('nome')->get();
+        
         return view ('admin.cliente.create', compact('states', 'cities', 'services'));
     }
 
@@ -146,6 +149,8 @@ class ClienteController extends Controller
         $countries = Pais::orderBy('nome')->get();
         $demandas = TipoServico::orderBy('nome')->get();
         $today = Carbon::now()->parse()->format('Y-m-d');
+        $occupations = Occupation::orderBy('nome')->get();
+        $maritalStatus = MaritalStatus::orderBy('nome')->get();
 
         return 
             view ('admin.ordem.create',   compact(
@@ -155,7 +160,9 @@ class ClienteController extends Controller
                 'cliente', 
                 'demandas', 
                 'today',
-                'ordem'
+                'ordem',
+                'occupations',
+                'maritalStatus'
                 )
             );        
     }
@@ -176,6 +183,8 @@ class ClienteController extends Controller
                 'telefone' =>'required',
                 'email' => 'email|nullable',
                 'data_nascimento' => 'date|nullable',
+                'occupation_id' => 'integer|nullable',
+                'maritalstatus_id' => 'integer|nullable',
                 'firma_aberta' => 'boolean',
                 'cnh' => 'boolean',
                 'cpf' => 'boolean',
@@ -190,11 +199,41 @@ class ClienteController extends Controller
                 'passaporte_file' => 'file|nullable',
                 'cnh_file' => 'file|nullable',
                 'endereco_file' => 'file|nullable',
-                'comentario' => 'max:1000|string|nullable'
+                'comentario' => 'max:1000|string|nullable',
+                'statuscliente_id' => 'integer'
             ]
         );
+        $tel = $dataForm['telefone'];
         // dd($dataForm);   
-        $cliente->update($dataForm);             
+        $lookFor = $this->cliente
+            ->where('telefone', $tel)
+            ->where('id', '<>', $id)
+            ->get()
+            ->first();
+        // dd($lookFor);
+        if($lookFor !== null){
+            return redirect()
+                ->route('ordens.create')
+                ->withErrors(
+                    [
+                        'errors' => 'Cliente não encontrado no banco de dados. Cadastrá-lo novamente.'
+                    ]
+                )
+                ->withInput();
+        } else {
+            
+            $update = $cliente->update($dataForm);       
+            if($update){
+                // dd($update);
+                return redirect('home')
+                    ->with(['success' => 'Dados do cliente atualizados com sucesso'])
+                    ->withInput();
+            } else {
+                return redirect('ordens.create')
+                    ->withErrors(['errors' => 'Falha na atualização dos dados do cliente.'])
+                    ->withInput();
+            }      
+        }
     }
     /**
      * Remove the specified resource from storage.
