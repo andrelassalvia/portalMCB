@@ -6,16 +6,11 @@ $(function () {
                 method: $(this).attr("method"),
                 data: values,
                 success: function (response) {
-                    console.log(response);
+                    if (response) {
+                        window.location.href = "/home";
+                    }
                 },
             });
         });
-        // $("#orderUpdate").submit();
     });
 });
-
-// $(function () {
-//     $("#submitButton").click(function () {
-//         $("#orderUpdate").submit();
-//     });
-// });
