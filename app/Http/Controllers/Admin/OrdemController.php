@@ -83,7 +83,7 @@ class OrdemController extends Controller
             [
                 'tiposervico_id' => 'integer|required',
                 'fornecedor_id' => 'integer|nullable',
-                'data_inicio' => 'date',
+                'data_inicio' => 'nullable',
                 'receita' => 'numeric|nullable',
                 'custo' => 'numeric|nullable',
                 'cotacao' => 'numeric|nullable',
@@ -91,20 +91,17 @@ class OrdemController extends Controller
             ]
         );
         
-        $update = $ordem->update($dataForm);
-        // if($update) {
-        //     return redirect()
-        //         ->route('home')
-        //         ->with(['success' => 'OS cadastrada com sucesso'])
-        //         ->withInput();
-        // } else {
-        //     return redirect()
-        //         ->route('ordens.create')
-        //         ->withErrors(['errors' => 'Falha no cadastramento'])
-        //         ->withInput();
-        // } 
+        $update = $ordem->update($dataForm);       
         if($update) {
-            return response()->json(['route' => 'home', 'success' => 'oS cadastrada com sucesso']);
+            return response()->json(
+                array(
+                    'order' => array(
+                        'success' => true,
+                        'message' => 'OS cadastrada com sucesso.'
+                    ),   
+                )
+                           
+            );
         }       
     }
 

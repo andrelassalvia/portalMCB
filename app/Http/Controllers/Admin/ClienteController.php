@@ -224,14 +224,24 @@ class ClienteController extends Controller
             
             $update = $cliente->update($dataForm);       
             if($update){
-                // dd($update);
-                return redirect('home')
-                    ->with(['success' => 'Dados do cliente atualizados com sucesso'])
-                    ->withInput();
+                
+                return response()->json(
+                    array(
+                        'client' => array(
+                            'success' => true,
+                            'message' => 'Dados do cliente atualizados com sucesso'
+                        ),
+                    )
+                );
             } else {
-                return redirect('ordens.create')
-                    ->withErrors(['errors' => 'Falha na atualização dos dados do cliente.'])
-                    ->withInput();
+                return response()->json(
+                    array(
+                        'client' => array(
+                            'success' => false,
+                            'message' => 'Falha na atualização dos dados do cliente.'
+                        ),
+                    )
+                );
             }      
         }
     }
