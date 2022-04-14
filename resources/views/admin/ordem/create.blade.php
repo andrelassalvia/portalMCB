@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
+{{-- {{dd($ordem[0])}} --}}
     <main title="Salvar Ordem de Servico">
       @include('admin._components.errorMessage')
    
@@ -24,11 +25,11 @@
                         type="hidden"
                         data-pais_id="{{$cliente->pais_id}}"
                       >
-                      <input
+                      {{-- <input
                         type="hidden"
                         name="statuscliente_id"
                         value="3"
-                      >
+                      > --}}
                       <label for="nomeCliente" class="form-label">Nome:</label>
                       <input 
                         type="text" 
@@ -360,9 +361,9 @@
             </section>
           </div>                                  
       </form>
-
-      {{-- Formulario Dados OS --}}            
-      <form action="{{route('ordens.update', $ordem[0])}}" method="post" id="orderUpdate" class="formUpdate">
+      
+      {{-- Formulario Dados OS --}}           
+      <form action="{{route('ordens.update', $ordem[0]->id)}}" method="POST" id="orderUpdate" class="formUpdate">
         @csrf
         @method('PATCH')
         <div class="col-10 col-xl-8 mx-auto mb-5">
@@ -379,6 +380,7 @@
                     >
                         <option value="">Selecione</option>
                         @foreach ($demandas as $item)
+                       
                           <option 
                             value="{{$item->id}}"{{$cliente->ordens[0]->tipoServico->id == $item->id ? 'selected' : ''}}
                           >
@@ -401,7 +403,7 @@
                 <div class="row mb-3 d-none">
                   <div class="col-md-6">
                     <label for="dataInicio" class="form-label">Data Início:</label>
-                    @if ($ordem[0]->data_inicio)
+                    @if ($ordem[0]->data_inicio !== null)
                       <input 
                         type="date" 
                         class="form-control" 
@@ -459,25 +461,8 @@
       </div>
     </main>
 
-    {{-- Modal Sucesso --}}
-    <div class="modal fade" id="message" tabindex="-1" aria-labelledby="messageLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">        
-          <div class="modal-body p-3">
-            <div class="row">            
-              <div class="col-9">
-                
-              </div>
-            </div>                                                                           
-          </div>
-          <div class="modal-footer">
-            <a id="btn-success-message" type="button" class="btn btn-success btn-sm" data-bs-dismiss="modal">Ok</a>            
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {{-- Modal Erro --}}
+    {{-- Modal Cadastramentp OS --}}
+    @include('admin.ordem.modal.create')
 
     {{-- ============================================================ --}}
 

@@ -143,12 +143,12 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
-        $ordem = $cliente->ordens()->get();        
+        $ordem = $cliente->ordens()->get();  
         $states = EstadoBrasil::orderBy('nome')->get();
         $cities = CidadeBrasil::all();
         $countries = Pais::orderBy('nome')->get();
         $demandas = TipoServico::orderBy('nome')->get();
-        $today = Carbon::now()->parse()->format('Y-m-d');
+        $today = Carbon::now()->parse()->format('Y-m-d');        
         $occupations = Occupation::orderBy('nome')->get();
         $maritalStatus = MaritalStatus::orderBy('nome')->get();
 

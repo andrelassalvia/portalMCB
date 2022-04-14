@@ -79,20 +79,23 @@ class OrdemController extends Controller
     public function update(Request $request, $id)
     {
         $ordem = $this->ordem->find($id);
+        dd($ordem);
         $dataForm = $request->validate(
             [
                 'tiposervico_id' => 'integer|required',
                 'fornecedor_id' => 'integer|nullable',
-                'data_inicio' => 'nullable',
+                'data_inicio' => 'date|nullable',
                 'receita' => 'numeric|nullable',
                 'custo' => 'numeric|nullable',
                 'cotacao' => 'numeric|nullable',
                 'comentario' => 'max:1000|string|nullable'
             ]
         );
+
+       dd($dataForm);
         
         $update = $ordem->update($dataForm);       
-        if($update) {
+        if(!$update) {
             return response()->json(
                 array(
                     'order' => array(

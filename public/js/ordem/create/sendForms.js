@@ -2,13 +2,15 @@ $(function () {
     $("#submitButton").click(function () {
         $(".formUpdate").each(function () {
             values = $(this).serialize();
+            // console.log(values);
+            // console.log($(this).attr("method"));
             $.ajax($(this).attr("action"), {
                 method: $(this).attr("method"),
                 data: values,
                 success: function (response) {
+                    console.log(response);
                     for (const value in response) {
                         const element = response[value];
-                        const success = element.success;
                         const message = element.message;
                         const msg = "<p>" + message + "</p>";
 
@@ -20,7 +22,7 @@ $(function () {
                     }
                 },
                 error: function (response) {
-                    // console.log(response);
+                    console.log(response);
                 },
             });
         });
