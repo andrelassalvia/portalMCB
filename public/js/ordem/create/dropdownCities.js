@@ -37,6 +37,7 @@ $(document).ready(function () {
             $.ajax(u + idCadastrado, {
                 type: "get",
                 dataType: "json",
+                accepts: "application/json; charset=utf-8",
                 success: function (response) {
                     // Se existe uma cidade brasileira cadastrada no bd e puxar
                     if (response.cidadebrasil_id != null) {

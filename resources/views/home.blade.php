@@ -37,7 +37,7 @@
                 <tbody>
                  
                   @foreach ($clientes as $item)
-               
+               {{-- {{dd($item->nome)}} --}}
                       <tr>                        
                         <th scope="row">{{$item->created_at}}</th>
                         <td data-nome="{{$item->id}}">{{$item->nome}}</td>
@@ -178,14 +178,23 @@
                   </tr>  
                 </thead> 
                 <tbody>
-                  @foreach ($orders as $item)                 
+                  @foreach ($orders as $item) 
+                  {{-- {{dd($item->cidadeBrasil->nome)}}                 --}}
                       <tr>
                         <th scope="row">{{$item->ordens[0]->data_inicio}}</th>
                         <td>{{$item->nome}}</td>
                         <td>{{$item->telefone}}</td>
                         <td>{{$item->ordens[0]->tipoServico->nome}}</td>
-                        <td>{{$item->estadoBrasil->nome}}</td>
-                        <td>{{$item->cidadeBrasil->nome}}</td>
+                        @if (isset($item->estadoBrasil->nome))
+                          <td>{{$item->estadoBrasil->nome}}</td>                            
+                        @else
+                          <td></td>
+                        @endif
+                        @if (isset($item->cidadeBrasil->nome))
+                          <td>{{$item->cidadeBrasil->nome}}</td>                            
+                        @else
+                          <td></td>    
+                        @endif
                         <td width=120>
                           <a 
                             title="Encerrar ordem de serviço" 
@@ -200,8 +209,7 @@
                   @endforeach
                 </tbody> 
               </table>
-              @endif
-                
+              @endif                
             </div> 
             <div>
               <a href="">{{-- Botao para ver todos as ordens --}}</a>
@@ -223,7 +231,6 @@
             </div>
           </div>          
         </aside>
- 
       </div>
     </div>
   </main>
@@ -241,7 +248,7 @@
         $('.card-body').find('h5').remove();
         $('.card-body').find('p').remove();
 
-         // AJAX 
+        
        $.ajax({
           url: "http://192.168.1.85:8000/clientes/cards/"+id,
           type: "get",
@@ -261,7 +268,7 @@
        });
        $.ajax({
           url: "http://localhost:8000/clientes/cards/"+id,
-          type: "get",
+          type: "get",          
           dataType: "json",
           timeout:5000,
           success: function(response){             

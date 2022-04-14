@@ -25,11 +25,11 @@
                         type="hidden"
                         data-pais_id="{{$cliente->pais_id}}"
                       >
-                      {{-- <input
+                      <input
                         type="hidden"
                         name="statuscliente_id"
                         value="3"
-                      > --}}
+                      >
                       <label for="nomeCliente" class="form-label">Nome:</label>
                       <input 
                         type="text" 
@@ -363,7 +363,7 @@
       </form>
       
       {{-- Formulario Dados OS --}}           
-      <form action="{{route('ordens.update', $ordem[0]->id)}}" method="POST" id="orderUpdate" class="formUpdate">
+      <form action="{{route('ordens.update', $ordem[0])}}" method="POST" id="orderUpdate" class="formUpdate">
         @csrf
         @method('PATCH')
         <div class="col-10 col-xl-8 mx-auto mb-5">
@@ -403,7 +403,7 @@
                 <div class="row mb-3 d-none">
                   <div class="col-md-6">
                     <label for="dataInicio" class="form-label">Data Início:</label>
-                    @if ($ordem[0]->data_inicio !== null)
+                    @if ($ordem[0]->data_inicio)
                       <input 
                         type="date" 
                         class="form-control" 
@@ -465,10 +465,11 @@
     @include('admin.ordem.modal.create')
 
     {{-- ============================================================ --}}
-
+    
+    {{-- cria dropdown das cidades vinculadas a estado e pais --}}
+    <script type="text/javascript" src="{{asset('js/ordem/create/dropdownCities.js')}}"></script> 
+    
    {{-- Enviar ambos formularios ao mesmo tempo --}}
   <script type="text/javascript" src="{{asset('js/ordem/create/sendForms.js')}}"></script>
 
-  {{-- cria dropdown das cidades vinculadas a estado e pais --}}
-  <script type="text/javascript" src="{{asset('js/ordem/create/dropdownCities.js')}}"></script> 
 @endsection

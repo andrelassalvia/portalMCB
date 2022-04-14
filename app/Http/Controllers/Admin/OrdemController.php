@@ -79,7 +79,6 @@ class OrdemController extends Controller
     public function update(Request $request, $id)
     {
         $ordem = $this->ordem->find($id);
-        dd($ordem);
         $dataForm = $request->validate(
             [
                 'tiposervico_id' => 'integer|required',
@@ -89,13 +88,15 @@ class OrdemController extends Controller
                 'custo' => 'numeric|nullable',
                 'cotacao' => 'numeric|nullable',
                 'comentario' => 'max:1000|string|nullable'
-            ]
-        );
+                ]
+            );
+            // dd($dataForm);
 
-       dd($dataForm);
+    //    dd($dataForm);
         
-        $update = $ordem->update($dataForm);       
-        if(!$update) {
+        $update = $ordem->update($dataForm);   
+        // dd($update);    
+        if($update) {
             return response()->json(
                 array(
                     'order' => array(
