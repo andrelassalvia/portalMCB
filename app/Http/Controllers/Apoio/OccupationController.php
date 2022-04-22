@@ -1,21 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Apoio;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\OrdemServico;
-use App\Models\CidadeBrasil;
-use App\Models\EstadoBrasil;
-use App\Models\Pais;
+use App\Models\Occupation;
+use Illuminate\Support\Facades\DB;
 
-class OrdemController extends Controller
+class OccupationController extends Controller
 {
-
-    public function __construct(OrdemServico $ordem)
-    {
-        $this->ordem = $ordem;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +26,7 @@ class OrdemController extends Controller
      */
     public function create()
     {
-        
+        return view('apoio.occupation.modal.create');
     }
 
     /**
@@ -44,7 +37,25 @@ class OrdemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nome' => 'required|min:3|max:40|string'
+        ]); 
+
+        // Check Database
+        $name = $validated['nome'];        
+        $check = Occupation::where('nome', $name)->get()->first();
+        if($check){
+            return response()->json(
+                ['error' => 'Ocupação já cadastrada']                
+            );
+             
+        } else {
+            $savedData = DB::table('occupation')->insert([
+                'nome' => $name,
+            ]);
+
+            return response()->json($savedData);
+        }        
     }
 
     /**
@@ -78,32 +89,7 @@ class OrdemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $ordem = $this->ordem->find($id);
-        $dataForm = $request->validate(
-            [
-                'tiposervico_id' => 'integer|required',
-                'fornecedor_id' => 'integer|nullable',
-                'data_inicio' => 'date|nullable',
-                'receita' => 'numeric|nullable',
-                'custo' => 'numeric|nullable',
-                'cotacao' => 'numeric|nullable',
-                'comentario' => 'max:1000|string|nullable'
-                ]
-            );            
-        
-        $update = $ordem->update($dataForm);   
-        // dd($update);    
-        if($update) {
-            return response()->json(
-                array(
-                    'order' => array(
-                        'success' => true,
-                        'message' => 'OS cadastrada com sucesso.'
-                    ),   
-                )
-                           
-            );
-        }       
+        //
     }
 
     /**

@@ -17,4 +17,8 @@ class Occupation extends Model
         'nome' => 'string'
     ];
 
+    public function clientes(){
+        return $this->belongsTo(Cliente::class, 'occupation_id', 'id');
+    }
+
 }

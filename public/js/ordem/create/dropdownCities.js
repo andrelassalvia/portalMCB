@@ -92,7 +92,7 @@ $(document).ready(function () {
     }
 
     // Carregar o dropdown das cidades brasileiras
-    $("#estado_brasil").change(function () {
+    $("#estado_brasil").on("change", function () {
         var estado = $(this).val();
 
         // empty the dropdown
@@ -128,7 +128,7 @@ $(document).ready(function () {
     });
 
     // carregar as cidades vinculadas ao pais
-    $("#pais_id").change(function () {
+    $("#pais_id").on("change", function () {
         var country = $(this).val();
 
         // empty dropdown

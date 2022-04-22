@@ -11508,3 +11508,22 @@ tr {
   font-size: 14px;
   font-weight: 700;
 }
+
+#plusButton {
+  align-self: center;
+}
+#plusButton path {
+  color: black;
+}
+
+#occupationModal .modal-header {
+  display: block;
+  background-color: transparent;
+  padding: 0%;
+  border-bottom: none;
+}
+#occupationModal .form-label {
+  color: #363b3b;
+  font-weight: 700;
+  font-size: 14px;
+}

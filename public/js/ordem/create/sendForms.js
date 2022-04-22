@@ -1,12 +1,10 @@
 $(function () {
-    $("#submitButton").click(function () {
+    $("#submitButton").on("click", function () {
         $(".formUpdate").each(function () {
             values = $(this).serialize();
-
             $.ajax($(this).attr("action"), {
                 method: $(this).attr("method"),
                 data: values,
-                accepts: "application/json; charset=utf-8",
                 success: function (response) {
                     for (const value in response) {
                         const element = response[value];
@@ -15,7 +13,7 @@ $(function () {
 
                         $("#message .col-9").append(msg);
                         $("#message").modal("show");
-                        $("#btn-success-message").click(function () {
+                        $("#btn-success-message").on("click", function () {
                             window.location.href = "/home";
                         });
                     }

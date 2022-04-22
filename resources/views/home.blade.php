@@ -188,12 +188,12 @@
                         @if (isset($item->estadoBrasil->nome))
                           <td>{{$item->estadoBrasil->nome}}</td>                            
                         @else
-                          <td></td>
+                          <td>N/I</td>
                         @endif
                         @if (isset($item->cidadeBrasil->nome))
                           <td>{{$item->cidadeBrasil->nome}}</td>                            
                         @else
-                          <td></td>    
+                          <td>N/I</td>    
                         @endif
                         <td width=120>
                           <a 

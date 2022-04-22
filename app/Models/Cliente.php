@@ -119,4 +119,8 @@ class Cliente extends Model
     {
         return $this->belongsTo(Pais::class, 'pais_id', 'id');
     }
+
+    public function occupation(){
+        return $this->hasOne(Occupation::class, 'occupation_id', 'id');
+    }
 }

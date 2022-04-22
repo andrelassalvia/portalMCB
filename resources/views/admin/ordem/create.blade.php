@@ -76,18 +76,32 @@
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <label for="occupation" class="form-label">Ocupação:</label>
-                      <select 
-                        class="form-select" 
-                        name="occupation_id" 
-                        id="occupation" 
-                      >
-                        <option value="">Selecione</option>
-                        @foreach ($occupations as $key => $item)                        
-                          <option value="{{$item->id}}" {{$cliente->occupation_id == $item->id ? 'selected' : ''}} >
-                            {{$item->nome}}
-                          </option>                
-                        @endforeach            
-                      </select>
+                      <div class="d-flex">
+                        <select 
+                          class="form-select me-2" 
+                          name="occupation_id" 
+                          id="occupation" 
+                        >
+                          <option value="">Selecione</option>
+                          @foreach ($occupations as $key => $item)                        
+                            <option value="{{$item->id}}" {{$cliente->occupation_id == $item->id ? 'selected' : ''}} >
+                              {{$item->nome}}
+                            </option>                
+                          @endforeach            
+                        </select>  
+                        <button 
+                          {{-- href="{{route('occupation.create')}}" 
+                          data-bs-toggle="modal" 
+                          data-bs-target="occupationModal" --}}
+                          type="button"
+                          id="plusButton" 
+                          title="Incluir ocupação"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                          </svg>
+                        </button>                   
+                      </div>                    
                     </div>
                     <div class="col-md-6">
                       <label for="maritalStatus" class="form-label">Estado Civil:</label>
@@ -400,7 +414,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="row mb-3 d-none">
+                <div class="row mb-3">
                   <div class="col-md-6">
                     <label for="dataInicio" class="form-label">Data Início:</label>
                     @if ($ordem[0]->data_inicio)
@@ -461,15 +475,21 @@
       </div>
     </main>
 
-    {{-- Modal Cadastramentp OS --}}
+    {{-- Modal to create OS --}}
     @include('admin.ordem.modal.create')
+
+    {{-- Modal to create occupations --}}
+    @include('apoio.occupation.modal.create')
 
     {{-- ============================================================ --}}
     
-    {{-- cria dropdown das cidades vinculadas a estado e pais --}}
+    {{-- creates dropdown of cities linked to state and country --}}
     <script type="text/javascript" src="{{asset('js/ordem/create/dropdownCities.js')}}"></script> 
     
-   {{-- Enviar ambos formularios ao mesmo tempo --}}
+    {{-- Create new occupation and feed it dropdown --}}
+    <script type="text/javascript" src="{{asset('js/ordem/create/occupation.js')}}"></script>
+
+   {{-- Send both forms at the same time --}}
   <script type="text/javascript" src="{{asset('js/ordem/create/sendForms.js')}}"></script>
 
 @endsection

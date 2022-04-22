@@ -65,3 +65,16 @@ Route::prefix('/cities')
         ->group(function(){
             route::get('/{cities}', 'show')->name('cities.show');
         });
+
+// OCCUPATION
+Route::prefix('/occupation')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Apoio\OccupationController')
+        ->group(
+            function(){
+                route::get('/create', 'create')
+                    ->name('occupation.create');
+                route::post('/store', 'store')
+                    ->name('occupation.store');
+            }
+        );
