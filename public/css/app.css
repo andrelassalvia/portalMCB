@@ -11527,3 +11527,11 @@ tr {
   font-weight: 700;
   font-size: 14px;
 }
+
+#select-provider-button {
+  height: 25px;
+}
+
+#providerModal .modal-header {
+  background-color: transparent;
+}

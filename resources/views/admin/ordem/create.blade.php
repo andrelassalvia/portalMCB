@@ -1,11 +1,11 @@
 @extends('layouts.base')
 
 @section('content')
-{{-- {{dd($ordem[0])}} --}}
+
     <main title="Salvar Ordem de Servico">
       @include('admin._components.errorMessage')
    
-      {{-- Formulario Dados Cliente --}}      
+      {{-- Client Form --}}      
       <form action="{{route('clientes.update', $cliente)}}" method="POST" id="clientUpdate" class="formUpdate">
         @csrf     
         @method('PATCH')
@@ -16,7 +16,7 @@
                   <div class="row mb-3">
                     <div class="col-md-6">
 
-                      {{-- Inputs hidden necessarios para outras partes do codigo --}}
+                      {{-- Hidden inputs --}}
                       <input 
                         type="hidden"
                         data-id="{{$cliente->id}}"
@@ -376,7 +376,7 @@
           </div>                                  
       </form>
       
-      {{-- Formulario Dados OS --}}           
+      {{-- Service Form --}}           
       <form action="{{route('ordens.update', $ordem[0])}}" method="POST" id="orderUpdate" class="formUpdate">
         @csrf
         @method('PATCH')
@@ -404,14 +404,34 @@
                     </select>
                   </div>
                   <div class="col-md-6">
-                    <label for="fornecedor" class="form-label">Fornecedor:</label>
-                    <select 
-                      class="form-select" 
-                      name="fornecedor_id" 
-                      id="fornecedor" 
-                    >
-                      <option value="">Selecione</option>                      
-                    </select>
+                    <div class="d-flex justify-content-between">
+                      <label for="fornecedor" class="form-label">Fornecedor:</label>
+                      <a 
+                        class="btn btn-sm btn-outline-secondary" 
+                        id="select-provider-button"
+                        title="Selecionar fornecedor"
+                        href="{{route('fornecedores.index')}}"
+                      >
+                        Selecionar
+                      </a>
+                    </div>
+                    <div>
+                      <input 
+                        class="form-control" 
+                        type="text" 
+                        name="fornecedor_id" 
+                        disabled
+                        value="10 cartorio de notas"
+                      >
+                      {{-- <p id="provider-name">10 cartorio de Notas de SP</p> --}}
+                      {{-- <select 
+                        class="form-select" 
+                        name="fornecedor_id" 
+                        id="fornecedor" 
+                      >
+                        <option value="">Selecione</option>                      
+                      </select> --}}
+                    </div>
                   </div>
                 </div>
                 <div class="row mb-3">

@@ -78,3 +78,13 @@ Route::prefix('/occupation')
                     ->name('occupation.store');
             }
         );
+
+// FORNECEDOR
+Route::prefix('/fornecedor')
+    ->middleware(['auth'])
+    ->controller('App\Http\Controllers\Admin\FornecedorController')
+    ->group(function(){
+        route::get('/', 'index')->name('fornecedores.index');
+        route::get('/create', 'create')->name('fornecedores.create');
+        route::post('/', 'store')->name('fornecedores.store');
+    }); 
