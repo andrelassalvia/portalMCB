@@ -86,5 +86,5 @@ Route::prefix('/fornecedor')
     ->group(function(){
         route::get('/', 'index')->name('fornecedores.index');
         route::get('/create', 'create')->name('fornecedores.create');
-        route::post('/', 'store')->name('fornecedores.store');
+        route::post('/', 'store')->name('fornecedores.store');        
     }); 

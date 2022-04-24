@@ -178,8 +178,7 @@
                   </tr>  
                 </thead> 
                 <tbody>
-                  @foreach ($orders as $item) 
-                  {{-- {{dd($item->cidadeBrasil->nome)}}                 --}}
+                  @foreach ($orders as $item)                   
                       <tr>
                         <th scope="row">{{$item->ordens[0]->data_inicio}}</th>
                         <td>{{$item->nome}}</td>

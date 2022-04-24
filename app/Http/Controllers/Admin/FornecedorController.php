@@ -17,8 +17,11 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        return view('admin.fornecedor.index');
-    }
+        $providers = Fornecedor::with(['estadoBrasil'])
+            ->orderBy('classificacao_id', 'desc')
+            ->get();
+        return view('admin.fornecedor.index', compact('providers'));
+    }    
 
     /**
      * Show the form for creating a new resource.

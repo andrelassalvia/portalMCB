@@ -11549,3 +11549,10 @@ tr {
 #providerAlertModal h6, #providerAlertModal .h6 {
   margin-bottom: 0;
 }
+
+#fornecedoresIndexLista .five-stars {
+  color: orange;
+}
+#fornecedoresIndexLista .one-star {
+  color: red;
+}
