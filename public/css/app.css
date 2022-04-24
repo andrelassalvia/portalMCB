@@ -11535,3 +11535,17 @@ tr {
 #providerModal .modal-header {
   background-color: transparent;
 }
+
+#providerAlertModal .modal-footer {
+  background-color: #eae4e473 !important;
+}
+#providerAlertModal .modal-body {
+  padding: 0 0 0 0;
+}
+#providerAlertModal .alert {
+  margin-bottom: 0;
+  border: none;
+}
+#providerAlertModal h6, #providerAlertModal .h6 {
+  margin-bottom: 0;
+}

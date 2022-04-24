@@ -15,7 +15,7 @@ $(function () {
             $("#providerModal").modal("hide");
         });
 
-        // Load Estado dropdown
+        // Load Estado Brail dropdown
         $.each(urlEstado, function (i, u) {
             $.ajax(u, {
                 type: "get",
@@ -52,6 +52,68 @@ $(function () {
                     },
                 });
             });
+        });
+    });
+
+    // Clicking on save button
+    $("#btn-fornecedor-create").on("click", function () {
+        values = $("#providerModal form").serialize();
+        $.ajax($("#providerModal form").attr("action"), {
+            method: $("#providerModal form").attr("method"),
+            data: values,
+
+            // Case success retrieve message to print on the screen
+            success: function (response) {
+                const alertError = response.error;
+                const alertSuccess = response.success;
+                $("#providerAlertModal").modal("show");
+                $("#providerModal").fadeOut(200);
+                $("#providerAlertModal .modal-body .alert").remove();
+                if (alertSuccess != undefined) {
+                    let successResponseMessage = `
+                        <h5 class='alert alert-success'>${alertSuccess}</h5>
+                    `;
+
+                    $("#providerAlertModal .modal-body").append(
+                        successResponseMessage
+                    );
+                    $("#btn-providerAlert-dismiss").on("click", function () {
+                        $("#providerAlertModal").modal("hide");
+                        $("#providerModal").modal("hide");
+                        location.reload();
+                    });
+                } else if (alertError != undefined) {
+                    let successResponseMessage = `
+                        <h5 class='alert alert-warning'>${alertError}</h5>
+                    `;
+                    $("#providerAlertModal .modal-body").append(
+                        successResponseMessage
+                    );
+                    $("#btn-providerAlert-dismiss").on("click", function () {
+                        $("#providerAlertModal").modal("hide");
+                        $("#providerModal").fadeIn(200);
+                    });
+                }
+            },
+
+            // Case fail retrieve message to print on the screen
+            error: function (err) {
+                $("#providerAlertModal").modal("show");
+                $("#providerModal").fadeOut(200);
+                const validatedData = err.responseJSON.errors;
+                for (const key in validatedData) {
+                    const element = validatedData[key];
+                    const alertMessage = element[0];
+                    const alertWarning = `
+                        <h5 class='alert alert-warning'>${alertMessage}</h5>
+                    `;
+                    $("#providerAlertModal .modal-body").append(alertWarning);
+                }
+                $("#btn-providerAlert-dismiss").on("click", function () {
+                    $("#providerAlertModal").modal("hide");
+                    $("#providerModal").fadeIn(200);
+                });
+            },
         });
     });
 });

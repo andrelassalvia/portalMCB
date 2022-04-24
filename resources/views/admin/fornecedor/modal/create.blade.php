@@ -1,4 +1,3 @@
-{{-- {{dd($state)}} --}}
 <div 
   class="modal fade" 
   id="providerModal" 
@@ -17,6 +16,8 @@
           <div class="col-12">   
             <form action="{{route('fornecedores.store')}}" method="post">
               @csrf
+              {{-- Hidden input - New provider doesn't have classification --}}
+              <input type="hidden" name="classificacao_id" value="1">
               <div class="mb-2">
                 <label for="fornecedorCreateNome" class="form-label">Nome:</label>
                 <input type="text" name="nome" id="fornecedorCreateNome" class="form-control">
@@ -40,19 +41,12 @@
               <div class="mb-2">
                 <label for="fornecedorCreateEstadoBrasil" class="form-label">Estado:</label>
                 <select name="estadobrasil_id" id="fornecedorCreateEstadoBrasil" class="form-select">
-                  <option value="">Selecione</option>
-                  
+                  <option value="">Selecione</option>                  
                 </select>
               </div>
               <div class="mb-2">
                 <label for="fornecedorCreateCidadeBrasil" class="form-label">Cidade:</label>
                 <select name="cidadebrasil_id" id="fornecedorCreateCidadeBrasil" class="form-select">
-                  <option value="">Selecione</option>
-                </select>
-              </div>
-              <div>
-                <label for="fornecedorCreateClassificacao" class="form-label">Classificação:</label>
-                <select name="classificacao_id" id="fornecedorCreateClassificacao" class="form-select">
                   <option value="">Selecione</option>
                 </select>
               </div>

@@ -15,7 +15,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "nesbot/carbon": "^2.57"
+        "nesbot/carbon": "^2.57",
+        "doctrine/dbal": "v2.4.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

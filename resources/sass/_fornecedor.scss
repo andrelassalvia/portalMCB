@@ -3,3 +3,21 @@
         background-color: transparent;
     }
 }
+
+#providerAlertModal {
+    .modal-footer {
+        background-color: #eae4e473 !important;
+    }
+    .modal-body {
+        padding: 0 0 0 0;
+    }
+
+    .alert {
+        margin-bottom: 0;
+        border: none;
+    }
+
+    h6 {
+        margin-bottom: 0;
+    }
+}
