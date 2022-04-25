@@ -407,7 +407,7 @@
                     <div class="d-flex justify-content-between">
                       <label for="fornecedor" class="form-label">Fornecedor:</label>
                       <a 
-                        class="btn btn-sm btn-outline-secondary" 
+                        class="btn btn-sm btn-outline-dark" 
                         id="select-provider-button"
                         title="Selecionar fornecedor"
                         href="{{route('fornecedores.index')}}"
