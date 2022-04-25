@@ -118,42 +118,25 @@ $(function () {
     });
 
     // Search register in table
-    $("#fornecedoresTable").DataTable();
+    $("#fornecedoresTable").DataTable({
+        language: {
+            search: "_INPUT_", // remove search legend
+            searchPlaceholder: "Pesquisar...", // insert placeholder
+            lengthMenu: "_MENU_", // remove entries legend
+        },
+        bPaginate: true,
+        bLengthChange: true,
+        bFilter: true,
+        bInfo: false,
+        bAutoWidth: false,
+    });
 
-    // formating registers per page
-    $("#fornecedoresTable_length>label").replaceWith(
-        `<select 
-            name="fornecedoresTable_length" 
-            aria-controls="fornecedoresTable" 
-            class="form-select"
-            style="width:20%"
-        >
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
-        `
-    );
-
-    // Formatting search field
-    $("#fornecedoresTable_filter>label").replaceWith(
-        `
-        <input 
-            type="search" 
-            class="form-control" 
-            placeholder="Pesquisar" 
-            aria-controls="fornecedoresTable"
-            style="width:45%"
-        >
-        `
-    );
     $("#fornecedoresTable_filter").css({
         display: "flex",
         "justify-content": "flex-end",
     });
 
-    // Increase row's margin bottom
+    // // Increase row's margin bottom
     $("#fornecedoresTable_wrapper .row").css({
         "margin-bottom": "1.75rem",
     });
