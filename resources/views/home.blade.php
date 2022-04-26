@@ -140,7 +140,7 @@
 
     {{-- Orders List --}}
     <section title="Lista de ordens em andamento" class="home-orders-list">
-      <h3>Lista de Ordens em andamento</h3>   
+      <h3>Lista de Ordens em Andamento</h3>   
       <div>
         @if (isset($orders))
         <table class="table table-hover" id="tableOrders">
@@ -198,24 +198,12 @@
       <div>
         <a href="">{{-- Botao para ver todos as ordens --}}</a>
       </div>
-      {{-- <div class="pagination mt-1">
-        {{ $orders->links() }}
-      </div>   --}}
+      
     </section>  
 
-
-
-    {{-- Card do cliente --}}
-    {{-- <aside class="col-lg-4 home-quick-links p-3 pe-lg-4 pe-xl-5">
-      <div class="card">
-        <h5 class="card-header">Cliente</h5>
-        <div class="card-body">              
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-outline-secondary btn-sm">Alterar</button>
-        </div>
-      </div>          
-    </aside> --}}
+    {{-- Client Details Modal --}}
+    @include('apoio.comentarios.modal.clientes')
+    
   </div>
 </div>
 

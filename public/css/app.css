@@ -11397,12 +11397,13 @@ body {
   align-self: center;
 }
 
-.modal-header {
-  background-color: #363b3b;
+.modal-header,
+.modal-footer {
+  background-color: #f1f1f1;
 }
 
-.modal-title {
-  color: #fff;
+.modal-title #clientDetailsModalTitle {
+  color: #212529;
 }
 
 .home-container {

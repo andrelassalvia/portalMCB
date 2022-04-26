@@ -13,6 +13,7 @@ use App\Models\Cliente;
 use App\Models\OrdemServico;
 use App\Models\Occupation;
 use App\Models\MaritalStatus;
+use App\Models\Comentarios;
 use Carbon\Carbon;
 
 class ClienteController extends Controller
@@ -294,7 +295,8 @@ class ClienteController extends Controller
 
     public function loadCards($id)
     {
-        $cliente = Cliente::find($id);
-        return response()->json($cliente);
+        $comment = Comentarios::where('cliente_id', $id)->orderBy('created_at', 'desc')->get();
+        $client = Cliente::find($id);
+        return response()->json([$comment, $client]);
     }
 }

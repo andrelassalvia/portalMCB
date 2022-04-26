@@ -120,7 +120,13 @@ class Cliente extends Model
         return $this->belongsTo(Pais::class, 'pais_id', 'id');
     }
 
-    public function occupation(){
+    public function occupation()
+    {
         return $this->hasOne(Occupation::class, 'occupation_id', 'id');
+    }
+
+    public function comentarios()
+    {
+        return $this->hasMany(Comentarios::class, 'cliente_id', 'id');
     }
 }
