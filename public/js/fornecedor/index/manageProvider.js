@@ -120,10 +120,13 @@ $(function () {
     // Search register in table
     $("#fornecedoresTable").DataTable({
         language: {
+            // manage legends
             search: "_INPUT_", // remove search legend
             searchPlaceholder: "Pesquisar...", // insert placeholder
             lengthMenu: "_MENU_", // remove entries legend
         },
+
+        // which fields will be showed
         bPaginate: true,
         bLengthChange: true,
         bFilter: true,

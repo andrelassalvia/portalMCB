@@ -35,23 +35,19 @@
 .home-clients-list,
 .home-orders-list,
 .home-quick-links {
-    header {
-        background-color: #363b3b;
-        padding: 20px;
-        h3 {
-            color: #fff;
-            font-size: 20px;
-        }
+    h3 {
+        text-align: center;
+        font-weight: 700;
     }
 }
 
-.home-clients-list {
-    div {
-        background-color: #fff;
-        border: 1px solid #d7d7d7;
-        border-top: none;
-    }
-}
+// .home-clients-list {
+//     div {
+//         background-color: #fff;
+//         border: 1px solid #d7d7d7;
+//         border-top: none;
+//     }
+// }
 
 .home-quick-links {
     div {

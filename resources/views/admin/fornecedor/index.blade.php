@@ -3,25 +3,6 @@
 @section('content')
 
   <div class="container">
-    {{-- <div class="row mb-md-3">
-      <section title="Pesquisa" class="d-md-flex">
-       
-        <div class="col-md-4 px-2 mb-2">
-          <label for="fornecedorIndexEstadoBrasil" class="form-label">Estado:</label>
-          <input type="search" class="form-control" name="estadobrasil_id" id="fornecedorIndexEstadoBrasil"></input>
-        </div>
-       
-        <div class="col-md-4 px-2 mb-2">
-          <label class="form-label" for="fornecedorIndexCidadeBrasil">Cidade:</label>
-          <select class="form-select" name="cidadebrasil_id" id="fornecedorIndexCidadeBrasil"></select>
-        </div>
-       
-        <div class="col-md-4 px-2 mb-2">
-          <label class="form-label" for="fornecedorIndexClassificacao">Classificação:</label>
-          <select class="form-select" name="classificacao_id" id="fornecedorIndexClassificacao"></select>
-        </div>
-      </section>
-    </div> --}}
     <div class="row">      
       <section id="fornecedoresIndexLista" title="Lista de fornecedores">
         <table class="table table-hover" id="fornecedoresTable">

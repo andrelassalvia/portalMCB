@@ -29,7 +29,7 @@ class HomeController extends Controller
         $clientes = Cliente::with(['ordens'])
             ->where('statuscliente_id', 1)
             ->orderBy('created_at', 'desc')
-            ->paginate(10, ['*'], 'clientes');   
+            ->get();   
 
             // dd($clientes);
 
@@ -37,9 +37,8 @@ class HomeController extends Controller
         $orders = Cliente::with(['ordens', 'estadoBrasil'])
             ->where('statuscliente_id', 3)
             ->orderBy('updated_at', 'asc')
-            ->paginate(10, ['*'], 'orders'); 
-            
-            // dd($orders);
+            ->get();
+            // ->paginate(10, ['*'], 'orders');                         
             
         return view ('home', compact('clientes', 'orders'));                       
     }

@@ -11419,25 +11419,13 @@ body {
   content: "";
 }
 
-.home-clients-list header,
-.home-orders-list header,
-.home-quick-links header {
-  background-color: #363b3b;
-  padding: 20px;
-}
-.home-clients-list header h3, .home-clients-list header .h3,
-.home-orders-list header h3,
-.home-orders-list header .h3,
-.home-quick-links header h3,
-.home-quick-links header .h3 {
-  color: #fff;
-  font-size: 20px;
-}
-
-.home-clients-list div {
-  background-color: #fff;
-  border: 1px solid #d7d7d7;
-  border-top: none;
+.home-clients-list h3, .home-clients-list .h3,
+.home-orders-list h3,
+.home-orders-list .h3,
+.home-quick-links h3,
+.home-quick-links .h3 {
+  text-align: center;
+  font-weight: 700;
 }
 
 .home-quick-links div {
