@@ -11397,11 +11397,6 @@ body {
   align-self: center;
 }
 
-.modal-header,
-.modal-footer {
-  background-color: #f1f1f1;
-}
-
 .modal-title #clientDetailsModalTitle {
   color: #212529;
 }
@@ -11427,6 +11422,10 @@ body {
 .home-quick-links .h3 {
   text-align: center;
   font-weight: 700;
+}
+
+#inputComment {
+  background-color: #fff;
 }
 
 .home-quick-links div {

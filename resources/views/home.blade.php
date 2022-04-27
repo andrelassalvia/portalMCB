@@ -166,7 +166,7 @@
             @foreach ($orders as $item)                   
                 <tr>
                   <th scope="row">{{$item->ordens[0]->data_inicio}}</th>
-                  <td>{{$item->nome}}</td>
+                  <td data-nome="{{$item->id}}">{{$item->nome}}</td>
                   <td>{{$item->telefone}}</td>
                   <td>{{$item->ordens[0]->tipoServico->nome}}</td>
                   @if (isset($item->estadoBrasil->nome))

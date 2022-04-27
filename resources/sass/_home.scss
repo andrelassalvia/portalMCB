@@ -10,11 +10,6 @@
     align-self: center;
 }
 
-.modal-header,
-.modal-footer {
-    background-color: #f1f1f1;
-}
-
 .modal-title {
     #clientDetailsModalTitle {
         color: #212529;
@@ -44,14 +39,9 @@
     }
 }
 
-// .home-clients-list {
-//     div {
-//         background-color: #fff;
-//         border: 1px solid #d7d7d7;
-//         border-top: none;
-//     }
-// }
-
+#inputComment {
+    background-color: #fff;
+}
 .home-quick-links {
     div {
         background-color: #fff;

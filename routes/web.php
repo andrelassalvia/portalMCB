@@ -88,3 +88,12 @@ Route::prefix('/fornecedor')
         route::get('/create', 'create')->name('fornecedores.create');
         route::post('/', 'store')->name('fornecedores.store');        
     }); 
+
+
+// COMENTARIOS
+Route::prefix('comentarios')
+    ->middleware(['auth'])
+    ->controller('App\Http\Controllers\Admin\ComentarioController')
+    ->group(function(){
+        route::post('/', 'store')->name('comentarios.store');
+    });
