@@ -2,6 +2,7 @@ $(function () {
     $("#submitButton").on("click", function () {
         $(".formUpdate").each(function () {
             values = $(this).serialize();
+            console.log(values);
             $.ajax($(this).attr("action"), {
                 method: $(this).attr("method"),
                 data: values,

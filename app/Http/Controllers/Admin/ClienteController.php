@@ -178,6 +178,8 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     {
         $cliente = $this->cliente->find($id);
+
+        // Validation rules
         $dataForm = $request->validate(
             [
                 'nome' => 'required|min:3|max:50|string',
@@ -199,19 +201,19 @@ class ClienteController extends Controller
                 'rg_file' => 'file|nullable',
                 'passaporte_file' => 'file|nullable',
                 'cnh_file' => 'file|nullable',
-                'endereco_file' => 'file|nullable',
-                'comentario' => 'max:1000|string|nullable',
+                'endereco_file' => 'file|nullable',                
                 'statuscliente_id' => 'integer'
             ]
         );
         $tel = $dataForm['telefone'];
-        // dd($dataForm);   
+        
+        // Check wether is the same client or not
         $lookFor = $this->cliente
             ->where('telefone', $tel)
             ->where('id', '<>', $id)
             ->get()
             ->first();
-        // dd($lookFor);
+        
         if($lookFor !== null){
             return redirect()
                 ->route('ordens.create')

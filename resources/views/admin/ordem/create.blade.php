@@ -365,12 +365,12 @@
                       <input type="file" class="form-control" name="endereco_file" id="enderecoFileCliente">
                     </div>
                   </div>   
-                  <div class="row">
+                  {{-- <div class="row">
                     <div class="col-md-12">
                       <label for="comentario" class="form-label">Comentários</label>  
                       <textarea  class="form-control" id="comentario" name="comentario">{{$cliente->comentario ?? old('comentario')}}</textarea>                                                                
                     </div>
-                  </div>                                   
+                  </div>                                    --}}
                 </div>
             </section>
           </div>                                  
@@ -380,6 +380,12 @@
       <form action="{{route('ordens.update', $ordem[0])}}" method="POST" id="orderUpdate" class="formUpdate">
         @csrf
         @method('PATCH')
+        {{-- Hidden inputs --}}
+        <input 
+        type="hidden"
+        name="cliente_id"
+        value="{{$cliente->id}}"
+      >
         <div class="col-10 col-xl-8 mx-auto mb-5">
           <section title="Dados da OS" class="card shadow">
             <h5 class="card-header">Dados da Ordem de Serviço</h5>
@@ -482,7 +488,8 @@
                 <div class="row mb-3 mx-auto">
                   <div class="col-md-12">
                     <label for="comentario" class="form-label">Comentários</label>
-                    <textarea  name="comentario" class="form-control">{{$ordem[0]->comentario ?? old('comentario')}}</textarea>
+                    <textarea name="comentario" class="form-control"></textarea>
+                    {{-- <textarea  name="comentario" class="form-control">{{$ordem[0]->comentario ?? old('comentario')}}</textarea> --}}
                   </div>  
                 </div>                                                                                                                                                                                                                         
               </div>
@@ -509,7 +516,7 @@
     {{-- Create new occupation and feed it dropdown --}}
     <script type="text/javascript" src="{{asset('js/ordem/create/occupation.js')}}"></script>
 
-   {{-- Send both forms at the same time --}}
-  <script type="text/javascript" src="{{asset('js/ordem/create/sendForms.js')}}"></script>
+    {{-- Send both forms at the same time --}}
+    <script type="text/javascript" src="{{asset('js/ordem/create/sendForms.js')}}"></script>
 
 @endsection

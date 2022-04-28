@@ -8,6 +8,7 @@ use App\Models\OrdemServico;
 use App\Models\CidadeBrasil;
 use App\Models\EstadoBrasil;
 use App\Models\Pais;
+use App\Models\Comentarios;
 
 class OrdemController extends Controller
 {
@@ -79,6 +80,8 @@ class OrdemController extends Controller
     public function update(Request $request, $id)
     {
         $ordem = $this->ordem->find($id);
+
+        // validation rules for order info
         $dataForm = $request->validate(
             [
                 'tiposervico_id' => 'integer|required',
@@ -86,14 +89,25 @@ class OrdemController extends Controller
                 'data_inicio' => 'date|nullable',
                 'receita' => 'numeric|nullable',
                 'custo' => 'numeric|nullable',
-                'cotacao' => 'numeric|nullable',
-                'comentario' => 'max:1000|string|nullable'
+                'cotacao' => 'numeric|nullable',                
                 ]
-            );            
+            ); 
+
+            // validation rules for comment info
+            $dataFormComment = $request->validate(
+                [
+                    'cliente_id' => 'required|integer',
+                    'comentario' => 'nullable|string'
+                ]
+            );
         
-        $update = $ordem->update($dataForm);   
-        // dd($update);    
-        if($update) {
+        // update ordem table
+        $updateOrder = $ordem->update($dataForm);   
+
+        // create new comment in table
+        $createComment = Comentarios::create($dataFormComment);
+        
+        if($updateOrder && $createComment) {
             return response()->json(
                 array(
                     'order' => array(
