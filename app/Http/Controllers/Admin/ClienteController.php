@@ -93,7 +93,7 @@ class ClienteController extends Controller
                 ->withInput();
         } else {
 
-            DB::table('cliente')->insert([
+            $clienteId = DB::table('cliente')->insertGetId([
                 'nome' => $validated['nome'],
                 'telefone' => $validated['telefone'],
                 'firma_aberta' => $validated['firma_aberta'],
@@ -106,8 +106,7 @@ class ClienteController extends Controller
                 'created_at' => Carbon::now()->toDateTimeString()
             ]);
 
-            $cliente = new Cliente();
-            $clienteId = $cliente->count();    
+             
                 
            
             DB::table('ordem_servico')->insert([
