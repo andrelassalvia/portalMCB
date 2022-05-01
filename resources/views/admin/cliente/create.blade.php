@@ -4,18 +4,17 @@
 
   <main>    
     <div class="container">
-      @include('admin._components.errorMessage')
       <div class="row">
-        <div class="col-lg-8 p-3 ps-xl-4">          
+        <div class="col-lg-8 p-3 ps-xl-4 mx-auto">          
           <section class="customer-details">
             <header>
               <h3>Detalhes do Cliente</h2>
             </header>
-            <form action="{{route('clientes.store')}}" method="post">
+            <form action="{{route('clientes.store')}}" method="post" id="formClientCreate">
               @csrf
                 <div class="p-2 border-1 shadow">
                   <div class="mb-3">
-                    <label for="nome" class="form-label">Nome</label>
+                    <label for="nome" class="form-label">Nome:</label>
                     <input 
                       type="text" 
                       class="form-control" 
@@ -25,7 +24,7 @@
                     >
                   </div>
                   <div class="mb-3">
-                    <label for="telefone" class="form-label">Telefone</label>
+                    <label for="telefone" class="form-label">Telefone:</label>
                     <input 
                       type="text" 
                       class="form-control" 
@@ -35,7 +34,7 @@
                       >
                   </div>
                   <div class="mb-3">
-                    <label for="tipo_servico" class="form-label">Demanda</label>
+                    <label for="tipo_servico" class="form-label">Demanda:</label>
                     <select
                       class="form-select"
                       name="tipo_servico"
@@ -139,69 +138,21 @@
                     ></textarea>
                     <label for="comentario">Comentários</label>
                   </div>                      
-                </div> 
-                <div class="row d-flex justify-content-center mt-3">        
-                  <button type="submit" class="col-2 btn btn-outline-secondary">Salvar</button>       
-              </div>         
-            </form>    
+                </div>                          
+            </form>
+            <div class="row d-flex justify-content-center mt-3">
+              <a href="{{route('home')}}" class="col-2 btn btn-outline-secondary me-2">Cancelar</a>  
+              <button type="submit" class="col-2 btn btn-outline-secondary" id="submitButton">Salvar</button>  
+            </div>                
           </section>                  
         </div>
-        <aside class="col-lg-4 home-quick-links p-3 pe-lg-4 pe-xl-5">
-          <header>
-            <h3>Quick Links</h3>
-          </header>
-          <div>
-            <ul>
-
-            </ul>
-          </div>
-        </aside>                            
+        @include('apoio.modals.alertModal')                   
       </div>      
     </div>
   </main>
   
-  <script type="text/javascript">
-    $(document).ready(function(){
-
-      var urlsLoadCidades = [
-        'http://192.168.1.85:8000/clientes/load_cidades/',
-        'http://localhost:8000/clientes/load_cidades/',
-      ];      
-     
-     $('#estado_brasil').change(function(){
-       var estado = $(this).val(); 
-       
-       // empty the dropdown
-       $('#cidade_brasil').find("option").not(':first').remove();
-
-       // AJAX 
-       $.each(urlsLoadCidades, function(i, u){
-        $.ajax(u+estado,
-        {          
-          type: "get",
-          dataType: "json",
-          success: function(response){            
-            var len = 0;
-            if(response !=null){
-              len = response.length;
-            }
-            if(len>0){
-              for (let i = 0; i < len; i++) {
-                var id = response[i].id;
-                var name = response[i].nome;
-                var option = "<option value='"+id+"'>"+name+"</option>";
-
-                console.log(option);
-
-                $('#cidade_brasil').append(option);
-              }
-            }
-          }
-        });
-       });              
-     });
-    });
- </script> 
+  <script type="text/javascript" src="{{asset('js/cliente/create/manageForm.js')}}"></script> 
+ 
 
 {{-- Script para recuperar old estado e cidade - validacao falhar --}}
  <script type="text/javascript">

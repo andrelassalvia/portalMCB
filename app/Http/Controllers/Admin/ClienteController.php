@@ -10,7 +10,6 @@ use App\Models\Pais;
 use App\Models\TipoServico;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cliente;
-use App\Models\OrdemServico;
 use App\Models\Occupation;
 use App\Models\MaritalStatus;
 use App\Models\Comentarios;
@@ -70,27 +69,23 @@ class ClienteController extends Controller
                     'size:14'
 
                 ),
-                'tipo_servico' => 'required',
-                'estado_brasil' => 'nullable',
-                'cidade_brasil' => 'nullable',
+                'tipo_servico' => 'required|integer',
+                'estado_brasil' => 'nullable|integer',
+                'cidade_brasil' => 'nullable|integer',
                 'firma_aberta' => 'boolean',
                 'cnh' => 'boolean',
                 'cpf' => 'boolean',
                 'certificacao_digital' => 'boolean',
-                'comentario' => 'nullable|min:3|max:1000'
-            ]
+                'comentario' => 'nullable|min:3|max:1000'                
+            ], 
+            ['tipo_servico.required' => 'O campo demanda é obrigatório']
         );
-
-        
-        
+                
         // Check Database
         $tel = $validated['telefone'];
         $check = Cliente::where('telefone', $tel)->get()->first();
         if($check) {
-            return redirect()
-                ->route('clientes.create')
-                ->withErrors(['errors' => 'Cliente já cadastrado'])
-                ->withInput();
+            return response()->json(['errors' => 'Cliente já cadastrado']);
         } else {
 
             $clienteId = DB::table('cliente')->insertGetId([
@@ -101,23 +96,34 @@ class ClienteController extends Controller
                 'cpf' => $validated['cpf'],
                 'certificacao_digital' => $validated['certificacao_digital'],
                 'estadobrasil_id' => $validated['estado_brasil'],
-                'cidadebrasil_id' => $validated['cidade_brasil'],
-                'comentario' => $validated['comentario'],
-                'created_at' => Carbon::now()->toDateTimeString()
+                'cidadebrasil_id' => $validated['cidade_brasil'],  
+                'created_at' => Carbon::now()->toDateTimeString()                            
             ]);
 
-             
-                
-           
-            DB::table('ordem_servico')->insert([
-                'tiposervico_id' => $validated['tipo_servico'],
-                'cliente_id' => $clienteId
-            ]);
-            
-            return redirect()
-                ->route('home')
-                ->with(['success' => 'Cliente cadastrado com sucesso'])
-                ->withInput();
+            if($validated['comentario']){
+                DB::table('comentarios')->insert([
+                    'cliente_id' => $clienteId,
+                    'comentario' => $validated['comentario'],
+                    'created_at' => Carbon::now()->toDateTimeString()
+                ]);
+            }
+
+            if($validated['tipo_servico']){
+                DB::table('ordem_servico')->insert([
+                    'tiposervico_id' => $validated['tipo_servico'],
+                    'cliente_id' => $clienteId
+                ]);
+            } 
+                                               
+            if($clienteId){
+                return response()->json([
+                    'success' => 'Cliente cadastrado com sucesso'
+                ]);
+            } else {
+                return response()->json([
+                    'failed' => 'Falha no cadastramento'
+                ]);
+            }
         }            
     }
 
