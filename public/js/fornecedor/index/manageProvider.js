@@ -1,4 +1,23 @@
 $(function () {
+    // SUPPORT FUNCTIONS
+    const toogleViews = function () {
+        $("#new-OS-view, #fornecedoresIndexLista").toggle();
+    };
+    // MANAGE VIEWS - OS AND PROVIDERS
+    $("#fornecedoresIndexLista").hide();
+    $("#select-provider-button").on("click", function () {
+        toogleViews();
+    });
+    $(".choose-provider-button").on("click", function () {
+        let selectedProvider = $(this).attr("data-value");
+        let selectedNameProvider = $(this).attr("data-name");
+        $("#providerInput").attr("value", selectedProvider);
+        $("#providerName").attr("value", selectedNameProvider);
+        toogleViews();
+    });
+
+    // SELECT PROVIDER
+
     $("#fornecedorIndexInsertButton").on("click", function () {
         const urlEstado = [
             "http://localhost:8000/fornecedor/create",
@@ -27,9 +46,7 @@ $(function () {
                         $("#fornecedorCreateEstadoBrasil").append(option);
                     });
                 },
-                error: function (err) {
-                    console.log(err);
-                },
+                error: function (err) {},
             });
         });
 
@@ -47,9 +64,7 @@ $(function () {
                             $("#fornecedorCreateCidadeBrasil").append(option);
                         });
                     },
-                    error: function (err) {
-                        console.log(err);
-                    },
+                    error: function (err) {},
                 });
             });
         });

@@ -1,6 +1,6 @@
-@extends('layouts.base')
+{{-- @extends('layouts.base')
 
-@section('content')
+@section('content') --}}
 
   <div class="container">
     <div class="row">      
@@ -16,7 +16,7 @@
               <th scope="col">Zap</th>
               <th scope="col">Telefone</th>
               <th scope="col">Email</th>              
-              <th style="text-align: center">
+              <th>
                 <a 
                   id="fornecedorIndexInsertButton"
                   class="btn btn-primary btn-sm"                   
@@ -29,7 +29,7 @@
           </thead>
           <tbody>
             @foreach ($providers as $item)                    
-                <tr>
+                <tr>                  
                   <th>{{$item->nome}}</th>  
                   @if (isset($item->estadoBrasil->nome))
                     <td>{{$item->estadoBrasil->nome}}</td>                            
@@ -64,21 +64,26 @@
                   <td>{{$item->zap}}</td>
                   <td>{{$item->telefone}}</td>
                   <td>{{$item->email}}</td>    
-                  <td><button class="btn btn-sm btn-outline-dark">Selecionar</button></td>                          
+                  <td>
+                    <a 
+                      class="btn btn-sm btn-outline-dark choose-provider-button"                         
+                      id=""
+                      title="Selecionar este fornecedor"
+                      data-value="{{$item->id}}"  
+                      data-name="{{$item->nome}}"                               
+                    >
+                      Selecionar
+                    </a>
+                  </td>                          
                 </tr>
             @endforeach            
           </tbody>
         </table>
-      </section>
+      {{-- </section> --}}
 
-      {{-- Create provider modal --}}
-      @include('admin.fornecedor.modal.create')
-
-      {{-- Alert errors provider modal --}}
-      @include('admin.fornecedor.modal.alert')
+      
     </div>
   </div>
 
-  
-  <script type="text/javascript" src="{{asset('js/fornecedor/index/manageProvider.js')}}"></script>
-@endsection
+  {{-- <script type="text/javascript" src="{{asset('js/fornecedor/index/manageProvider.js')}}"></script> --}}
+{{-- @endsection --}}

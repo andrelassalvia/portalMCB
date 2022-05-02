@@ -119,7 +119,6 @@ $(function () {
                 type: "get",
                 dataType: "json",
                 success: function (response) {
-                    // console.log(response);
                     const message = response.slice(0, 1);
                     const headerName = response.slice(1, 2);
 
@@ -138,9 +137,7 @@ $(function () {
                         `;
                     $("#clientModalHeader").prepend(hn);
                 },
-                error: function (err) {
-                    console.log(err);
-                },
+                error: function (err) {},
             });
         });
     });
@@ -166,9 +163,7 @@ $(function () {
                 // reload modal with the new comment
                 response == true ? $(location.reload()) : false;
             },
-            error: function (err) {
-                console.log(err);
-            },
+            error: function (err) {},
         });
     });
 });

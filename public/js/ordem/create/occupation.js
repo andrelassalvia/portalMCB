@@ -1,7 +1,6 @@
 $(function () {
     // when click button to insert a new occupation
     $("#plusButton").on("click", function (e) {
-        console.log(e);
         // show modal to input the new occupation
         $("#occupationModal").modal("show").offset({ top: 200 });
 
@@ -27,9 +26,7 @@ $(function () {
                         location.reload();
                     }
                 },
-                error: function (response) {
-                    console.log(response);
-                },
+                error: function (response) {},
             });
         });
         // cancel button

@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <main title="Salvar Ordem de Servico">
+    <main title="Salvar Ordem de Servico" id="new-OS-view">
       @include('admin._components.errorMessage')
    
       {{-- Client Form --}}      
@@ -63,18 +63,6 @@
                       >
                     </div>
                     <div class="col-md-6">
-                      <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
-                      <input 
-                        type="date" 
-                        class="form-control"                         
-                        name="data_nascimento" 
-                        id="dataNascimento"
-                        value="{{$cliente->data_nascimento ?? old('data_nascimento')}}"
-                      >
-                    </div>
-                  </div> 
-                  <div class="row mb-3">
-                    <div class="col-md-6">
                       <label for="occupation" class="form-label">Ocupação:</label>
                       <div class="d-flex">
                         <select 
@@ -90,9 +78,6 @@
                           @endforeach            
                         </select>  
                         <button 
-                          {{-- href="{{route('occupation.create')}}" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="occupationModal" --}}
                           type="button"
                           id="plusButton" 
                           title="Incluir ocupação"
@@ -102,6 +87,18 @@
                           </svg>
                         </button>                   
                       </div>                    
+                    </div>                    
+                  </div> 
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
+                      <input 
+                        type="date" 
+                        class="form-control"                         
+                        name="data_nascimento" 
+                        id="dataNascimento"
+                        value="{{$cliente->data_nascimento ?? old('data_nascimento')}}"
+                      >
                     </div>
                     <div class="col-md-6">
                       <label for="maritalStatus" class="form-label">Estado Civil:</label>
@@ -365,12 +362,6 @@
                       <input type="file" class="form-control" name="endereco_file" id="enderecoFileCliente">
                     </div>
                   </div>   
-                  {{-- <div class="row">
-                    <div class="col-md-12">
-                      <label for="comentario" class="form-label">Comentários</label>  
-                      <textarea  class="form-control" id="comentario" name="comentario">{{$cliente->comentario ?? old('comentario')}}</textarea>                                                                
-                    </div>
-                  </div>                                    --}}
                 </div>
             </section>
           </div>                                  
@@ -415,32 +406,31 @@
                       <a 
                         class="btn btn-sm btn-outline-dark" 
                         id="select-provider-button"
-                        title="Selecionar fornecedor"
-                        href="{{route('fornecedores.index')}}"
+                        title="Selecionar fornecedor"                        
                       >
                         Selecionar
                       </a>
                     </div>
-                    <div>
+                    <div class="d-none">
                       <input 
+                        id="providerInput"
                         class="form-control" 
                         type="text" 
                         name="fornecedor_id" 
                         disabled
-                        value="10 cartorio de notas"
+                        
                       >
-                      {{-- <p id="provider-name">10 cartorio de Notas de SP</p> --}}
-                      {{-- <select 
-                        class="form-select" 
-                        name="fornecedor_id" 
-                        id="fornecedor" 
+                    </div>
+                    <div>
+                      <input 
+                        id="providerName"
+                        class="form-control" 
+                        type="text"                                                 
                       >
-                        <option value="">Selecione</option>                      
-                      </select> --}}
                     </div>
                   </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3 d-none">
                   <div class="col-md-6">
                     <label for="dataInicio" class="form-label">Data Início:</label>
                     @if ($ordem[0]->data_inicio)
@@ -488,8 +478,7 @@
                 <div class="row mb-3 mx-auto">
                   <div class="col-md-12">
                     <label for="comentario" class="form-label">Comentários</label>
-                    <textarea name="comentario" class="form-control"></textarea>
-                    {{-- <textarea  name="comentario" class="form-control">{{$ordem[0]->comentario ?? old('comentario')}}</textarea> --}}
+                    <textarea name="comentario" class="form-control"></textarea>                    
                   </div>  
                 </div>                                                                                                                                                                                                                         
               </div>
@@ -502,11 +491,19 @@
       </div>
     </main>
 
+    @include('admin.fornecedor.index')
+
     {{-- Modal to create OS --}}
     @include('admin.ordem.modal.create')
 
     {{-- Modal to create occupations --}}
     @include('apoio.occupation.modal.create')
+
+    {{-- Create provider modal --}}
+    @include('admin.fornecedor.modal.create')
+
+    {{-- Alert errors provider modal --}}
+    @include('admin.fornecedor.modal.alert')
 
     {{-- ============================================================ --}}
     
@@ -518,5 +515,8 @@
 
     {{-- Send both forms at the same time --}}
     <script type="text/javascript" src="{{asset('js/ordem/create/sendForms.js')}}"></script>
+
+    {{-- Manage providers forms --}}
+    <script type="text/javascript" src="{{asset('js/fornecedor/index/manageProvider.js')}}"></script>
 
 @endsection

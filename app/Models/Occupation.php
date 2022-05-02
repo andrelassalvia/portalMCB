@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Occupation extends Model
 {
@@ -19,6 +20,11 @@ class Occupation extends Model
 
     public function clientes(){
         return $this->belongsTo(Cliente::class, 'occupation_id', 'id');
+    }
+
+    public function getNomeAttribute($value)
+    {
+        return Str::of($value)->title();
     }
 
 }

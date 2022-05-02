@@ -13,6 +13,7 @@ use App\Models\Cliente;
 use App\Models\Occupation;
 use App\Models\MaritalStatus;
 use App\Models\Comentarios;
+use App\Models\Fornecedor;
 use Carbon\Carbon;
 
 class ClienteController extends Controller
@@ -157,6 +158,10 @@ class ClienteController extends Controller
         $today = Carbon::now()->parse()->format('Y-m-d');        
         $occupations = Occupation::orderBy('nome')->get();
         $maritalStatus = MaritalStatus::orderBy('nome')->get();
+        $providers = Fornecedor::with(['estadoBrasil'])
+            ->orderBy('classificacao_id', 'desc')
+            ->get();
+        
 
         return 
             view ('admin.ordem.create',   compact(
@@ -168,7 +173,8 @@ class ClienteController extends Controller
                 'today',
                 'ordem',
                 'occupations',
-                'maritalStatus'
+                'maritalStatus',
+                'providers'
                 )
             );        
     }
