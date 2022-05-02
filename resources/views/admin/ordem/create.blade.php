@@ -415,7 +415,7 @@
                       <input 
                         id="providerInput"
                         class="form-control" 
-                        type="text" 
+                        type="hidden" 
                         name="fornecedor_id" 
                         disabled
                         

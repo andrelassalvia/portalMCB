@@ -40,28 +40,33 @@ $(document).ready(function () {
                 accepts: "application/json; charset=utf-8",
                 success: function (response) {
                     // Se existe uma cidade brasileira cadastrada no bd e puxar
-                    if (response.cidadebrasil_id != null) {
-                        var cidadebrasilId = response.cidadebrasil_id;
-
-                        $.each(urlsCidadesBrasil, function (i, u) {
-                            $.ajax(u + cidadebrasilId, {
-                                // url:"http://localhost:8000/cidadesBrasil/"+cidadebrasilId,
-                                type: "get",
-                                dataType: "json",
-                                success: function (response) {
-                                    // empty dropdown
-                                    $("#cidade_brasil").find("option").remove();
-                                    var cidadebrasilNome = response.nome;
-                                    var option =
-                                        "<option value='" +
-                                        cidadebrasilId +
-                                        "'>" +
-                                        cidadebrasilNome +
-                                        "</option>";
-                                    $("#cidade_brasil").append(option);
-                                },
-                            });
-                        });
+                    for (const iterator of response) {
+                        if (iterator.hasOwnProperty("cidadebrasil_id")) {
+                            const cidadebrasilId = iterator["cidadebrasil_id"];
+                            if (cidadebrasilId != null) {
+                                $.each(urlsCidadesBrasil, function (i, u) {
+                                    $.ajax(u + cidadebrasilId, {
+                                        type: "get",
+                                        dataType: "json",
+                                        success: function (response) {
+                                            // empty dropdown
+                                            $("#cidade_brasil")
+                                                .find("option")
+                                                .remove();
+                                            var cidadebrasilNome =
+                                                response.nome;
+                                            var option =
+                                                "<option value='" +
+                                                cidadebrasilId +
+                                                "'>" +
+                                                cidadebrasilNome +
+                                                "</option>";
+                                            $("#cidade_brasil").append(option);
+                                        },
+                                    });
+                                });
+                            }
+                        }
                     }
 
                     // Se existe uma cidade estrangeira cadastrada no bd e puxar

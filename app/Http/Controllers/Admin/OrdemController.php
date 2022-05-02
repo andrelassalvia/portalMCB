@@ -93,13 +93,13 @@ class OrdemController extends Controller
                 ]
             ); 
 
-            // validation rules for comment info
-            $dataFormComment = $request->validate(
-                [
-                    'cliente_id' => 'required|integer',
-                    'comentario' => 'nullable|string'
-                ]
-            );
+        // validation rules for comment info
+        $dataFormComment = $request->validate(
+            [
+                'cliente_id' => 'required|integer',
+                'comentario' => 'nullable|string'
+            ]
+        );
         
         // update ordem table
         $updateOrder = $ordem->update($dataForm);   
@@ -114,8 +114,7 @@ class OrdemController extends Controller
                         'success' => true,
                         'message' => 'OS cadastrada com sucesso.'
                     ),   
-                )
-                           
+                )                           
             );
         }       
     }
