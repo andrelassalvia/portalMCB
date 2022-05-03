@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrdemServico;
-use App\Models\CidadeBrasil;
-use App\Models\EstadoBrasil;
-use App\Models\Pais;
+use App\Models\Cliente;
 use App\Models\Comentarios;
 
 class OrdemController extends Controller
@@ -56,7 +54,9 @@ class OrdemController extends Controller
      */
     public function show($id)
     {
-        //
+        $ordem = $this->ordem->find($id);
+
+        return response()->json($ordem);
     }
 
     /**
@@ -67,7 +67,10 @@ class OrdemController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cliente = Cliente::find($id); 
+        $ordem = $cliente->ordens[0];
+                
+        return view('admin.ordem.edit', compact('ordem', 'cliente'));
     }
 
     /**
@@ -89,7 +92,8 @@ class OrdemController extends Controller
                 'data_inicio' => 'date|nullable',
                 'receita' => 'numeric|nullable',
                 'custo' => 'numeric|nullable',
-                'cotacao' => 'numeric|nullable',                
+                'cotacao' => 'numeric|nullable',  
+                'statusordem_id' => 'integer|nullable'              
                 ]
             ); 
 
@@ -102,10 +106,16 @@ class OrdemController extends Controller
         );
         
         // update ordem table
-        $updateOrder = $ordem->update($dataForm);   
+        if ($dataForm) {
+            
+            $updateOrder = $ordem->update($dataForm);   
+        }
 
         // create new comment in table
-        $createComment = Comentarios::create($dataFormComment);
+        if($dataFormComment){
+
+            $createComment = Comentarios::create($dataFormComment);
+        }
         
         if($updateOrder && $createComment) {
             return response()->json(
@@ -128,5 +138,26 @@ class OrdemController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $ordem = $this->ordem->find($id);
+
+        // validation rules for order info
+        $dataForm = $request->validate(
+            [                
+                'statusordem_id' => 'integer|nullable'              
+                ]
+            ); 
+
+        if ($dataForm) {
+        
+            $updateOrder = $ordem->update($dataForm);   
+        }
+
+        if($updateOrder){
+            return response()->json($updateOrder);
+        }
     }
 }

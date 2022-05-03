@@ -1,9 +1,137 @@
+:root {
+    --line-border-fill: #9c27b0;
+    --line-border-empty: #bdbdbd;
+}
+
+// PROGRESS STEPS
+
+#progress-title {
+    color: #212121;
+    margin-bottom: 90px;
+}
+
+.fa-play {
+    font-size: 1.8rem;
+    color: green;
+}
+
+.fa-passport {
+    font-size: 1.8rem;
+    color: #ff5773;
+}
+
+.fa-mobile-screen {
+    font-size: 1.8rem;
+    color: #264de4;
+}
+
+.fa-file-pdf {
+    color: #f7e018;
+    font-size: 1.8rem;
+}
+
+.fa-camera {
+    font-size: 1.8rem;
+    color: #61dbfb;
+}
+.fa-check {
+    font-size: 1.8rem;
+    color: green;
+}
+
+// .container-prog {
+//     text-align: center;
+// }
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 30px;
+    max-width: 100%;
+    width: 350px;
+}
+
+.progress-container::before {
+    content: "";
+    background-color: var(--line-border-empty);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 100%;
+    z-index: -1;
+    transition: 0.4s ease;
+}
+.progress {
+    background-color: var(--line-border-fill);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 0%;
+    z-index: -1;
+    transition: 0.4s ease;
+}
+
+.circle {
+    background-color: #fff;
+    color: #999;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    border: 3px solid #b2bec3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s ease;
+}
+
+.circle.active {
+    border-color: var(--line-border-fill);
+    background-color: #999;
+}
+
+.btn-progress {
+    background-color: var(--line-border-fill);
+    color: #fff;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 8px 30px;
+    margin: 5px;
+    font-size: 10px;
+}
+
+.btn-progress:focus {
+    outline: 0;
+}
+
+.btn-progress:active {
+    transform: scale(0.97);
+}
+
+.btn-progress:disabled {
+    background-color: var(--line-border-empty);
+    cursor: not-allowed;
+}
+
 .card-body {
     background-color: #f1f1f1;
     .form-label {
         font-size: 14px;
         font-weight: 700;
     }
+}
+
+// ///////////////////////////////////////////////////
+
+#clientModalNewComment {
+    font-size: 10px;
+    margin-top: 10px;
 }
 
 #plusButton {

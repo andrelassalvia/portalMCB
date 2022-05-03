@@ -416,9 +416,7 @@
                         id="providerInput"
                         class="form-control" 
                         type="hidden" 
-                        name="fornecedor_id" 
-                        disabled
-                        
+                        name="fornecedor_id"                                                 
                       >
                     </div>
                     <div>

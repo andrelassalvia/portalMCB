@@ -163,7 +163,7 @@
             </tr>  
           </thead> 
           <tbody>
-            @foreach ($orders as $item)                   
+            @foreach ($orders as $item)                            
                 <tr>
                   <th scope="row">{{$item->ordens[0]->data_inicio}}</th>
                   <td data-nome="{{$item->id}}">{{$item->nome}}</td>
@@ -179,15 +179,14 @@
                   @else
                     <td>N/I</td>    
                   @endif
-                  <td width=120>
+                  <td width=120 style="text-align: center">
                     <a 
                       title="Encerrar ordem de serviço" 
                       href="#" 
                       class="btn btn-sm btn-success"
                     >
                       Encerra
-                    </a>
-                    <a title="Altera ordem de serviço" href="#" class="btn btn-sm btn-warning">Altera</a>
+                    </a>                   
                   </td>
                 </tr>
             @endforeach
@@ -210,4 +209,6 @@
   @include('admin.cliente.modal.edit')
 
   <script type="text/javascript" src="{{asset('js/home/home.js')}}"></script>
+
+  
 @endsection

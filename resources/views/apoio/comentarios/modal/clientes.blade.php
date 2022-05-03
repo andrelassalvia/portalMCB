@@ -6,8 +6,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        
+        {{-- CARD --}}
         <div class="card mb-3" id="clientModalCard">
-
+          
+                                      
           {{-- Form to input a new comment --}}
           <form action="{{route('comentarios.store')}}" method="post">
             @csrf            
@@ -24,14 +27,14 @@
           id="clientModalNewComment"
         >
           Inserir Comentário
-      </button>
+        </button>
         <button 
           type="button" 
           class="btn btn-primary" 
           id="clientModalSaveComment"
         >
           Salvar
-      </button>
+        </button>
         
       </div>
     </div>
