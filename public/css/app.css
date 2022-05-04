@@ -11492,6 +11492,7 @@ tr {
 :root {
   --line-border-fill: #9c27b0;
   --line-border-empty: #bdbdbd;
+  --star-fill: gold;
 }
 
 #progress-title {
@@ -11612,6 +11613,14 @@ tr {
 .card-body .form-label {
   font-size: 14px;
   font-weight: 700;
+}
+
+.star {
+  font-size: 2rem;
+}
+
+.star.active {
+  color: gold;
 }
 
 #clientModalNewComment {

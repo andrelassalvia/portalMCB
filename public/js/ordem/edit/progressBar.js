@@ -94,4 +94,30 @@ $(function () {
             },
         });
     });
+
+    // CLASSIFY SUPPLEIRS
+    $("#finish").on("click", function () {
+        $("#star-rate-modal").modal("show");
+
+        const stars = document.querySelectorAll(".star");
+        let currentStar = 0;
+        const updateStars = function () {
+            stars.forEach((star, idx) => {
+                if (idx < currentStar) {
+                    star.classList.add("active");
+                } else {
+                    star.classList.remove("active");
+                }
+            });
+        };
+        updateStars();
+
+        $.each(stars, function (i, s) {
+            $(s).on("click", function () {
+                currentStar = i + 1;
+                console.log(currentStar);
+                updateStars();
+            });
+        });
+    });
 });

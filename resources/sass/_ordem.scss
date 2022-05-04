@@ -1,6 +1,7 @@
 :root {
     --line-border-fill: #9c27b0;
     --line-border-empty: #bdbdbd;
+    --star-fill: gold;
 }
 
 // PROGRESS STEPS
@@ -125,6 +126,16 @@
         font-size: 14px;
         font-weight: 700;
     }
+}
+
+// ///////////////////////////////////////////////////
+
+// CLASSIFY PROVIDER
+.star {
+    font-size: 2rem;
+}
+.star.active {
+    color: gold;
 }
 
 // ///////////////////////////////////////////////////

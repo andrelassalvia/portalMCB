@@ -15,7 +15,7 @@
       <div class="text-center">
         <button class="btn-progress" id="prev" disabled>Retroceder</button>
         <button class="btn-progress" id="next">Avançar</button>
-        <button class="btn-progress" id="">Encerrar OS</button>
+        <button class="btn-progress" id="finish">Encerrar OS</button>
       </div>
       <div class="row mt-4 mx-auto">        
         <div class="col-4 mx-auto"> 
@@ -42,7 +42,7 @@
         <div class="col-4 mx-auto" id="commentClient">
           <h2 class="text-decoration-underline">Comentários</h2>
           <div id="commentClientBody">
-            <div class="card mb-3" id="clientModalCard">
+            <div class="card mb-3" id="clientModalCard" style="border: none">
           
                                       
               {{-- Form to input a new comment --}}
@@ -68,6 +68,28 @@
       @csrf
       @method('PATCH')
     </form>
+
+    {{-- Modal --}}
+    <div class="modal fade" id="star-rate-modal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center">
+            <i class="fa-regular fa-star me-1 star"></i>
+            <i class="fa-regular fa-star star me-1"></i>
+            <i class="fa-regular fa-star star me-1"></i>
+            <i class="fa-regular fa-star star me-1"></i>
+            <i class="fa-regular fa-star star"></i>
+          </div>
+          <div class="modal-footer">       
+            <button type="button" class="btn btn-primary" id="okButton">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
       
     <script type="text/javascript" src="{{asset('js/ordem/edit/progressBar.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/ordem/edit/comments.js')}}"></script>
