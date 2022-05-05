@@ -16,24 +16,26 @@ class OrdemServico extends Model
         'tiposervico_id',
         'fornecedor_id',
         'statusordem_id',
+        'classificacao_id',
         'data_inicio',
         'data_fim',
         'receita',
         'custo',
         'cotacao',
-        'comentario'
+     
     ];
     protected $casts = [
         'cliente_id' => 'integer',
         'tiposervico_id' => 'integer',
         'fornecedor_id' => 'integer',
         'statusordem_id' => 'integer',
+        'classificacao_id' => 'integer',
         'data_inicio' => 'date',
         'data_fim' => 'date',
         'receita' => 'float',
         'custo' => 'float',
         'cotacao' => 'float',
-        'comentario' => 'string'
+
     ];
 
     public function getDataInicioAttribute($value)
@@ -62,5 +64,10 @@ class OrdemServico extends Model
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id', 'id');
+    }
+
+    public function classificacao()
+    {
+        return $this->belongsTo(Classificacao::class, 'classificacao_id', 'id');
     }
 }

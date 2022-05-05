@@ -31,14 +31,25 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();   
 
-            // dd($clientes);
-
+            
+        // $orders = DB::table('cliente')
+        //     ->where('statuscliente_id',3)
+        //     ->join('ordem_servico', 'cliente.id', '=', 'ordem_servico.cliente_id')
+        //     ->where('statusordem_id', '<', 7)
+        //     ->get();
+            
                         
-        $orders = Cliente::with(['ordens', 'estadoBrasil'])
+        // $orders = Cliente::with(['ordens', 'estadoBrasil'])
+        //     ->where('statuscliente_id', 3)
+        //     ->orderBy('updated_at', 'asc')
+        //     ->get();
+
+        $orders = OrdemServico::join('tipo_servico', 'ordem_servico.tiposervico_id', '=', 'tipo_servico.id' )
+            ->join('cliente', 'ordem_servico.cliente_id', '=', 'cliente.id')                        
             ->where('statuscliente_id', 3)
-            ->orderBy('updated_at', 'asc')
+            ->where('statusordem_id', '<', 7)
             ->get();
-            // ->paginate(10, ['*'], 'orders');                         
+                                    
             
         return view ('home', compact('clientes', 'orders'));                       
     }

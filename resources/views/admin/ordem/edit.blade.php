@@ -15,7 +15,7 @@
       <div class="text-center">
         <button class="btn-progress" id="prev" disabled>Retroceder</button>
         <button class="btn-progress" id="next">Avançar</button>
-        <button class="btn-progress" id="finish">Encerrar OS</button>
+        <button class="btn btn-success d-none" id="finish">Encerrar OS</button>
       </div>
       <div class="row mt-4 mx-auto">        
         <div class="col-4 mx-auto"> 
@@ -28,7 +28,7 @@
           <p class="mt-3 fs-5"><span class="text-sm me-2">Valor:</span>£ {{$ordem->receita}}</p>
           <p class="mt-3 fs-5"><span class="text-sm me-2">Cidade:</span>{{$cliente->cidadeBrasil->nome}}</p>
           <p class="mt-3 fs-5"><span class="text-sm me-2">Cartório:</span>{{$ordem->fornecedor->nome}}</p>
-          <p class="mt-3 fs-5"><span class="text-sm me-2">Situação:</span>{{$ordem->statusOrdem->nome}}</p>
+          <p class="mt-3 fs-5" id="situacao"><span class="text-sm me-2">Situação:</span>{{$ordem->statusOrdem->nome}}</p>
           <div id="orderFooter" class="d-flex justify-content-end me-3">
             <button 
               type="button" 
@@ -64,17 +64,22 @@
         
       </div>
     </div>
+    
     <form action="{{route('ordens.updateStatus', $ordem->id)}}" id="updateStatus">
       @csrf
       @method('PATCH')
     </form>
+    <form action="{{route('ordens.updateClassif', $ordem->id)}}" id="updateAvaliation">
+      @csrf
+      @method('PATCH')            
+    </form>
 
-    {{-- Modal --}}
+    {{-- Modal show stars--}}
     <div class="modal fade" id="star-rate-modal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            
+            <h6>Avaliação do Cartório nesta O.S.</h6>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body d-flex justify-content-center">
@@ -84,8 +89,9 @@
             <i class="fa-regular fa-star star me-1"></i>
             <i class="fa-regular fa-star star"></i>
           </div>
+          
           <div class="modal-footer">       
-            <button type="button" class="btn btn-primary" id="okButton">Ok</button>
+            <button type="button" class="btn btn-primary" id="assessButton">Ok</button>
           </div>
         </div>
       </div>

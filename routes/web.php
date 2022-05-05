@@ -51,6 +51,7 @@ Route::prefix('/ordens')
             route::get('/{ordem}/edit', 'edit')->name('ordens.edit');
             route::any('/{id}/update', 'update')->name('ordens.update');
             route::any('/{id}/updateStatus', 'updateStatus')->name('ordens.updateStatus');
+            route::any('/{id}/updateClassif', 'updateClassif')->name('ordens.updateClassif');
         });
 
 // CIDADE BRASIL

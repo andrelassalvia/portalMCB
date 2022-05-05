@@ -93,7 +93,8 @@ class OrdemController extends Controller
                 'receita' => 'numeric|nullable',
                 'custo' => 'numeric|nullable',
                 'cotacao' => 'numeric|nullable',  
-                'statusordem_id' => 'integer|nullable'              
+                'statusordem_id' => 'integer|nullable', 
+                'classificacao_id' => 'integer|nullable'             
                 ]
             ); 
 
@@ -157,7 +158,28 @@ class OrdemController extends Controller
         }
 
         if($updateOrder){
-            return response()->json($updateOrder);
+            return response()->json($ordem);
+        }
+    }
+
+    public function updateClassif(Request $request, $id)
+    {
+        $ordem = $this->ordem->find($id);
+
+        // validation rules for order info
+        $dataFormClassif = $request->validate(
+            [                
+                'classificacao_id' => 'nullable'              
+                ]
+            ); 
+
+        if ($dataFormClassif) {
+        
+            $updateOrder = $ordem->update($dataFormClassif);   
+        }
+
+        if($updateOrder){
+            return response()->json($ordem);
         }
     }
 }

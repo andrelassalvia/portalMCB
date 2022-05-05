@@ -15,8 +15,8 @@ class Classificacao extends Model
         'nome' => 'string'
     ];
 
-    public function fornecedores()
+    public function ordens()
     {
-        return $this->hasMany(Fornecedor::class, 'classificacao_id', 'id');
+        return $this->hasMany(OrdemServico::class, 'classificacao_id', 'id');
     }
 }

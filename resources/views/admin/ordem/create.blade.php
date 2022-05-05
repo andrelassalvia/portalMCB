@@ -373,10 +373,15 @@
         @method('PATCH')
         {{-- Hidden inputs --}}
         <input 
-        type="hidden"
-        name="cliente_id"
-        value="{{$cliente->id}}"
-      >
+          type="hidden"
+          name="cliente_id"
+          value="{{$cliente->id}}"
+        >
+        <input 
+          type="hidden"
+          name="statusordem_id"
+          value="1"
+        >
         <div class="col-10 col-xl-8 mx-auto mb-5">
           <section title="Dados da OS" class="card shadow">
             <h5 class="card-header">Dados da Ordem de Serviço</h5>

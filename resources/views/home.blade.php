@@ -141,7 +141,8 @@
     {{-- Orders List --}}
     <section title="Lista de ordens em andamento" class="home-orders-list">
       <h3>Lista de Ordens em Andamento</h3>   
-      <div>
+      <div>        
+        {{-- {{dd($orders)}} --}}
         @if (isset($orders))
         <table class="table table-hover" id="tableOrders">
           <thead>
@@ -163,19 +164,19 @@
             </tr>  
           </thead> 
           <tbody>
-            @foreach ($orders as $item)                            
+            @foreach ($orders as $item)   
                 <tr>
-                  <th scope="row">{{$item->ordens[0]->data_inicio}}</th>
+                  <th scope="row">{{$item->data_inicio}}</th>
                   <td data-nome="{{$item->id}}">{{$item->nome}}</td>
                   <td>{{$item->telefone}}</td>
-                  <td>{{$item->ordens[0]->tipoServico->nome}}</td>
-                  @if (isset($item->estadoBrasil->nome))
-                    <td>{{$item->estadoBrasil->nome}}</td>                            
+                  <td>{{$item->tipoServico->nome}}</td>
+                  @if (isset($item->cliente->estadoBrasil->nome))
+                    <td>{{$item->cliente->estadoBrasil->nome}}</td>                            
                   @else
                     <td>N/I</td>
                   @endif
-                  @if (isset($item->cidadeBrasil->nome))
-                    <td>{{$item->cidadeBrasil->nome}}</td>                            
+                  @if (isset($item->cliente->cidadeBrasil->nome))
+                    <td>{{$item->cliente->cidadeBrasil->nome}}</td>                            
                   @else
                     <td>N/I</td>    
                   @endif
@@ -206,7 +207,7 @@
   </div>
 </div>
 
-  @include('admin.cliente.modal.edit')
+  {{-- @include('admin.cliente.modal.edit') --}}
 
   <script type="text/javascript" src="{{asset('js/home/home.js')}}"></script>
 

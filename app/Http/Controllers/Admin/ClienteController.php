@@ -158,8 +158,7 @@ class ClienteController extends Controller
         $today = Carbon::now()->parse()->format('Y-m-d');        
         $occupations = Occupation::orderBy('nome')->get();
         $maritalStatus = MaritalStatus::orderBy('nome')->get();
-        $providers = Fornecedor::with(['estadoBrasil'])
-            ->orderBy('classificacao_id', 'desc')
+        $providers = Fornecedor::with(['estadoBrasil'])            
             ->get();
         
 

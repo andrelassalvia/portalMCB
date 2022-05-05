@@ -40,10 +40,6 @@
     color: green;
 }
 
-// .container-prog {
-//     text-align: center;
-// }
-
 .progress-container {
     display: flex;
     justify-content: space-between;
@@ -136,6 +132,13 @@
 }
 .star.active {
     color: gold;
+}
+#star-rate-modal {
+    h6 {
+        font-size: larger;
+        font-weight: bold;
+        color: #363b3b;
+    }
 }
 
 // ///////////////////////////////////////////////////
