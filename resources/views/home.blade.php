@@ -207,7 +207,7 @@
   </div>
 </div>
 
-  {{-- @include('admin.cliente.modal.edit') --}}
+  @include('admin.cliente.modal.edit')
 
   <script type="text/javascript" src="{{asset('js/home/home.js')}}"></script>
 

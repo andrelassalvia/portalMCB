@@ -26,7 +26,7 @@
           <div class="row">
             <label class="col-3 form-label text-end" for="nome">Demanda:</label>
             <div class="col-9">
-              <p class="form-text">{{$item->ordens[0]->tipoServico->nome}}</p>
+              <p class="form-text">{{$item->tipoServico->nome}}</p>
             </div>
           </div>                                                                       
         </div>

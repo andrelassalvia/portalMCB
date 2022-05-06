@@ -34,6 +34,16 @@ class ClienteController extends Controller
         
     }
 
+    public function indexLast()
+    {
+        $clientes = Cliente::with(['ordens'])
+        ->where('statuscliente_id', 1)
+        ->orderBy('created_at', 'desc')
+        ->get();  
+
+        return view('admin.cliente.indexLast', compact('clientes'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

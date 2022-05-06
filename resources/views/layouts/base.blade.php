@@ -24,6 +24,9 @@
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
+        {{-- Boxicon CSS --}}
+        <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet"/>
+
         {{-- Font-awesome --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/solid.min.css" integrity="sha512-qzgHTQ60z8RJitD5a28/c47in6WlHGuyRvMusdnuWWBB6fZ0DWG/KyfchGSBlLVeqAz+1LzNq+gGZkCSHnSd3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -36,7 +39,83 @@
     <body class="base-body">
         <div id="app">
             <div class="container-fluid">
-                <header class="base-header pt-3">
+                <nav class="sidebar">
+                    <header>
+                      <div class="image-text">
+                        <span class="image">
+                          <img src="{{asset('imgs/logo-mcb-header.png')}}" alt="logo" />
+                        </span>
+                      </div>
+                      <i class="bx bx-chevron-right toggle"></i>
+                    </header>
+                    <div class="menu-bar">
+                      <div class="menu">
+
+                        <ul class="menu-links">
+                          <li class="nav-link">
+                            <a href="#">
+                              <i class="bx bx-home-alt icon"></i>
+                              <span class="text nav-text">Dashboard</span>
+                            </a>
+                          </li>
+                          <li class="nav-link dropdown">
+                            <a 
+                              class="dropdown-toggle"  
+                              href="#"                             
+                              data-bs-toggle="dropdown"
+                            >
+                              <i class="bx bx-face icon"></i>
+                              <span class="text nav-text">Clientes</span>                              
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <li><a class="dropdown-item" href="{{route('clientes.last')}}">Últimos contatos</a></li>
+                              <li><a class="dropdown-item" href="{{route('clientes.create')}}">Novo cliente</a></li>
+                              <li><a class="dropdown-item" href="#">Lista clientes</a></li>
+                            </ul>
+                          </li>
+                          <li class="nav-link">
+                            <a href="#">
+                              <i class="bx bx-bell icon"></i>
+                              <span class="text nav-text">Notifications</span>
+                            </a>
+                          </li>
+                          <li class="nav-link">
+                            <a href="#">
+                              <i class="bx bx-pie-chart-alt icon"></i>
+                              <span class="text nav-text">Analytics</span>
+                            </a>
+                          </li>
+                          <li class="nav-link">
+                            <a href="#">
+                              <i class="bx bx-heart icon"></i>
+                              <span class="text nav-text">Likes</span>
+                            </a>
+                          </li>
+                          <li class="nav-link">
+                            <a href="#">
+                              <i class="bx bx-wallet icon"></i>
+                              <span class="text nav-text">Wallets</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="bottom-content">
+                        <li class="">
+                          <a 
+                          href="{{route('logout')}}"
+                          onclick="event.preventDefault();
+                          document.getElementById('logout-form').submit();">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Logout</span>
+                          </a>
+                        </li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                          @csrf
+                      </form>
+                      </div>
+                    </div>
+                </nav>
+                {{-- <header class="base-header pt-3">
                     <nav class="navbar navbar-expand-lg navbar-light justify-content-between">          
                         <div>
                             <a class="navbar-brand" href="{{ url('/home') }}">
@@ -140,10 +219,11 @@
                             </ul>
                         </div>          
                     </nav>
-                </header>                                                            
+                </header>                                                             --}}
                 <main class="py-4">
                     @yield('content')
                 </main>
+
             </div>
         </div>
             
@@ -152,5 +232,6 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
             crossorigin="anonymous">
         </script>
+        <script src="{{asset('js/layouts/base.js')}}"></script>
     </body>
 </html>

@@ -1,19 +1,28 @@
 // create
 .container {
     .row {
-        .customer-details {
-            header {
-                background-color: #363b3b;
-                padding: 20px;
-                h3 {
-                    color: #fff;
-                    font-size: 20px;
-                }
+        header {
+            background-color: var(--primary-color);
+            padding: 20px;
+            h3 {
+                color: var(--sidebar-color);
+                font-size: 20px;
             }
         }
+
         .form-label {
             font-size: 14px;
             font-weight: 700;
+            color: var(--text-color);
+        }
+        .form-check-label,
+        select {
+            color: var(--text-color);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--primary-color) !important;
+            color: var(--sidebar-color) !important;
         }
     }
 }

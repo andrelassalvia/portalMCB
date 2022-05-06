@@ -29,6 +29,7 @@ Route::prefix('/clientes')
         ->group(function()
         {
             route::get('/', 'index')->name('clientes.index');
+            route::get('/last', 'indexLast')->name('clientes.last');
             route::get('/create', 'create')->name('clientes.create');
             route::post('/', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
