@@ -2,35 +2,28 @@
 
 @section('content')
         {{-- Last contacts list --}}
-        <section title="Lista de potenciais clientes" class="home-clients-list mb-3"> 
+        <section title="Lista de potenciais clientes" class="home-clients-list"> 
           <h3>Lista de Últimos Contatos</h3>
-          <table class="table table-hover" id="tableLastContacts">
+          <table class="table table-hover table-borderless mx-auto" id="tableLastContacts">
             <thead>
               <tr>
                 <th scope="col">Data</th>
+                <th class="d-none" scope="col">Id</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Telefone</th>
                 <th scope="col">Demanda</th>
                 <th scope="col">Firma</th>
                 <th scope="col">CNH</th>
                 <th scope="col">CPF</th>                    
-                <th width=120 scope="col" style="text-align: center">
-                  <a 
-                  id="homeNewClientButton"
-                  class="btn btn-primary ms-auto btn-sm btn-novo-cliente"                   
-                  title="Inserir novo fornecedor"
-                  href="{{route('clientes.create')}}"
-                  >
-                    Novo Cliente
-                  </a>
-                </th>
+                
               </tr>
             </thead>
             <tbody>         
               @foreach ($clientes as $item)           
                   <tr>                        
                     <th scope="row">{{$item->created_at}}</th>
-                    <td data-nome="{{$item->id}}">{{$item->nome}}</td>
+                    <td class="d-none">{{$item->id}}</td>
+                    <td>{{$item->nome}}</td>
                     <td style="font-size: small">{{$item->telefone}}</td>
                     <td>{{$item->ordens[0]->tipoServico->nome}}</td>
                     <td>                  
@@ -112,22 +105,6 @@
                           </svg>
                         @endif                                            
                     </td>   
-                    <td width=120>
-                      <a 
-                        class="btn btn-success btn-sm"
-                        href="{{route('clientes.edit', $item)}}"
-                      >
-                        OS
-                      </a>
-                      <a 
-                        class="btn btn-danger btn-sm" 
-                        type="button" 
-                        data-bs-toggle="modal"
-                        data-bs-target="#inativarModal"
-                      >
-                        Inativar
-                      </a>
-                    </td>                     
                   </tr>
                   @endforeach
                 </tbody>                    

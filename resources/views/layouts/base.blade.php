@@ -38,7 +38,7 @@
     </head>
     <body class="base-body">
         <div id="app">
-            <div class="container-fluid">
+            <div class="container">
                 <nav class="sidebar">
                     <header>
                       <div class="image-text">
@@ -53,7 +53,7 @@
 
                         <ul class="menu-links">
                           <li class="nav-link">
-                            <a href="#">
+                            <a href="{{route('home')}}">
                               <i class="bx bx-home-alt icon"></i>
                               <span class="text nav-text">Dashboard</span>
                             </a>
@@ -114,113 +114,8 @@
                       </form>
                       </div>
                     </div>
-                </nav>
-                {{-- <header class="base-header pt-3">
-                    <nav class="navbar navbar-expand-lg navbar-light justify-content-between">          
-                        <div>
-                            <a class="navbar-brand" href="{{ url('/home') }}">
-                                <img src="{{asset('imgs/logo-mcb-header.png')}}" alt="Logo MCB" class="logo--welcome">
-                            </a>
-                        </div>
-                        <button 
-                            class="navbar-toggler border-0" 
-                            type="button" 
-                            data-bs-toggle="collapse" 
-                            data-bs-target="#navbarSupportedContent" 
-                            aria-controls="navbarSupportedContent" 
-                            aria-expanded="false" 
-                            aria-label="{{ __('Toggle navigation') }}"
-                        >
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                                                        
-                        <div class="collapse navbar-collapse flex-grow-0 me-4" id="navbarSupportedContent">
-                                <!-- Left Side Of Navbar -->
-                            <ul class="navbar-nav">
-                                <li class="nav-item dropdown">
-                                    <a 
-                                        class="nav-link dropdown-toggle" 
-                                        href="#" 
-                                        id="clienteDropdown" 
-                                        data-bs-toggle="dropdown"
-                                    >
-                                        Clientes
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{route('clientes.create')}}">Novo</a></li>
-                                        <li><a class="dropdown-item" href="">Lista de clientes</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a 
-                                        class="nav-link dropdown-toggle" 
-                                        href="#"
-                                        id="fornecedorDropdown"
-                                        data-bs-toggle="dropdown"
-                                    >
-                                        Fornecedores
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Novo</a></li>
-                                        <li><a class="dropdown-item" href="#">Lista de fornecedores</a></li>
-                                    </ul>
-                                </li>                    
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Ordens de Serviço</a>
-                                </li>  
-                            </ul>
-
-                                <!-- Right Side Of Navbar -->
-                            <ul class="navbar-nav ms-auto">
-                                    <!-- Authentication Links -->
-                                @guest
-                                    @if (Route::has('login'))
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                        </li>
-                                    @endif
-
-                                    @if (Route::has('register'))
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                        </li>
-                                    @endif
-                                @else
-                                    <li class="nav-item dropdown">
-                                        <a  
-                                            id="navbarDropdown" 
-                                            class="nav-link dropdown-toggle" 
-                                            href="#" 
-                                            role="button" 
-                                            data-bs-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
-                                            v-pre
-                                        >
-                                            {{ Auth::user()->name }}
-                                        </a>
-
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                            <a 
-                                                class="dropdown-item" 
-                                                href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();"
-                                            >
-                                                {{ __('Logout') }}
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
-                                            </form>
-                                        </div>
-                                    </li>   
-                                @endguest
-                            </ul>
-                        </div>          
-                    </nav>
-                </header>                                                             --}}
-                <main class="py-4">
+                </nav>                                                            
+                <main>
                     @yield('content')
                 </main>
 

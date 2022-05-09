@@ -11,7 +11,6 @@ toggle.addEventListener("click", function () {
 
 for (const i of dropdown) {
     i.addEventListener("click", function () {
-        console.log(i);
         main.classList.remove("open");
         sidebar.classList.remove("close");
     });

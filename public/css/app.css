@@ -11445,6 +11445,7 @@ body {
   height: auto;
   width: 195px;
   border-radius: 6px;
+  margin-top: 5px;
 }
 
 .sidebar header .toggle {
@@ -11492,7 +11493,7 @@ body {
 }
 
 .sidebar li .text {
-  color: var(--text-color);
+  color: var(--primary-color);
   transition: var(--tran-02);
 }
 
@@ -11583,7 +11584,12 @@ body {
 main {
   position: absolute;
   left: 260px;
-  width: calc(100% - 260px);
+  width: calc(100% - 280px);
+  margin: auto;
+}
+main .page-item.active .page-link {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
 main {
@@ -11594,45 +11600,8 @@ main.open {
   left: 88px;
 }
 
-.page-link {
-  color: #363b3b;
-}
-
-.btn-sm, .btn-group-sm > .btn {
-  font-size: 0.6rem;
-}
-
-.btn-novo-cliente {
-  font-weight: bold;
-  font-size: 0.7rem;
-  align-self: center;
-}
-
 .modal-title #clientDetailsModalTitle {
   color: #212529;
-}
-
-.home-container {
-  padding: 30px 0 40px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.home-container .row {
-  margin-right: -9px;
-  margin-left: -9px;
-}
-.home-container .row ::before {
-  display: table;
-  content: "";
-}
-
-.home-clients-list h3, .home-clients-list .h3,
-.home-orders-list h3,
-.home-orders-list .h3,
-.home-quick-links h3,
-.home-quick-links .h3 {
-  text-align: center;
-  font-weight: 700;
 }
 
 #inputComment {
@@ -11679,6 +11648,25 @@ tr {
   color: #fff;
 }
 
+.home-clients-list h3, .home-clients-list .h3 {
+  text-align: center;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-top: 20px;
+}
+
+#tableLastContacts {
+  max-width: 880px;
+}
+#tableLastContacts th,
+#tableLastContacts td {
+  color: var(--primary-color);
+}
+
+.page-link {
+  color: var(--text-color);
+}
+
 .container .row header {
   background-color: var(--primary-color);
   padding: 20px;
@@ -11690,15 +11678,19 @@ tr {
 .container .row .form-label {
   font-size: 14px;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--primary-color);
 }
 .container .row .form-check-label,
 .container .row select {
-  color: var(--text-color);
+  color: var(--primary-color);
 }
-.container .row .btn-outline-secondary:hover {
+.container .row .btn:hover {
   background-color: var(--primary-color) !important;
   color: var(--sidebar-color) !important;
+}
+.container .row .btn {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .modal-body .row {

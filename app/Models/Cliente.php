@@ -86,7 +86,7 @@ class Cliente extends Model
     {
         if($value) {
 
-            return Carbon::parse($value)->format('d-m-y');
+            return Carbon::parse($value)->format('y-m-d');
         }
     }
 

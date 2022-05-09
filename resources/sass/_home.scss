@@ -1,43 +1,23 @@
-.page-link {
-    color: #363b3b;
-}
-.btn-sm {
-    font-size: 0.6rem;
-}
-.btn-novo-cliente {
-    font-weight: bold;
-    font-size: 0.7rem;
-    align-self: center;
-}
-
 .modal-title {
     #clientDetailsModalTitle {
         color: #212529;
     }
 }
 
-.home-container {
-    padding: 30px 0 40px;
-    margin-left: auto;
-    margin-right: auto;
+// .home-container {
+//     padding: 30px 0 40px;
+//     margin-left: auto;
+//     margin-right: auto;
 
-    .row {
-        ::before {
-            display: table;
-            content: "";
-        }
-        margin-right: -9px;
-        margin-left: -9px;
-    }
-}
-.home-clients-list,
-.home-orders-list,
-.home-quick-links {
-    h3 {
-        text-align: center;
-        font-weight: 700;
-    }
-}
+//     .row {
+//         ::before {
+//             display: table;
+//             content: "";
+//         }
+//         margin-right: -9px;
+//         margin-left: -9px;
+//     }
+// }
 
 #inputComment {
     background-color: #fff;

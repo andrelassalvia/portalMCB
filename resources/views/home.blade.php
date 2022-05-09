@@ -142,7 +142,7 @@
     <section title="Lista de ordens em andamento" class="home-orders-list">
       <h3>Lista de Ordens em Andamento</h3>   
       <div>        
-        {{-- {{dd($orders)}} --}}
+        
         @if (isset($orders))
         <table class="table table-hover" id="tableOrders">
           <thead>

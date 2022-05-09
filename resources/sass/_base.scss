@@ -86,6 +86,7 @@ body {
     height: auto;
     width: 195px;
     border-radius: 6px;
+    margin-top: 5px;
 }
 
 .sidebar header .toggle {
@@ -133,7 +134,7 @@ body {
 }
 
 .sidebar li .text {
-    color: var(--text-color);
+    color: var(--primary-color);
     transition: var(--tran-02);
 }
 .sidebar li .icon {
@@ -219,7 +220,13 @@ body {
 main {
     position: absolute;
     left: 260px;
-    width: calc(100% - 260px);
+    width: calc(100% - 280px);
+    margin: auto;
+
+    .page-item.active .page-link {
+        background-color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+    }
 }
 
 main {

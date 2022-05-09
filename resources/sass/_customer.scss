@@ -1,4 +1,26 @@
-// create
+// Index Last Clients
+.home-clients-list {
+    h3 {
+        text-align: center;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-top: 20px;
+    }
+}
+
+#tableLastContacts {
+    max-width: 880px;
+    th,
+    td {
+        color: var(--primary-color);
+    }
+}
+
+.page-link {
+    color: var(--text-color);
+}
+
+// CREATE
 .container {
     .row {
         header {
@@ -13,16 +35,20 @@
         .form-label {
             font-size: 14px;
             font-weight: 700;
-            color: var(--text-color);
+            color: var(--primary-color);
         }
         .form-check-label,
         select {
-            color: var(--text-color);
+            color: var(--primary-color);
         }
 
-        .btn-outline-secondary:hover {
+        .btn:hover {
             background-color: var(--primary-color) !important;
             color: var(--sidebar-color) !important;
+        }
+        .btn {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
         }
     }
 }

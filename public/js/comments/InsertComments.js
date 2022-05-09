@@ -10,13 +10,14 @@ $(function () {
         $.ajax(u + id, {
             type: "get",
             dataType: "json",
+            accepts: "application/json",
             success: function (response) {
                 const message = response.slice(0, 1);
                 $.each(message, function (i, v) {
                     $.each(v, function (idx, value) {
                         const comment = `
-                          <p class="fs-5"><span class="text-sm me-2">${value.created_at}:</span>${value.comentario}</p>
-                    `;
+                        <p class="fs-5"><span class="text-sm me-2">${value.created_at}:</span>${value.comentario}</p>
+                  `;
                         $("#commentClientBody").append(comment);
                     });
                 });
@@ -28,17 +29,17 @@ $(function () {
     $("#clientModalNewComment").on("click", function () {
         // create form to input comment
         const form = `                  
-          <input type="text" class="form-control" id="inputComment" name="comentario">
-        `;
+        <input type="text" class="form-control" id="inputComment" name="comentario">
+      `;
 
         // create save button
         const saveButton = `<button 
-        type="button" 
-        class="btn btn-primary" 
-        id="clientModalSaveComment"
-      >
-        Salvar
-      </button>`;
+      type="button" 
+      class="btn" 
+      id="clientModalSaveComment"
+    >
+      Salvar
+    </button>`;
 
         // append form and button
         $("#formInputComment").append(form);
@@ -53,8 +54,8 @@ $(function () {
         // Save new comment
         $("#clientModalSaveComment").on("click", function () {
             const hiddenId = `
-              <input type="hidden" name="cliente_id" value="${id}">
-              `;
+            <input type="hidden" name="cliente_id" value="${id}">
+            `;
             // Insert current day in a form comment
             var currentdate = new Date();
             var datetime =
@@ -71,8 +72,8 @@ $(function () {
                 currentdate.getSeconds();
 
             const date = `
-              <input type="hidden" name="created_at" value="${datetime}">
-              `;
+            <input type="hidden" name="created_at" value="${datetime}">
+            `;
 
             // Append cliente_id and date in the form
             $("#clientModalCard form").append([hiddenId, date]);
@@ -80,7 +81,7 @@ $(function () {
 
             $.ajax($("#clientModalCard form").attr("action"), {
                 method: $("#clientModalCard form").attr("method"),
-
+                accepts: "application/json",
                 data: formValues,
                 success: function (response) {
                     // reload modal with the new comment

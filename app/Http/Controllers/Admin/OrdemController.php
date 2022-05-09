@@ -69,7 +69,7 @@ class OrdemController extends Controller
     {
         $cliente = Cliente::find($id); 
         $ordem = $cliente->ordens[0];
-                
+                        
         return view('admin.ordem.edit', compact('ordem', 'cliente'));
     }
 

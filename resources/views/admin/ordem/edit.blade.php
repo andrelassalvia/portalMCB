@@ -25,9 +25,21 @@
           <p class="mt-3 fs-5"><span class="text-sm me-2">Data de Início:</span>{{$ordem->data_inicio}}</p>
           <p class="mt-3 fs-5"><span class="text-sm me-2">Nome:</span>{{$cliente->nome}}</p>
           <p class="mt-3 fs-5"><span class="text-sm me-2">Demanda:</span>{{$ordem->tipoServico->nome}}</p>
-          <p class="mt-3 fs-5"><span class="text-sm me-2">Valor:</span>£ {{$ordem->receita}}</p>
-          <p class="mt-3 fs-5"><span class="text-sm me-2">Cidade:</span>{{$cliente->cidadeBrasil->nome}}</p>
-          <p class="mt-3 fs-5"><span class="text-sm me-2">Cartório:</span>{{$ordem->fornecedor->nome}}</p>
+          @if (isset($ordem->receita))
+            <p class="mt-3 fs-5"><span class="text-sm me-2">Valor:</span>£ {{$ordem->receita}}</p>          
+          @else
+            <p class="mt-3 fs-5"><span class="text-sm me-2">Valor:</span>Não informado</p>              
+          @endif
+          @if (isset($cliente->cidadeBrasil->nome))
+            <p class="mt-3 fs-5"><span class="text-sm me-2">Cidade:</span>{{$cliente->cidadeBrasil->nome}}</p>          
+          @else
+            <p class="mt-3 fs-5"><span class="text-sm me-2">Cidade:</span>Não informada</p>              
+          @endif
+          @if (isset($ordem->fornecedor->nome))
+            <p class="mt-3 fs-5"><span class="text-sm me-2">Cartório:</span>{{$ordem->fornecedor->nome}}</p>            
+            @else
+            <p class="mt-3 fs-5"><span class="text-sm me-2">Cartório:</span>Não informado</p>              
+          @endif
           <p class="mt-3 fs-5" id="situacao"><span class="text-sm me-2">Situação:</span>{{$ordem->statusOrdem->nome}}</p>
           <div id="orderFooter" class="d-flex justify-content-end me-3">
             <button 
@@ -39,29 +51,11 @@
             </button>
           </div>          
         </div>
+        {{-- COMMENTS --}}
         <div class="col-4 mx-auto" id="commentClient">
           <h2 class="text-decoration-underline">Comentários</h2>
-          <div id="commentClientBody">
-            <div class="card mb-3" id="clientModalCard" style="border: none">
-          
-                                      
-              {{-- Form to input a new comment --}}
-              <form action="{{route('comentarios.store')}}" method="post" id="formInputComment">
-                @csrf            
-              </form>
-            </div>
-          </div>
-          <div id="commentClientFooter" class="d-flex justify-content-end me-3">
-            <button 
-              type="button" 
-              class="btn btn-primary" 
-              id="clientModalNewComment"
-            >
-              Inserir Comentário
-            </button>
-          </div>
-        </div>
-        
+          @include('admin._components.insertComments')
+        </div>        
       </div>
     </div>
     
@@ -98,5 +92,5 @@
     </div>
       
     <script type="text/javascript" src="{{asset('js/ordem/edit/progressBar.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/ordem/edit/comments.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/comments/insertComments.js')}}"></script>
 @endsection
