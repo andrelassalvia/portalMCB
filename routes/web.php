@@ -30,8 +30,10 @@ Route::prefix('/clientes')
         {
             route::get('/', 'index')->name('clientes.index');
             route::get('/last', 'indexLast')->name('clientes.last');
+            route::get('/telephone', 'telephone')->name('clientes.telephone');
+            route::post('/telephone', 'telephoneStore')->name('clientes.telephoneStore');
             route::get('/create', 'create')->name('clientes.create');
-            route::post('/', 'store')->name('clientes.store');
+            route::post('/{id?}', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
@@ -47,7 +49,7 @@ Route::prefix('/ordens')
         ->middleware(['auth'])
         ->controller('App\Http\Controllers\Admin\OrdemController')
         ->group(function(){
-            route::get('/create', 'create')->name('ordens.create');
+            route::get('/create/{id?}', 'create')->name('ordens.create');
             route::get('/{ordem}', 'show')->name('ordens.show');
             route::get('/{ordem}/edit', 'edit')->name('ordens.edit');
             route::any('/{id}/update', 'update')->name('ordens.update');

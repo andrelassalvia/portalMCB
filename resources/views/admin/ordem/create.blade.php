@@ -444,14 +444,14 @@
                         id="dataInicio"
                         value="{{$ordem[0]->data_inicio}}"
                       >
-                    @else
+                    {{-- @else
                       <input 
                         type="date" 
                         class="form-control" 
                         name="data_inicio" 
                         id="dataInicio"
                         value="{{$today}}"
-                      >                        
+                      >                         --}}
                     @endif
                   </div>
                   <div class="col-md-6">
@@ -505,8 +505,8 @@
     {{-- Create provider modal --}}
     @include('admin.fornecedor.modal.create')
 
-    {{-- Alert errors provider modal --}}
-    @include('admin.fornecedor.modal.alert')
+    {{-- Alert errors provider modal
+    @include('admin.fornecedor.modal.alert') --}}
 
     {{-- ============================================================ --}}
     

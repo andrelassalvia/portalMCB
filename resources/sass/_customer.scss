@@ -41,27 +41,33 @@
         select {
             color: var(--primary-color);
         }
-
-        .btn:hover {
-            background-color: var(--primary-color) !important;
-            color: var(--sidebar-color) !important;
-        }
-        .btn {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
     }
 }
 
+// SHOW
+#showClient {
+    margin-top: 10vh;
+}
 // Modal Edit
 .modal-body {
+    p {
+        font-size: 16px;
+        color: var(--primary-color);
+    }
     .row {
         align-items: center;
         div {
             .form-text {
                 font-size: 1.1em;
-                color: #363b3b;
+                color: var(--primary-color);
             }
         }
+    }
+}
+.modal-header {
+    background-color: var(--primary-color);
+    color: var(--sidebar-color);
+    .btn-close {
+        color: var(--sidebar-color) !important;
     }
 }

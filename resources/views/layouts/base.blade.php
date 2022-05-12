@@ -69,7 +69,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                               <li><a class="dropdown-item" href="{{route('clientes.last')}}">Últimos contatos</a></li>
-                              <li><a class="dropdown-item" href="{{route('clientes.create')}}">Novo cliente</a></li>
+                              <li><a class="dropdown-item" href="{{route('clientes.telephone')}}">Novo cliente</a></li>
                               <li><a class="dropdown-item" href="#">Lista clientes</a></li>
                             </ul>
                           </li>

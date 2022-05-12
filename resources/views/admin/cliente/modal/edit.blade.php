@@ -23,12 +23,12 @@
               <p class="form-text">{{$item->telefone}}</p>
             </div>
           </div>          
-          <div class="row">
+          {{-- <div class="row">
             <label class="col-3 form-label text-end" for="nome">Demanda:</label>
             <div class="col-9">
               <p class="form-text">{{$item->tipoServico->nome}}</p>
             </div>
-          </div>                                                                       
+          </div>                                                                        --}}
         </div>
         <div class="modal-footer">
           <a href="{{route('home')}}" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</a>

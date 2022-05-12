@@ -1,45 +1,4 @@
 $(function () {
-    // WATCH ANY CHANGE ON STATE
-    const urlsLoadCidades = [
-        "http://192.168.1.85:8000/clientes/load_cidades/",
-        "http://localhost:8000/clientes/load_cidades/",
-    ];
-
-    $("#estado_brasil").on("change", function () {
-        const estado = $(this).val();
-
-        // empty the dropdown
-        $("#cidade_brasil").find("option").not(":first").remove();
-
-        // AJAX
-        $.each(urlsLoadCidades, function (i, u) {
-            $.ajax(u + estado, {
-                type: "get",
-                dataType: "json",
-                success: function (response) {
-                    var len = 0;
-                    if (response != null) {
-                        len = response.length;
-                    }
-                    if (len > 0) {
-                        for (let i = 0; i < len; i++) {
-                            var id = response[i].id;
-                            var name = response[i].nome;
-                            var option =
-                                "<option value='" +
-                                id +
-                                "'>" +
-                                name +
-                                "</option>";
-
-                            $("#cidade_brasil").append(option);
-                        }
-                    }
-                },
-            });
-        });
-    });
-
     // SEND FORM TO CLIENT CONTROLLER
     $("#submitButton").on("click", function () {
         // SUPPORT FUNCTION

@@ -35,7 +35,7 @@ $(function () {
         // create save button
         const saveButton = `<button 
       type="button" 
-      class="btn" 
+      class="btn btn-mcb" 
       id="clientModalSaveComment"
     >
       Salvar

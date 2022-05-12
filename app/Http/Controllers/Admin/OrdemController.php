@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\OrdemServico;
 use App\Models\Cliente;
 use App\Models\Comentarios;
+use App\Models\Occupation;
+use App\Models\MaritalStatus;
+use App\Models\EstadoBrasil;
+use App\Models\Pais;
+use App\Models\TipoServico;
 
 class OrdemController extends Controller
 {
@@ -30,9 +35,31 @@ class OrdemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+
+        $cliente = Cliente::find($id);
+        $occupations = Occupation::all();
+        $maritalStatus = MaritalStatus::all();
+        $states = EstadoBrasil::all();
+        $countries = Pais::all();
         
+        $demandas = TipoServico::all();
+        // dd($cliente);
+        // foreach ($cliente as $key => $value) {
+        //     dd([$key => $value]);
+        // }
+        return view(
+            'admin.ordem.createCopy', 
+            compact(
+                'cliente', 
+                'occupations', 
+                'maritalStatus', 
+                'states', 
+                'countries', 
+                'demandas'
+            )
+        );
     }
 
     /**

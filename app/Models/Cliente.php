@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -32,7 +33,6 @@ class Cliente extends Model
         'cidade_id',
         'statuscliente_id',
         'rg_file',
-        'comentario',
         'passaporte_file',
         'cnh_file',
         'endereco_file'
@@ -41,9 +41,9 @@ class Cliente extends Model
         'nome' => 'string',
         'telefone' => 'string',
         'email' => 'string',        
-        'firma_aberta' => 'boolean',
         'maritalstatus_id' => 'integer',
         'occupation_id' => 'integer',
+        'firma_aberta' => 'boolean',
         'cnh' => 'boolean',
         'cpf' => 'boolean',
         'certificacao_digital' => 'boolean',
@@ -58,12 +58,46 @@ class Cliente extends Model
         'passaporte_file' => 'string',
         'cnh_file' => 'string',
         'endereco_file' => 'string',
-        'comentario' => 'string'
     ];
+
+    public function rules()
+    {
+        // Validation rules
+        return [
+            'nome' => 'required|min:3|max:50|string',
+            'telefone' =>'required|unique:cliente,telefone,'.$this->id.'',
+            'email' => 'email|nullable',
+            'data_nascimento' => 'date|nullable',
+            'maritalstatus_id' => 'integer|nullable',
+            'occupation_id' => 'integer|nullable',
+            'firma_aberta' => 'boolean',
+            'cnh' => 'boolean',
+            'cpf' => 'boolean',
+            'certificacao_digital' => 'boolean',
+            'rg' => 'boolean',
+            'passaporte' => 'boolean',
+            'estadobrasil_id' => 'integer|nullable',
+            'cidadebrasil_id' => 'integer|nullable',
+            'pais_id' => 'integer|nullable',
+            'cidade_id' => 'integer|nullable',
+            'statuscliente_id' => 'integer',
+            'rg_file' => 'file|nullable',
+            'passaporte_file' => 'file|nullable',
+            'cnh_file' => 'file|nullable',
+            'endereco_file' => 'file|nullable',                
+        ];
+
+    }
 
     public function getNomeAttribute($value)
     {
         return Str::of($value)->title();
+    }
+
+    public function setTelefoneAttribute($value)
+    {
+        $removed = Str::remove(['(',')','+','-', ' '], $value);
+        $this->attributes['telefone'] = $removed;            
     }
 
     public function getTelefoneAttribute($value)
@@ -72,15 +106,15 @@ class Cliente extends Model
         if(Str::startsWith($value, '(')){
             return $value;
         } else {
-            $adjusted = Str::start($value, '(');
+            $adjusted = Str::start($value, '(+');
             $adjusted =  Str::substrReplace($adjusted, ')',4,0);
             $adjusted =  Str::substrReplace($adjusted, ' ',5,0);
             $adjusted =   Str::substrReplace($adjusted, '-',11,0);
             return Str::substrReplace($adjusted, '-', 15,0);
         }
-        
-
     }
+
+    
 
     public function getCreatedAtAttribute($value)
     {

@@ -9,7 +9,11 @@
         <header>
           <h3>Detalhes do Cliente</h2>
         </header>
-        <form action="{{route('clientes.store')}}" method="post" id="formClientCreate">
+        <form 
+          action="{{route('clientes.store', $cliente->id)}}" 
+          method="post" 
+          id="formClientCreate"
+        >
           @csrf
             <div class="p-2 border-1 shadow">
               <div class="mb-3">
@@ -29,46 +33,40 @@
                   class="form-control" 
                   id="telefone" 
                   name="telefone"
-                  value="{{old('telefone')}}"
+                  value="{{old('telefone')  ?? $cliente->telefone}}"
                   >
               </div>
               <div class="mb-3">
-                <label for="tipo_servico" class="form-label">Demanda:</label>
+                <label for="tiposervico_id" class="form-label">Demanda:</label>
                 <select
                   class="form-select"
-                  name="tipo_servico"
+                  name="tiposervico_id"
                   id="tipo_servico"
                 >
-                <option value="">Selecione</option>
-                @foreach ($services as $item)
-                    <option 
-                      value="{{$item->id}}" {{old('tipo_servico') == $item->id ? 'selected' : ''}}
-                    >
-                      {{$item->nome}}
-                    </option>
-                @endforeach
+                  <option value="">Selecione</option>
+                    @foreach ($services as $item)
+                      <option value="{{$item->id}}">{{$item->nome}}</option>
+                    @endforeach
                 </select>
               </div>
               <div class="mb-3">
-                <label for="estado_brasil" class="form-label">Estado</label>
+                <label for="estadobrasil_id" class="form-label">Estado</label>
                 <select 
                   class="form-select" 
-                  name="estado_brasil" 
+                  name="estadobrasil_id" 
                   id="estado_brasil" 
                 >
                   <option value="">Selecione</option>
-                  @foreach ($states as $item)
-                    <option value="{{$item->id}}">
-                      {{$item->nome}}
-                    </option>                
-                  @endforeach            
+                    @foreach ($states as $item)
+                      <option value="{{$item->id}}">{{$item->nome}}</option>                
+                    @endforeach            
                 </select>
               </div>
               <div class="mb-3">
-                <label for="cidade_brasil" class="form-label">Cidade</label>
+                <label for="cidadebrasil_id" class="form-label">Cidade</label>
                 <select 
                   class="form-select" 
-                  name="cidade_brasil"
+                  name="cidadebrasil_id"
                   id="cidade_brasil"                      
                 >
                   <option value="">Selecione</option>                
@@ -128,7 +126,7 @@
                   </label>
                 </div>
               </div>  
-              <div class="form-floating">
+              {{-- <div class="form-floating">
                 <textarea                       
                   class="form-control" 
                   id="comentario" 
@@ -136,24 +134,24 @@
                   value="{{old('comentario')}}"
                 ></textarea>
                 <label for="comentario">Comentários</label>
-              </div>                      
+              </div>                       --}}
             </div>                          
+            <div class="row d-flex justify-content-center mt-3">
+              <a href="{{route('home')}}" class="col-2 btn btn-mcb me-2">Cancelar</a>  
+              <button type="submit" class="col-2 btn btn-mcb" id="submitButton">Salvar</button>  
+            </div>                
         </form>
-        <div class="row d-flex justify-content-center mt-3">
-          <a href="{{route('home')}}" class="col-2 btn btn-outline-secondary me-2">Cancelar</a>  
-          <button type="submit" class="col-2 btn btn-outline-secondary" id="submitButton">Salvar</button>  
-        </div>                
       </section>                  
     </div>
-    @include('apoio.modals.alertModal')                   
+                     
   </div>      
 </div>
   
-  <script type="text/javascript" src="{{asset('js/cliente/create/manageForm.js')}}"></script> 
+  <script type="text/javascript" src="{{asset('js/cliente/clienteLoadCities.js')}}"></script> 
  
 
 {{-- Script para recuperar old estado e cidade - validacao falhar --}}
- <script type="text/javascript">
+ {{-- <script type="text/javascript">
   $(document).ready(function(){
 
     var urlsLoadCidades = [
@@ -194,5 +192,5 @@
       }
     }
   });
-</script>
+</script> --}}
 @endsection

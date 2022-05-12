@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="container">
+    <div class="container" id="showClient">
       <div class="row mt-4 mx-auto">
         <div class="col-4 mx-auto">
           <input type="hidden" id="clientId" data-id="{{$cliente->id}}">  
@@ -133,8 +133,8 @@
             </svg>
           </p>          
           @endif
-          <a class="btn">Alterar Dados</a>
-          <a class="btn">Criar Ordem Serviço</a>
+          <a class="btn btn-mcb" href="{{route('clientes.edit', $cliente->id)}}">Alterar Dados</a>
+          <a class="btn btn-mcb">Criar Ordem Serviço</a>
         </div>
         {{-- COMMENTS --}}
         <div class="col-4 mx-auto">

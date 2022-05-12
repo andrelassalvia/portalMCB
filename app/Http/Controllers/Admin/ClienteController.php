@@ -14,7 +14,9 @@ use App\Models\Occupation;
 use App\Models\MaritalStatus;
 use App\Models\Comentarios;
 use App\Models\Fornecedor;
+use App\Models\OrdemServico;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ClienteController extends Controller
 {
@@ -23,6 +25,36 @@ class ClienteController extends Controller
     {
         $this->cliente = $cliente;
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function telefoneStore(Request $request)
+    {
+        $tel = $request['telefone'];
+        $tel = Str::remove(['(',')','+','-', ' '], $tel);
+        $states = EstadoBrasil::orderBy('nome')->get();
+        $cities = CidadeBrasil::all();
+        $services = TipoServico::orderBy('nome')->get();
+        // procurar no bd cliente telefone igual
+        $cliente = Cliente::where('telefone', $tel)->get()->first();
+        // se houver ir para edit
+        if($cliente){
+            return view('admin.cliente.edit', compact('cliente'));
+        } else {
+            $clienteId = DB::table('cliente')->insertGetId([
+                'telefone' => $tel,
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]);
+            return redirect()->route('clientes.edit', $clienteId);
+        }
+        // nao havendo cadastrar cliente
+
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -49,93 +81,222 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function telephone()
     {
-        $states = EstadoBrasil::orderBy('nome')->get();
-        $cities = CidadeBrasil::all();
-        $services = TipoServico::orderBy('nome')->get();
-        
-        return view ('admin.cliente.create', compact('states', 'cities', 'services'));
+        return view('admin.cliente.telephone');
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function telephoneStore(Request $request)
     {
+        // data necessary case redirect to edit client
+        $states = EstadoBrasil::orderBy('nome')->get();
+        $cities = CidadeBrasil::all();
+        $services = TipoServico::orderBy('nome')->get();
+
+        // request from telephone.blade
         $validated = $request->validate(
             [
-                'nome' => array(
-                    'required',
-                    'min:3',
-                    'max:40',
-                    'regex:/[a-zA-Z]/'
-                ),
                 'telefone' => array(
                     'required',
-                    'regex:/[+0-9]/',
-                    'size:14'
-
+                    'regex:/[-+()0-9]/'
                 ),
-                'tipo_servico' => 'required|integer',
-                'estado_brasil' => 'nullable|integer',
-                'cidade_brasil' => 'nullable|integer',
-                'firma_aberta' => 'boolean',
-                'cnh' => 'boolean',
-                'cpf' => 'boolean',
-                'certificacao_digital' => 'boolean',
-                'comentario' => 'nullable|min:3|max:1000'                
-            ], 
-            ['tipo_servico.required' => 'O campo demanda é obrigatório']
+            ]
         );
-                
-        // Check Database
+
+        // clean the phone number
         $tel = $validated['telefone'];
-        $check = Cliente::where('telefone', $tel)->get()->first();
-        if($check) {
-            return response()->json(['errors' => 'Cliente já cadastrado']);
+        $tel = Str::remove(['(',')','+','-', ' ', '/', '*', '.'], $tel);
+
+        // check if the phone length is ok
+        $length = Str::length($tel);
+        if($length < 12){
+            return redirect()
+            ->route('clientes.telephone')
+            ->withErrors(['errors' => 'Não esqueça o código do país'])
+            ->withInput();
+        }
+
+        // check if the phone already exists
+        $cliente = Cliente::where('telefone', $tel)->get()->first();
+
+        // if client exists call it and edit
+        if($cliente){
+            return view(
+                'admin.cliente.edit', 
+                compact('cliente', 'states', 'cities', 'services')
+            );
+            
+            // if not create an id and redirect to create blade
         } else {
+            $clienteId = DB::table('cliente')
+                ->insertGetId(
+                [
+                        'telefone' => $tel,
+                        'nome' => '',
+                        'firma_aberta' => 0,
+                        'cnh' => 0,
+                        'cpf' => 0,
+                        'certificacao_digital' => 0,
+                        'created_at' => Carbon::now()->toDateTimeString()
+                    ]
+            );
+            $cliente = Cliente::find($clienteId);
+            return view(
+                'admin.cliente.create', 
+                compact('cliente', 'states', 'cities', 'services')
+            );
+        }
+    }
 
-            $clienteId = DB::table('cliente')->insertGetId([
-                'nome' => $validated['nome'],
-                'telefone' => $validated['telefone'],
-                'firma_aberta' => $validated['firma_aberta'],
-                'cnh' => $validated['cnh'],
-                'cpf' => $validated['cpf'],
-                'certificacao_digital' => $validated['certificacao_digital'],
-                'estadobrasil_id' => $validated['estado_brasil'],
-                'cidadebrasil_id' => $validated['cidade_brasil'],  
-                'created_at' => Carbon::now()->toDateTimeString()                            
-            ]);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
 
-            if($validated['comentario']){
-                DB::table('comentarios')->insert([
-                    'cliente_id' => $clienteId,
-                    'comentario' => $validated['comentario'],
-                    'created_at' => Carbon::now()->toDateTimeString()
-                ]);
-            }
+    }
 
-            if($validated['tipo_servico']){
-                DB::table('ordem_servico')->insert([
-                    'tiposervico_id' => $validated['tipo_servico'],
-                    'cliente_id' => $clienteId
-                ]);
-            } 
+    /**
+     * Store a newly created resource in storage.
+     * came from telephone blade
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, $id)
+    {
+        // to select some rules from client model
+        $dynamicRules = array();
+            foreach($this->cliente->rules() as $input => $rule){
+                if(array_key_exists($input, $request->all())){
+                    $dynamicRules[$input] = $rule;
+                }
+            }  
+        
+            // validate request and update cliente
+        $validated = $request->validate($dynamicRules);
+        $cliente = $this->cliente->find($id);
+        $updated = $cliente->update($validated);
+
+        // bind a type of service in this client
+        $service = $request['tiposervico_id'];
+
+        OrdemServico::create(
+            [
+                'cliente_id' => $id,
+                'tiposervico_id' => $service
+            ]
+        );
+
+        // in case update sucecessfull
+        if($updated){
+            return redirect()
+                ->route('ordens.create', ['id' => $id])
+                ->with(
+                    [
+                        'success' => 'Cliente inserido com sucesso. Deseja iniciar uma ordem de serviço agora?',
+                        
+                    ]
+                )
+                ->withInput();
+        } else {
+            return redirect()
+                ->route('clientes.create')
+                ->withErrors(
+                    [
+                        'client_errors' => 'Falha no cadastramento.'
+                    ]
+                )
+                ->withInput();
+        }
+        
+
+        
+
+        
+
+        
+
+         
+
+
+        // $validated = $request->validate(
+        //     [
+        //         'nome' => array(
+        //             'required',
+        //             'min:3',
+        //             'max:40',
+        //             'regex:/[a-zA-Z]/'
+        //         ),
+        //         'telefone' => array(
+        //             'required',
+        //             'regex:/[+0-9]/'
+        //         ),
+        //         'tipo_servico' => 'required|integer',
+        //         'estado_brasil' => 'nullable|integer',
+        //         'cidade_brasil' => 'nullable|integer',
+        //         'firma_aberta' => 'boolean',
+        //         'cnh' => 'boolean',
+        //         'cpf' => 'boolean',
+        //         'certificacao_digital' => 'boolean',
+        //         'comentario' => 'nullable|min:3|max:1000'                
+        //     ], 
+        //     ['tipo_servico.required' => 'O campo demanda é obrigatório']
+        // );
+                
+        // // Check Database
+        // $tel = $validated['telefone'];
+        // $check = Cliente::where('telefone', $tel)->get()->first();
+        // if($check) {
+        //     return response()->json(['errors' => 'Cliente já cadastrado']);
+        // } else {
+
+        //     $clienteId = DB::table('cliente')->insertGetId([
+        //         'nome' => $validated['nome'],
+        //         'telefone' => $validated['telefone'],
+        //         'firma_aberta' => $validated['firma_aberta'],
+        //         'cnh' => $validated['cnh'],
+        //         'cpf' => $validated['cpf'],
+        //         'certificacao_digital' => $validated['certificacao_digital'],
+        //         'estadobrasil_id' => $validated['estado_brasil'],
+        //         'cidadebrasil_id' => $validated['cidade_brasil'],  
+        //         'created_at' => Carbon::now()->toDateTimeString()                            
+        //     ]);
+
+
+        //     if($validated['comentario']){
+        //         DB::table('comentarios')->insert([
+        //             'cliente_id' => $clienteId,
+        //             'comentario' => $validated['comentario'],
+        //             'created_at' => Carbon::now()->toDateTimeString()
+        //         ]);
+        //     }
+
+        //     if($validated['tipo_servico']){
+        //         DB::table('ordem_servico')->insert([
+        //             'tiposervico_id' => $validated['tipo_servico'],
+        //             'cliente_id' => $clienteId
+        //         ]);
+        //     } 
                                                
-            if($clienteId){
-                return response()->json([
-                    'success' => 'Cliente cadastrado com sucesso'
-                ]);
-            } else {
-                return response()->json([
-                    'failed' => 'Falha no cadastramento'
-                ]);
-            }
-        }            
+        //     if($clienteId){
+        //         return response()->json([
+        //             'success' => 'Cliente cadastrado com sucesso'
+        //         ]);
+        //     } else {
+        //         return response()->json([
+        //             'failed' => 'Falha no cadastramento'
+        //         ]);
+        //     }
+        // }            
     }
 
     /**
@@ -160,32 +321,11 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
-        $ordem = $cliente->ordens()->get();  
+        $services = TipoServico::orderBy('nome')->get();
         $states = EstadoBrasil::orderBy('nome')->get();
         $cities = CidadeBrasil::all();
-        $countries = Pais::orderBy('nome')->get();
-        $demandas = TipoServico::orderBy('nome')->get();
-        $today = Carbon::now()->parse()->format('Y-m-d');        
-        $occupations = Occupation::orderBy('nome')->get();
-        $maritalStatus = MaritalStatus::orderBy('nome')->get();
-        $providers = Fornecedor::with(['estadoBrasil'])            
-            ->get();
         
-
-        return 
-            view ('admin.ordem.create',   compact(
-                'states', 
-                'cities', 
-                'countries', 
-                'cliente', 
-                'demandas', 
-                'today',
-                'ordem',
-                'occupations',
-                'maritalStatus',
-                'providers'
-                )
-            );        
+        return view('admin.cliente.edit', compact('cliente', 'services', 'states', 'cities'));             
     }
 
     /**
@@ -195,78 +335,46 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) // recebe valores de ORDEM CREATE BLADE
+    {                                             // recebe valores de CLIENTE EDIT BLADE
         $cliente = $this->cliente->find($id);
+        $tipoServico = $request['tipo_servico'];
 
-        // Validation rules
-        $dataForm = $request->validate(
-            [
-                'nome' => 'required|min:3|max:50|string',
-                'telefone' =>'required',
-                'email' => 'email|nullable',
-                'data_nascimento' => 'date|nullable',
-                'occupation_id' => 'integer|nullable',
-                'maritalstatus_id' => 'integer|nullable',
-                'firma_aberta' => 'boolean',
-                'cnh' => 'boolean',
-                'cpf' => 'boolean',
-                'certificacao_digital' => 'boolean',
-                'rg' => 'boolean',
-                'passaporte' => 'boolean',
-                'estadobrasil_id' => 'integer|nullable',
-                'cidadebrasil_id' => 'integer|nullable',
-                'pais_id' => 'integer|nullable',
-                'cidade_id' => 'integer|nullable',
-                'rg_file' => 'file|nullable',
-                'passaporte_file' => 'file|nullable',
-                'cnh_file' => 'file|nullable',
-                'endereco_file' => 'file|nullable',                
-                'statuscliente_id' => 'integer'
-            ]
-        );
-        $tel = $dataForm['telefone'];
-        
-        // Check wether is the same client or not
-        $lookFor = $this->cliente
-            ->where('telefone', $tel)
-            ->where('id', '<>', $id)
-            ->get()
-            ->first();
-        
-        if($lookFor !== null){
+        if($cliente === null){
             return redirect()
-                ->route('ordens.create')
-                ->withErrors(
-                    [
-                        'errors' => 'Cliente não encontrado no banco de dados. Cadastrá-lo novamente.'
-                    ]
-                )
-                ->withInput();
-        } else {
+            ->route('clientes.edit')
+            ->withErrors(
+                [
+                    'errors' => 'Cliente não encontrado no banco de dados. Cadastrá-lo novamente.'
+                ]
+            )
+            ->withInput();
+        } else if($request->method() === 'PATCH'){
+            $dynamicRules = array();
             
-            $update = $cliente->update($dataForm);       
-            if($update){
-                
-                return response()->json(
-                    array(
-                        'client' => array(
-                            'success' => true,
-                            'message' => 'Dados do cliente atualizados com sucesso'
-                        ),
-                    )
-                );
-            } else {
-                return response()->json(
-                    array(
-                        'client' => array(
-                            'success' => false,
-                            'message' => 'Falha na atualização dos dados do cliente.'
-                        ),
-                    )
-                );
-            }      
+            foreach($cliente->rules() as $input => $rule){
+                if(array_key_exists($input, $request->all())){
+                    $dynamicRules[$input] = $rule;
+                }
+            }  
+            $request->validate($dynamicRules);
+        } else {
+            $request->validate($cliente->rules());
+
         }
+            $update = $cliente->update($request->all());
+ 
+            if($update){
+            return redirect()
+                ->route('clientes.last')
+                ->with(['success' => 'Dados do cliente alterados com sucesso'])
+                ->withInput();                
+            } else {
+                return redirect()
+                    ->route('clientes.edit')
+                    ->withErrors(['errors' => 'Falha na alteração. Tente novamente'])
+                    ->withInput();
+            }              
     }
     /**
      * Remove the specified resource from storage.
@@ -287,7 +395,7 @@ class ClienteController extends Controller
                     ->orderBy('nome', 'ASC')
                     ->get();
 
-        return response()->json($cidades);
+        return view('admin.cliente.loadCidade', compact('cidades'));;
 
     }
 

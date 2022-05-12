@@ -14,7 +14,7 @@
             <th scope="col">Data</th>
             <th scope="col">Nome</th>
             <th scope="col">Telefone</th>
-            <th scope="col">Demanda</th>
+            {{-- <th scope="col">Demanda</th> --}}
             <th scope="col">Firma</th>
             <th scope="col">CNH</th>
             <th scope="col">CPF</th>                    
@@ -36,7 +36,7 @@
                 <th scope="row">{{$item->created_at}}</th>
                 <td data-nome="{{$item->id}}">{{$item->nome}}</td>
                 <td style="font-size: small">{{$item->telefone}}</td>
-                <td>{{$item->ordens[0]->tipoServico->nome}}</td>
+                {{-- <td>{{$item->ordens[0]->tipoServico->nome}}</td> --}}
                 <td>                  
                     @if ($item->firma_aberta == 1)
                       <svg 

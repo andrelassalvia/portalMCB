@@ -10,7 +10,7 @@
 <div id="commentClientFooter" class="d-flex justify-content-end me-3">
   <button 
     type="button" 
-    class="btn" 
+    class="btn btn-mcb" 
     id="clientModalNewComment"
   >
     Inserir Comentário

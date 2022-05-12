@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterFornecedorClassificacaoIdDropColumn extends Migration
+class AlterClienteDropClassificacaoIdColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AlterFornecedorClassificacaoIdDropColumn extends Migration
      */
     public function up()
     {
-        schema::table('fornecedor', function(Blueprint $table){
-            $table->dropForeign('fornecedor_classificacao_id_foreign');
+        schema::table('cliente', function(Blueprint $table){
+            $table->dropForeign('cliente_classificacao_id_foreign');
             $table->dropColumn('classificacao_id');
         });
     }

@@ -11600,6 +11600,16 @@ main.open {
   left: 88px;
 }
 
+.btn-mcb:hover {
+  background-color: var(--primary-color) !important;
+  color: var(--sidebar-color) !important;
+}
+
+.btn-mcb {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
 .modal-title #clientDetailsModalTitle {
   color: #212529;
 }
@@ -11684,21 +11694,29 @@ tr {
 .container .row select {
   color: var(--primary-color);
 }
-.container .row .btn:hover {
-  background-color: var(--primary-color) !important;
-  color: var(--sidebar-color) !important;
-}
-.container .row .btn {
-  color: var(--primary-color);
-  border-color: var(--primary-color);
+
+#showClient {
+  margin-top: 10vh;
 }
 
+.modal-body p {
+  font-size: 16px;
+  color: var(--primary-color);
+}
 .modal-body .row {
   align-items: center;
 }
 .modal-body .row div .form-text {
   font-size: 1.1em;
-  color: #363b3b;
+  color: var(--primary-color);
+}
+
+.modal-header {
+  background-color: var(--primary-color);
+  color: var(--sidebar-color);
+}
+.modal-header .btn-close {
+  color: var(--sidebar-color) !important;
 }
 
 :root {
