@@ -41,7 +41,10 @@
               <div class="mb-2">
                 <label for="fornecedorCreateEstadoBrasil" class="form-label">Estado:</label>
                 <select name="estadobrasil_id" id="fornecedorCreateEstadoBrasil" class="form-select">
-                  <option value="">Selecione</option>                  
+                  <option value="">Selecione</option>   
+                  @foreach ($estados as $item)
+                    <option value="{{$item->id}}">{{$item->nome}}</option>   
+                  @endforeach               
                 </select>
               </div>
               <div class="mb-2">
@@ -56,7 +59,7 @@
       </div>
       <div class="modal-footer">
         <a 
-          class="btn btn-sm btn-secondary" 
+          class="btn btn-sm btn-mcb" 
           type="button"
           id="btn-fornecedor-dismiss"
         >
@@ -65,7 +68,7 @@
         <a 
           id="btn-fornecedor-create" 
           type="button" 
-          class="btn btn-primary btn-sm"          
+          class="btn btn-mcb btn-sm"          
         >
           Salvar
         </a>           

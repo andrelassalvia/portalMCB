@@ -2,9 +2,6 @@
 
 @section('content')
 
-{{-- ESTE EDIT, VISTO QUE CLIENTE JA EXISTE, NAO PODE SER SOMENTE COM OS DADOS INICIAIS DE CONTATO
-  REFAZER COM A MESMA BASE DE ORDEM CREATE BLADE A PARTE DE CLIENTES --}}
-
 <div class="container">
   <div class="row">
     <div class="col-lg-8 p-3 ps-xl-4 mx-auto">          

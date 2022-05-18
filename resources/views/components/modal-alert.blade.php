@@ -11,8 +11,24 @@
         </div>
         <div class="modal-footer">
           {{ $msg }} 
-          <button type="button" class="btn btn-mcb" id="cancelButton">{{$btncancel}}</button>      
-          <button type="button" class="btn btn-mcb" id="okButton">{{$btnok}}</button>
+          @isset($btncancel)
+          <button 
+            type="button" 
+            class="btn btn-mcb" 
+            @empty($btncancel)
+            style="opacity: 0" 
+            @endempty
+            id="cancelButton"
+          >
+            {{$btncancel}}
+          </button>
+          @endisset
+          <button 
+            type="button" 
+            class="btn btn-mcb" 
+            id="okButton"
+          >
+            {{$btnok}}</button>
         </div>
       </div>
     </div>

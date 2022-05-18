@@ -4,14 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\OrdemServico;
 use App\Models\Cliente;
 use App\Models\Comentarios;
-use App\Models\Occupation;
-use App\Models\MaritalStatus;
+use App\Models\CidadeBrasil;
 use App\Models\EstadoBrasil;
+use App\Models\Fornecedor;
+use App\Models\MaritalStatus;
+use App\Models\Occupation;
+use App\Models\OrdemServico;
 use App\Models\Pais;
 use App\Models\TipoServico;
+use Barryvdh\Debugbar\Facade as Debugbar;
+
 
 class OrdemController extends Controller
 {
@@ -39,25 +43,28 @@ class OrdemController extends Controller
     {
 
         $cliente = Cliente::find($id);
-        $occupations = Occupation::all();
-        $maritalStatus = MaritalStatus::all();
-        $states = EstadoBrasil::all();
-        $countries = Pais::all();
-        
-        $demandas = TipoServico::all();
-        // dd($cliente);
-        // foreach ($cliente as $key => $value) {
-        //     dd([$key => $value]);
-        // }
+        Debugbar::info("Ordem",$cliente->ordens[0]);
+        $ordemId = $cliente->ordens[0]->id;
+        $ordem = $cliente->ordens[0];
+        $occupations = Occupation::orderBy('nome')->get();
+        $maritalStatus = MaritalStatus::orderBy('nome')->get();
+        $estados = EstadoBrasil::orderBy('nome')->get();
+        $countries = Pais::orderBy('nome')->get();        
+        $demandas = TipoServico::orderBy('nome')->get();
+        $providers = Fornecedor::all();
+       
         return view(
             'admin.ordem.createCopy', 
             compact(
                 'cliente', 
                 'occupations', 
                 'maritalStatus', 
-                'states', 
+                'estados',
                 'countries', 
-                'demandas'
+                'demandas',
+                'ordemId',
+                'ordem',
+                'providers'
             )
         );
     }

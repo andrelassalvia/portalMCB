@@ -23,14 +23,15 @@
     </div>
   </x-modal-alert>
   <script type="text/javascript">
-    $(function(){
-      $('#alertModal').modal('show');
-      $('#okButton').on('click', function(){
-        $('#telefoneStore').submit();
-      });
-      $('#cancelButton').on('click', function(){
-        $('#alertModal').modal('hide');
-      });
+  $(function () {
+    $("#alertModal").modal("show");
+    $("#okButton").on("click", function () {
+        $("#telefoneStore").submit();
     });
-    </script>
+    $("#cancelButton").on("click", function () {
+        $("#alertModal").modal("hide");
+        window.location.href = "{{route('clientes.last')}}";
+    });
+});
+  </script>
 @endsection

@@ -11610,6 +11610,11 @@ main.open {
   border-color: var(--primary-color);
 }
 
+.card-header {
+  background-color: var(--primary-color) !important;
+  color: var(--sidebar-color);
+}
+
 .modal-title #clientDetailsModalTitle {
   color: #212529;
 }
@@ -11885,6 +11890,7 @@ tr {
 
 #select-provider-button {
   height: 25px;
+  padding: 0.15rem 0.5rem;
 }
 
 #providerModal .modal-header {

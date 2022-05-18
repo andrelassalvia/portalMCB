@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Fornecedor;
 use App\Models\EstadoBrasil;
+use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Support\Facades\DB;
 
 class FornecedorController extends Controller
@@ -30,8 +31,9 @@ class FornecedorController extends Controller
      */
     public function create()
     {
-        $state = EstadoBrasil::orderBy('nome', 'asc')->get();
-        return response()->json($state);
+        // $estado = EstadoBrasil::orderBy('nome', 'asc')->get();
+        // DebugBar::info($estado);
+        return view('admin.fornecedor.modal.create', compact('estado'));
     }
 
     /**

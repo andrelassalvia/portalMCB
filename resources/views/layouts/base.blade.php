@@ -70,25 +70,25 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                               <li><a class="dropdown-item" href="{{route('clientes.last')}}">Últimos contatos</a></li>
                               <li><a class="dropdown-item" href="{{route('clientes.telephone')}}">Novo cliente</a></li>
-                              <li><a class="dropdown-item" href="#">Lista clientes</a></li>
+                              <li><a class="dropdown-item" href="{{route('clientes.index')}}">Lista clientes</a></li>
                             </ul>
                           </li>
                           <li class="nav-link">
                             <a href="#">
                               <i class="bx bx-bell icon"></i>
-                              <span class="text nav-text">Notifications</span>
+                              <span class="text nav-text">Ordens Serviço</span>
                             </a>
                           </li>
                           <li class="nav-link">
                             <a href="#">
                               <i class="bx bx-pie-chart-alt icon"></i>
-                              <span class="text nav-text">Analytics</span>
+                              <span class="text nav-text">Fornecedores</span>
                             </a>
                           </li>
                           <li class="nav-link">
                             <a href="#">
                               <i class="bx bx-heart icon"></i>
-                              <span class="text nav-text">Likes</span>
+                              <span class="text nav-text">Apoio</span>
                             </a>
                           </li>
                           <li class="nav-link">

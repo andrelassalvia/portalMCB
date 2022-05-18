@@ -16,7 +16,7 @@ $(function () {
         toogleViews();
     });
 
-    // SELECT PROVIDER
+    // CREATE PROVIDER
 
     $("#fornecedorIndexInsertButton").on("click", function () {
         const urlEstado = [
@@ -34,40 +34,59 @@ $(function () {
             $("#providerModal").modal("hide");
         });
 
+        // REFAZER A INSERCAO DADOS ESTADO E CIDADES
         // Load Estado Brail dropdown
-        $.each(urlEstado, function (i, u) {
-            $.ajax(u, {
-                type: "get",
-                success: function (response) {
-                    $.each(response, function (m, n) {
-                        let option = `
-                              <option value='${n.id}'>${n.nome}</option>
-                         `;
-                        $("#fornecedorCreateEstadoBrasil").append(option);
-                    });
-                },
-                error: function (err) {},
-            });
-        });
+        // $.each(urlEstado, function (i, u) {
+        //     $.ajax(u, {
+        //         type: "get",
+        //         success: function (response) {
+        //             $.each(response, function (m, n) {
+        //                 let option = `
+        //                       <option value='${n.id}'>${n.nome}</option>
+        //                  `;
+        //                 $("#fornecedorCreateEstadoBrasil").append(option);
+        //             });
+        //         },
+        //         error: function (err) {},
+        //     });
+        // });
 
         // Load Cidades Brasil dropdown
-        $("#fornecedorCreateEstadoBrasil").on("change", function () {
-            const stateLoaded = $(this).val();
-            $.each(urlsLoadCidades, function (i, u) {
-                $.ajax(u + stateLoaded, {
-                    type: "get",
-                    success: function (response) {
-                        $.each(response, function (i, c) {
-                            let option = `
-                          <option value='${c.id}'>${c.nome}</option>  
-                        `;
-                            $("#fornecedorCreateCidadeBrasil").append(option);
-                        });
-                    },
-                    error: function (err) {},
+        const loadCities = function (id, url, cityId) {
+            let stateId = "";
+            $(id).on("change", function () {
+                stateId = $(this).val();
+                $.each(url, function (i, u) {
+                    $.ajax(u + stateId, {
+                        success: function (response) {
+                            $(cityId).html(response);
+                        },
+                    });
                 });
             });
-        });
+        };
+        loadCities(
+            "#fornecedorCreateEstadoBrasil",
+            urlsLoadCidades,
+            "#cidade_brasil"
+        );
+        // $("#fornecedorCreateEstadoBrasil").on("change", function () {
+        //     const stateLoaded = $(this).val();
+        //     $.each(urlsLoadCidades, function (i, u) {
+        //         $.ajax(u + stateLoaded, {
+        //             type: "get",
+        //             success: function (response) {
+        //                 $.each(response, function (i, c) {
+        //                     let option = `
+        //                   <option value='${c.id}'>${c.nome}</option>
+        //                 `;
+        //                     $("#fornecedorCreateCidadeBrasil").append(option);
+        //                 });
+        //             },
+        //             error: function (err) {},
+        //         });
+        //     });
+        // });
     });
 
     // Clicking on save button

@@ -6,17 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
-use App\Models\Pais;
 use App\Models\TipoServico;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cliente;
-use App\Models\Occupation;
-use App\Models\MaritalStatus;
 use App\Models\Comentarios;
-use App\Models\Fornecedor;
 use App\Models\OrdemServico;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 
 class ClienteController extends Controller
 {
@@ -34,8 +32,9 @@ class ClienteController extends Controller
      */
     public function telefoneStore(Request $request)
     {
-        $tel = $request['telefone'];
-        $tel = Str::remove(['(',')','+','-', ' '], $tel);
+        // mutate telephone input
+        $tel = Str::remove(['(',')','+','-', ' '], $request['telefone']);
+        
         $states = EstadoBrasil::orderBy('nome')->get();
         $cities = CidadeBrasil::all();
         $services = TipoServico::orderBy('nome')->get();
@@ -51,10 +50,7 @@ class ClienteController extends Controller
             ]);
             return redirect()->route('clientes.edit', $clienteId);
         }
-        // nao havendo cadastrar cliente
-
     }
-
 
     /**
      * Display a listing of the resource.
@@ -63,7 +59,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
+        $clientes = Cliente::all();
         
+        return view('admin.cliente.index', compact('clientes'));
     }
 
     public function indexLast()
@@ -202,7 +200,7 @@ class ClienteController extends Controller
                 ->route('ordens.create', ['id' => $id])
                 ->with(
                     [
-                        'success' => 'Cliente inserido com sucesso. Deseja iniciar uma ordem de serviço agora?',
+                        'client_success' => 'Cliente inserido com sucesso. Deseja iniciar uma ordem de serviço agora?',
                         
                     ]
                 )
@@ -212,7 +210,7 @@ class ClienteController extends Controller
                 ->route('clientes.create')
                 ->withErrors(
                     [
-                        'client_errors' => 'Falha no cadastramento.'
+                        'errors' => 'Falha no cadastramento.'
                     ]
                 )
                 ->withInput();
@@ -321,9 +319,13 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
-        $services = TipoServico::orderBy('nome')->get();
         $states = EstadoBrasil::orderBy('nome')->get();
-        $cities = CidadeBrasil::all();
+        $services = TipoServico::orderBy('nome')->get();
+
+        // Load only cities from the client state - reduce the amount of registers
+        $cityIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');
+        $cityIdEnd = Str::padRight($cliente->estadobrasil_id, 7, '9');
+        $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
         
         return view('admin.cliente.edit', compact('cliente', 'services', 'states', 'cities'));             
     }
@@ -336,9 +338,10 @@ class ClienteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) // recebe valores de ORDEM CREATE BLADE
-    {                                             // recebe valores de CLIENTE EDIT BLADE
+    {      
         $cliente = $this->cliente->find($id);
         $tipoServico = $request['tipo_servico'];
+
 
         if($cliente === null){
             return redirect()
@@ -395,8 +398,7 @@ class ClienteController extends Controller
                     ->orderBy('nome', 'ASC')
                     ->get();
 
-        return view('admin.cliente.loadCidade', compact('cidades'));;
-
+        return view('admin.cliente.loadCidade', compact('cidades'));
     }
 
     public function loadCities($country)
@@ -407,8 +409,7 @@ class ClienteController extends Controller
                     ->orderBy('nome')
                     ->get();
 
-        return response()->json($cities);
-
+        return view('admin.cliente.loadCidade', compact('cities'));
     }
 
     public function inactive($id)

@@ -1,11 +1,8 @@
-{{-- @extends('layouts.base')
-
-@section('content') --}}
-
   <div class="container">
     <div class="row">      
-      <section id="fornecedoresIndexLista" title="Lista de fornecedores">
-        <table class="table table-hover" id="fornecedoresTable">
+      <section id="fornecedoresIndexLista" title="Lista de fornecedores" class="home-clients-list">
+        <h3>Lista de Fornecedores</h3>
+        <table class="table table-hover table-borderless mx-auto" id="fornecedoresTable">
           <thead>
             <tr>
               <th scope="col">Nome</th>
@@ -19,7 +16,7 @@
               <th>
                 <a 
                   id="fornecedorIndexInsertButton"
-                  class="btn btn-primary btn-sm"                   
+                  class="btn btn-success btn-sm"                   
                   title="Inserir novo fornecedor"
                 >
                   Novo
@@ -66,7 +63,7 @@
                   <td>{{$item->email}}</td>    
                   <td>
                     <a 
-                      class="btn btn-sm btn-outline-dark choose-provider-button"                         
+                      class="btn btn-sm btn-mcb choose-provider-button"                         
                       id=""
                       title="Selecionar este fornecedor"
                       data-value="{{$item->id}}"  
@@ -79,11 +76,5 @@
             @endforeach            
           </tbody>
         </table>
-      {{-- </section> --}}
-
-      
     </div>
   </div>
-
-  {{-- <script type="text/javascript" src="{{asset('js/fornecedor/index/manageProvider.js')}}"></script> --}}
-{{-- @endsection --}}
