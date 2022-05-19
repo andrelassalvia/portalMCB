@@ -33,7 +33,10 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::with(['ordens', 'statusCliente'])
+        ->whereIn('statuscliente_id', [1,2,3,4])
+        ->orderBy('created_at', 'desc')
+        ->get();  
         
         return view('admin.cliente.index', compact('clientes'));
     }
@@ -207,86 +210,6 @@ class ClienteController extends Controller
                 )
                 ->withInput();
         }
-        
-
-        
-
-        
-
-        
-
-         
-
-
-        // $validated = $request->validate(
-        //     [
-        //         'nome' => array(
-        //             'required',
-        //             'min:3',
-        //             'max:40',
-        //             'regex:/[a-zA-Z]/'
-        //         ),
-        //         'telefone' => array(
-        //             'required',
-        //             'regex:/[+0-9]/'
-        //         ),
-        //         'tipo_servico' => 'required|integer',
-        //         'estado_brasil' => 'nullable|integer',
-        //         'cidade_brasil' => 'nullable|integer',
-        //         'firma_aberta' => 'boolean',
-        //         'cnh' => 'boolean',
-        //         'cpf' => 'boolean',
-        //         'certificacao_digital' => 'boolean',
-        //         'comentario' => 'nullable|min:3|max:1000'                
-        //     ], 
-        //     ['tipo_servico.required' => 'O campo demanda é obrigatório']
-        // );
-                
-        // // Check Database
-        // $tel = $validated['telefone'];
-        // $check = Cliente::where('telefone', $tel)->get()->first();
-        // if($check) {
-        //     return response()->json(['errors' => 'Cliente já cadastrado']);
-        // } else {
-
-        //     $clienteId = DB::table('cliente')->insertGetId([
-        //         'nome' => $validated['nome'],
-        //         'telefone' => $validated['telefone'],
-        //         'firma_aberta' => $validated['firma_aberta'],
-        //         'cnh' => $validated['cnh'],
-        //         'cpf' => $validated['cpf'],
-        //         'certificacao_digital' => $validated['certificacao_digital'],
-        //         'estadobrasil_id' => $validated['estado_brasil'],
-        //         'cidadebrasil_id' => $validated['cidade_brasil'],  
-        //         'created_at' => Carbon::now()->toDateTimeString()                            
-        //     ]);
-
-
-        //     if($validated['comentario']){
-        //         DB::table('comentarios')->insert([
-        //             'cliente_id' => $clienteId,
-        //             'comentario' => $validated['comentario'],
-        //             'created_at' => Carbon::now()->toDateTimeString()
-        //         ]);
-        //     }
-
-        //     if($validated['tipo_servico']){
-        //         DB::table('ordem_servico')->insert([
-        //             'tiposervico_id' => $validated['tipo_servico'],
-        //             'cliente_id' => $clienteId
-        //         ]);
-        //     } 
-                                               
-        //     if($clienteId){
-        //         return response()->json([
-        //             'success' => 'Cliente cadastrado com sucesso'
-        //         ]);
-        //     } else {
-        //         return response()->json([
-        //             'failed' => 'Falha no cadastramento'
-        //         ]);
-        //     }
-        // }            
     }
 
     /**

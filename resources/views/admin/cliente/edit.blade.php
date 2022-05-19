@@ -171,6 +171,10 @@
   </div>      
 </div>
   
- <script type="text/javascript" src="{{asset('js/cliente/clienteLoadCities.js')}}"></script> 
+<script 
+  type="text/javascript" 
+  src="{{asset('js/clienteLoadCities.js')}}"
+>
+</script> 
                  
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    {{-- trigger modal --}}
+  {{-- trigger modal to insert a new client telephone --}}
   <x-modal-alert btncancel="Cancelar" btnok="Ok">
     <x-slot name="title">Insira o telefone do cliente:</x-slot>
     <div class="container">
@@ -22,16 +22,9 @@
       </x-slot>
     </div>
   </x-modal-alert>
-  <script type="text/javascript">
-  $(function () {
-    $("#alertModal").modal("show");
-    $("#okButton").on("click", function () {
-        $("#telefoneStore").submit();
-    });
-    $("#cancelButton").on("click", function () {
-        $("#alertModal").modal("hide");
-        window.location.href = "{{route('clientes.last')}}";
-    });
-});
+  <script 
+    type="text/javascript"
+    src="{{asset('js/alertModal.js')}}"
+    >
   </script>
 @endsection

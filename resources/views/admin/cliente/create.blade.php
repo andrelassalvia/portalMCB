@@ -146,51 +146,10 @@
   </div>      
 </div>
 
-  
-  <script type="text/javascript" src="{{asset('js/cliente/clienteLoadCities.js')}}"></script> 
+<script 
+  type="text/javascript" 
+  src="{{asset('js/clienteLoadCities.js')}}"
+>
+</script> 
  
-
-{{-- Script para recuperar old estado e cidade - validacao falhar --}}
- {{-- <script type="text/javascript">
-  $(document).ready(function(){
-
-    var urlsLoadCidades = [
-        'http://192.168.1.85:8000/clientes/load_cidades/',
-        'http://localhost:8000/clientes/load_cidades/',
-      ]; 
-
-    var oldEstado = '{{old('estado_brasil')}}';
-    var oldCidade = '{{old('cidade_brasil')}}';
-  
-    if(oldEstado !==''){
-      $('#estado_brasil').val(oldEstado);
-      
-      if(oldCidade !==''){
-        $('#cidade_brasil').find('option').remove();
-        $.each(urlsLoadCidades, function(i, u){
-
-          $.ajax(u+oldEstado, {
-
-            dataType:'json',
-            type:'get',
-            success:function(data){
-              
-              for (let i = 0; i < data.length; i++) {
-                const elementId = data[i].id;
-                const elementName = data[i].nome;
-                
-                if(elementId == oldCidade){
-                  
-                  var option = "<option value='"+elementId+"'>"+elementName+"</option>";
-                  
-                  $('#cidade_brasil').append(option);
-                }                
-              }
-            }
-          });
-        });
-      }
-    }
-  });
-</script> --}}
 @endsection

@@ -1,3 +1,7 @@
+{{-- HTML to show modal with validation error when creating a new client
+  It's necessary because the regular behavior is return to back page when 
+  errors is showing. 
+  We need a fresh page to show validation errors to avoid conflict --}}
 @extends('layouts.base')
 
 @section('content')
@@ -12,12 +16,15 @@
   </x-modal-alert>
   @endif
 
-  <script>
-    $(function(){
-      $('#alertModal').modal('show');
-      $('#okButton').on('click', function(){
-        window.history.back();
-      });
-    });
+  <script
+    type="text/javascript"
+    src="{{asset('js/alertModal.js')}}"
+    >
   </script>
+  {{-- $(function(){
+    $('#alertModal').modal('show');
+    $('#okButton').on('click', function(){
+      window.history.back();
+    });
+  }); --}}
 @endsection
