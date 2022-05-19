@@ -32,7 +32,7 @@ Route::prefix('/clientes')
             route::get('/last', 'indexLast')->name('clientes.last');
             route::get('/telephone', 'telephone')->name('clientes.telephone');
             route::post('/telephone', 'telephoneStore')->name('clientes.telephoneStore');
-            route::get('/create', 'create')->name('clientes.create');
+            route::get('/create/{validated?}', 'create')->name('clientes.create');
             route::post('/{id?}', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');

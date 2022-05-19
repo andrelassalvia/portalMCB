@@ -123,6 +123,13 @@ class Cliente extends Model
             return Carbon::parse($value)->format('y-m-d');
         }
     }
+    public function getUpdatedAtAttribute($value)
+    {
+        if($value) {
+
+            return Carbon::parse($value)->format('y-m-d');
+        }
+    }
 
     public function statusCliente()
     {

@@ -14,7 +14,7 @@ use App\Models\OrdemServico;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
@@ -24,33 +24,7 @@ class ClienteController extends Controller
         $this->cliente = $cliente;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function telefoneStore(Request $request)
-    {
-        // mutate telephone input
-        $tel = Str::remove(['(',')','+','-', ' '], $request['telefone']);
-        
-        $states = EstadoBrasil::orderBy('nome')->get();
-        $cities = CidadeBrasil::all();
-        $services = TipoServico::orderBy('nome')->get();
-        // procurar no bd cliente telefone igual
-        $cliente = Cliente::where('telefone', $tel)->get()->first();
-        // se houver ir para edit
-        if($cliente){
-            return view('admin.cliente.edit', compact('cliente'));
-        } else {
-            $clienteId = DB::table('cliente')->insertGetId([
-                'telefone' => $tel,
-                'created_at' => Carbon::now()->toDateTimeString()
-            ]);
-            return redirect()->route('clientes.edit', $clienteId);
-        }
-    }
+    
 
     /**
      * Display a listing of the resource.
@@ -94,7 +68,6 @@ class ClienteController extends Controller
     {
         // data necessary case redirect to edit client
         $states = EstadoBrasil::orderBy('nome')->get();
-        $cities = CidadeBrasil::all();
         $services = TipoServico::orderBy('nome')->get();
 
         // request from telephone.blade
@@ -127,7 +100,7 @@ class ClienteController extends Controller
         if($cliente){
             return view(
                 'admin.cliente.edit', 
-                compact('cliente', 'states', 'cities', 'services')
+                compact('cliente', 'states', 'services')
             );
             
             // if not create an id and redirect to create blade
@@ -147,10 +120,11 @@ class ClienteController extends Controller
             $cliente = Cliente::find($clienteId);
             return view(
                 'admin.cliente.create', 
-                compact('cliente', 'states', 'cities', 'services')
+                compact('cliente', 'states', 'services')
             );
         }
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -159,7 +133,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-
+        return view('admin.cliente.modal.createAlertErrors');
     }
 
     /**
@@ -172,15 +146,33 @@ class ClienteController extends Controller
     public function store(Request $request, $id)
     {
         // to select some rules from client model
-        $dynamicRules = array();
-            foreach($this->cliente->rules() as $input => $rule){
-                if(array_key_exists($input, $request->all())){
-                    $dynamicRules[$input] = $rule;
-                }
-            }  
+        // $dynamicRules = array();
+        //     foreach($this->cliente->rules() as $input => $rule){
+        //         if(array_key_exists($input, $request->all())){
+        //             $dynamicRules[$input] = $rule;
+        //         }
+        //     }  
+
+        $validated = Validator::make($request->all(), [
+            'nome' => 'required|min:3|max:50|string',
+            'telefone' =>'required|unique:cliente,telefone',
+            'estadobrasil_id' => 'integer|nullable',
+            'cidadebrasil_id' => 'integer|nullable',
+            'firma_aberta' => 'boolean',
+            'cnh' => 'boolean',
+            'cpf' => 'boolean',
+            'certificacao_digital' => 'boolean'
+        ]);
         
             // validate request and update cliente
-        $validated = $request->validate($dynamicRules);
+        // $validated = $request->validate($dynamicRules);
+        if($validated->fails()){
+            return redirect()
+                ->route('clientes.create')
+                ->withErrors($validated)
+                ->withInput();
+        }
+        Debugbar::info($validated);
         $cliente = $this->cliente->find($id);
         $updated = $cliente->update($validated);
 
@@ -337,7 +329,7 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) // recebe valores de ORDEM CREATE BLADE
+    public function update(Request $request, $id)
     {      
         $cliente = $this->cliente->find($id);
         $tipoServico = $request['tipo_servico'];

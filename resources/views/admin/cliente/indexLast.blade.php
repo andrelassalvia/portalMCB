@@ -4,7 +4,7 @@
         {{-- Last contacts list --}}
         <section title="Lista de potenciais clientes" class="home-clients-list"> 
           <h3>Lista de Últimos Contatos</h3>
-          <table class="table table-hover table-borderless mx-auto" id="tableLastContacts">
+          <table class="table table-hover table-borderless mx-auto" id="tableContacts">
             <thead>
               <tr>
                 <th scope="col">Data</th>
@@ -26,7 +26,11 @@
                     <td class="d-none">{{$item->id}}</td>
                     <td>{{$item->nome}}</td>
                     <td style="font-size: small">{{$item->telefone}}</td>
-                    <td>{{$item->ordens[0]->tipoServico->nome}}</td>
+                    <td>
+                      @isset($item->ordens[0])
+                        {{$item->ordens[0]->tipoServico->nome}}
+                      @endisset
+                    </td>
                     <td>                  
                         @if ($item->firma_aberta == 1)
                           <svg 
@@ -122,7 +126,7 @@
               <x-slot name="msg"></x-slot>
             </x-modal-alert>
         @endif
-        <script src="{{asset('js/cliente/clienteIndexLast.js')}}"></script>
+        <script src="{{asset('js/cliente/tableContacts.js')}}"></script>
         <script type="text/javascript">
           $(function(){
             $(window).on('load', function(){

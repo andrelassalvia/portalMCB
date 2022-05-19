@@ -11670,11 +11670,11 @@ tr {
   margin-top: 20px;
 }
 
-#tableLastContacts {
+#tableContacts {
   max-width: 880px;
 }
-#tableLastContacts th,
-#tableLastContacts td {
+#tableContacts th,
+#tableContacts td {
   color: var(--primary-color);
 }
 

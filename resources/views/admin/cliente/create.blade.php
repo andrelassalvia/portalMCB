@@ -143,9 +143,9 @@
         </form>
       </section>                  
     </div>
-                     
   </div>      
 </div>
+
   
   <script type="text/javascript" src="{{asset('js/cliente/clienteLoadCities.js')}}"></script> 
  

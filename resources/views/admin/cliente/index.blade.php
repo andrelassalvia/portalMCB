@@ -4,7 +4,7 @@
         {{-- All contacts list --}}
         <section title="Lista de clientes" class="home-clients-list"> 
           <h3>Lista de Clientes</h3>
-          <table class="table table-hover table-borderless mx-auto" id="tableAllContacts">
+          <table class="table table-hover table-borderless mx-auto" id="tableContacts">
             <thead>
               <tr>
                 <th scope="col">Data</th>
@@ -53,4 +53,5 @@
             });
           });
           </script> --}}
+  <script src="{{asset('js/cliente/tableContacts.js')}}"></script>  
 @endsection

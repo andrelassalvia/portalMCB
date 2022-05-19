@@ -1,6 +1,6 @@
 $(function () {
     // SEARCH FIELD PAGINATION AND SHOW ENTRIES
-    $("#tableLastContacts").DataTable({
+    $("#tableContacts").DataTable({
         language: {
             // manage legends
             search: "_INPUT_", // remove search legend
@@ -15,23 +15,23 @@ $(function () {
         bInfo: false,
         bAutoWidth: false,
     });
-    var table = $("#tableLastContacts").DataTable();
+    var table = $("#tableContacts").DataTable();
 
-    $("#tableLastContacts_filter").css({
+    $("#tableContacts_filter").css({
         display: "flex",
         "justify-content": "flex-end",
     });
 
     // // Increase row's margin bottom
-    $("#tableLastContacts_wrapper .row").css({
+    $("#tableContacts_wrapper .row").css({
         "margin-bottom": "1.75rem",
     });
 
     // Remove table legend
-    $("#tableLastContacts_wrapper .row:eq(2) div:eq(0)").remove();
+    $("#tableContacts_wrapper .row:eq(2) div:eq(0)").remove();
 
     // EDIT CLIENT
-    $("#tableLastContacts tbody").on("click", "tr", function (e) {
+    $("#tableContacts tbody").on("click", "tr", function (e) {
         e.preventDefault;
         var data = table.row(this).data();
 

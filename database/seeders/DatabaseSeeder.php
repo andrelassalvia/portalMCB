@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call([
+        \App\Models\Cliente::factory(1000)->create();
+        // $this->call([
             // Estado_Brasil::class,
             // Cidade_Brasil::class,
             // Tipo_Servico::class
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
             // PortugalSeeder::class,
             // ItalySeeder::class,
             // OccupationSeeder::class
-        ]);        
+        // ]);        
     }
 }
 

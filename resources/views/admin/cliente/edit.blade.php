@@ -21,7 +21,7 @@
                     class="form-control" 
                     id="nome" 
                     name="nome"
-                    value="{{$cliente->nome}}"
+                    value="{{$cliente->nome ?? old('nome')}}"
                   >
               </div>
               <div class="mb-3">
@@ -160,23 +160,13 @@
       </section>                  
     </div>
     @if (isset($errors) && count($errors) > 0)
-    <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">            
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            @foreach ($errors->all() as $error)
-                <p>{{$error}}</p>
-            @endforeach
-          </div>
-          <div class="modal-footer">       
-            <button type="button" class="btn btn-sm btn-mcb" id="okButton">Ok</button>
-          </div>
-        </div>
-      </div>
-    </div>        
+      <x-modal-alert btncancel="" btnok="Ok">
+        <x-slot name="title">Erro de gravação</x-slot>
+        @foreach ($errors->all() as $error)
+          <p>{{$error}}</p>
+        @endforeach
+        <x-slot name="msg"></x-slot>
+      </x-modal-alert>
     @endif
   </div>      
 </div>
