@@ -21,10 +21,5 @@
     src="{{asset('js/alertModal.js')}}"
     >
   </script>
-  {{-- $(function(){
-    $('#alertModal').modal('show');
-    $('#okButton').on('click', function(){
-      window.history.back();
-    });
-  }); --}}
+
 @endsection

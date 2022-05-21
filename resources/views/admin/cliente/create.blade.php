@@ -15,27 +15,36 @@
           id="formClientCreate"
         >
           @csrf
+
+          {{-- Form container --}}
             <div class="p-2 border-1 shadow">
+
+              {{-- Name Input --}}
               <div class="mb-3">
-                <label for="nome" class="form-label">Nome:</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="nome" 
-                  name="nome"
-                  value="{{old('nome')}}"
+                <x-input.input-and-label
+                title="Nome:"
+                :id="'nome'"
+                type="text"
+                name="nome"
+                value=""
                 >
+                </x-input.input-and-label>
+
               </div>
+
+              {{-- Telefone Input --}}
               <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone:</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="telefone" 
-                  name="telefone"
-                  value="{{old('telefone')  ?? $cliente->telefone}}"
-                  >
+                <x-input.input-and-label
+                title="Telefone:"
+                :id="'telefone'"
+                type="text"
+                name="telefone"
+                :value="$cliente->telefone"
+                >
+                </x-input.input-and-label>
               </div>
+
+              {{-- Demanda Select --}}
               <div class="mb-3">
                 <label for="tiposervico_id" class="form-label">Demanda:</label>
                 <select
@@ -49,6 +58,8 @@
                     @endforeach
                 </select>
               </div>
+
+              {{-- Estado Select --}}
               <div class="mb-3">
                 <label for="estadobrasil_id" class="form-label">Estado</label>
                 <select 
@@ -62,6 +73,8 @@
                     @endforeach            
                 </select>
               </div>
+
+              {{-- Cidade Select --}}
               <div class="mb-3">
                 <label for="cidadebrasil_id" class="form-label">Cidade</label>
                 <select 
@@ -71,8 +84,12 @@
                 >
                   <option value="">Selecione</option>                
                 </select>
-              </div>      
+              </div> 
+              
+              {{-- Check radios inputs --}}
               <div class="d-flex mb-3 justify-content-between">
+
+                {{-- Firma Aberta check --}}
                 <div class="form-check me-3">                      
                     <input type="hidden" name="firma_aberta" value="0">
                     <input 
@@ -86,6 +103,8 @@
                       Firma aberta
                     </label>                                                
                 </div>
+
+                {{-- CNH check --}}
                 <div class="form-check me-3">                      
                   <input type="hidden" name="cnh" value="0">
                   <input 
@@ -99,6 +118,8 @@
                     CNH
                   </label>
                 </div>
+
+                {{-- CPF check --}}
                 <div class="form-check me-3">
                   <input type="hidden" name="cpf" value="0">
                   <input 
@@ -112,6 +133,8 @@
                     CPF
                   </label>
                 </div>
+
+                {{-- Certificacao Digital check --}}
                 <div class="form-check">
                   <input type="hidden" name="certificacao_digital" value="0">
                   <input 
@@ -135,7 +158,9 @@
                 ></textarea>
                 <label for="comentario">Comentários</label>
               </div>                       --}}
-            </div>                          
+            </div>
+            
+            {{-- Buttons to cancel and save --}}
             <div class="row d-flex justify-content-center mt-3">
               <a href="{{route('home')}}" class="col-2 btn btn-mcb me-2">Cancelar</a>  
               <button type="submit" class="col-2 btn btn-mcb" id="submitButton">Salvar</button>  

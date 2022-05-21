@@ -170,4 +170,12 @@ class Cliente extends Model
     {
         return $this->hasMany(Comentarios::class, 'cliente_id', 'id');
     }
+    
+    public function scopeIndexStatus($query, $status)
+    {
+        return $query->whereIn('statuscliente_id', $status)
+            ->with(['ordens', 'statusCliente'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
 }

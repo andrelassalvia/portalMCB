@@ -33,20 +33,14 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::with(['ordens', 'statusCliente'])
-        ->whereIn('statuscliente_id', [1,2,3,4])
-        ->orderBy('created_at', 'desc')
-        ->get();  
+        $clientes = Cliente::IndexStatus([1,2,3,4]);
         
         return view('admin.cliente.index', compact('clientes'));
     }
 
     public function indexLast()
     {
-        $clientes = Cliente::with(['ordens'])
-        ->where('statuscliente_id', 1)
-        ->orderBy('created_at', 'desc')
-        ->get();  
+        $clientes = Cliente::IndexStatus([1]);  
 
         return view('admin.cliente.indexLast', compact('clientes'));
     }
@@ -177,7 +171,7 @@ class ClienteController extends Controller
         }
         Debugbar::info($validated);
         $cliente = $this->cliente->find($id);
-        $updated = $cliente->update($validated);
+        $updated = $cliente->update($request->all());
 
         // bind a type of service in this client
         $service = $request['tiposervico_id'];
@@ -345,4 +339,5 @@ class ClienteController extends Controller
         $client = Cliente::find($id);
         return response()->json([$comment, $client]);
     }
+
 }

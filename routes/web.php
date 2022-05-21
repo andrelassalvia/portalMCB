@@ -49,6 +49,7 @@ Route::prefix('/ordens')
         ->middleware(['auth'])
         ->controller('App\Http\Controllers\Admin\OrdemController')
         ->group(function(){
+            route::get('/', 'index')->name('ordens.index');
             route::get('/create/{id?}', 'create')->name('ordens.create');
             route::get('/{ordem}', 'show')->name('ordens.show');
             route::get('/{ordem}/edit', 'edit')->name('ordens.edit');
