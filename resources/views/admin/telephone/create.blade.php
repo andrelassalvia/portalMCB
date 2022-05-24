@@ -11,15 +11,7 @@
           <input type="text" name="telefone" class="form-control">
         </form>
       </div>
-      <x-slot name="msg">
-        @if( isset($errors) && count($errors) > 0 )
-          <div class="alert alert-warning" role="alert" style="width: 100%">
-            @foreach ($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
-          </div>
-        @endif
-      </x-slot>
+      <x-slot name="msg"></x-slot>
     </div>
   </x-modal-alert>
   <script 

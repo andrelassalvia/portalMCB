@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Support\Facades\Validator;
 
 class TelephoneController extends Controller
 {
@@ -38,7 +39,8 @@ class TelephoneController extends Controller
         $cities = CidadeBrasil::find(1100015)->get(); // passing one city to not brake the code
 
         // validation rules
-        $validated = $request->validate(
+        $validated = Validator::make(
+            $request->all(),
             [
                 'telefone' => array(
                     'required',
@@ -46,10 +48,17 @@ class TelephoneController extends Controller
                 ),
             ]
         );
+        // Redirect to alert errors case validation fails
+        if($validated->fails()){
+            return redirect()
+                ->route('alerts.errors')
+                ->withErrors($validated)
+                ->withInput();
+        }
 
         // clean the phone number
         $tel = $validated['telefone'];
-        $tel = Str::remove(['(',')','+','-', ' ', '/', '*', '.'], $tel);
+        $tel = Str::remove(['(',')','+','-', ' ', '/', '*', '.','@'], $tel);
 
         // check if the phone length is ok
         $length = Str::length($tel);
