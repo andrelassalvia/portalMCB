@@ -96,7 +96,8 @@ class Cliente extends Model
 
     public function setTelefoneAttribute($value)
     {
-        $removed = Str::remove(['(',')','+','-', ' '], $value);
+        // remove all characters but numbers to save telephone in db
+        $removed = preg_replace('/[^0-9]/', '', $value);
         $this->attributes['telefone'] = $removed;            
     }
 

@@ -56,9 +56,9 @@ class TelephoneController extends Controller
                 ->withInput();
         }
 
-        // clean the phone number
-        $tel = $validated['telefone'];
-        $tel = Str::remove(['(',')','+','-', ' ', '/', '*', '.','@'], $tel);
+        // remove all characters but numbers to show telephone in form
+        $tel = $request->telefone;
+        $tel = preg_replace('/[^0-9]/', '', $tel);
 
         // check if the phone length is ok
         $length = Str::length($tel);
