@@ -19,9 +19,10 @@ use Illuminate\Support\Facades\Validator;
 class ClienteController extends Controller
 {
 
-    public function __construct(Cliente $cliente)
+    public function __construct(Cliente $cliente, OrdemServico $order)
     {
         $this->cliente = $cliente;
+        $this->order = $order;
     }
 
     
@@ -46,94 +47,6 @@ class ClienteController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function telephone()
-    {
-        return view('admin.cliente.telephone');
-    }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function telephoneStore(Request $request)
-    {
-        // data necessary case redirect to edit client
-        $states = EstadoBrasil::orderBy('nome')->get();
-        $services = TipoServico::orderBy('nome')->get();
-
-        // request from telephone.blade
-        $validated = $request->validate(
-            [
-                'telefone' => array(
-                    'required',
-                    'regex:/[-+()0-9]/'
-                ),
-            ]
-        );
-
-        // clean the phone number
-        $tel = $validated['telefone'];
-        $tel = Str::remove(['(',')','+','-', ' ', '/', '*', '.'], $tel);
-
-        // check if the phone length is ok
-        $length = Str::length($tel);
-        if($length < 12){
-            return redirect()
-            ->route('clientes.telephone')
-            ->withErrors(['errors' => 'Não esqueça o código do país'])
-            ->withInput();
-        }
-
-        // check if the phone already exists
-        $cliente = Cliente::where('telefone', $tel)->get()->first();
-
-        // if client exists call it and edit
-        if($cliente){
-            return view(
-                'admin.cliente.edit', 
-                compact('cliente', 'states', 'services')
-            );
-            
-            // if not create an id and redirect to create blade
-        } else {
-            $clienteId = DB::table('cliente')
-                ->insertGetId(
-                [
-                        'telefone' => $tel,
-                        'nome' => '',
-                        'firma_aberta' => 0,
-                        'cnh' => 0,
-                        'cpf' => 0,
-                        'certificacao_digital' => 0,
-                        'created_at' => Carbon::now()->toDateTimeString()
-                    ]
-            );
-            $cliente = Cliente::find($clienteId);
-            return view(
-                'admin.cliente.create', 
-                compact('cliente', 'states', 'services')
-            );
-        }
-    }
-    
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.cliente.modal.createAlertErrors');
-    }
-
-    /**
      * Store a newly created resource in storage.
      * came from telephone blade
      *
@@ -142,34 +55,25 @@ class ClienteController extends Controller
      */
     public function store(Request $request, $id)
     {
-        // to select some rules from client model
-        // $dynamicRules = array();
-        //     foreach($this->cliente->rules() as $input => $rule){
-        //         if(array_key_exists($input, $request->all())){
-        //             $dynamicRules[$input] = $rule;
-        //         }
-        //     }  
-
         $validated = Validator::make($request->all(), [
             'nome' => 'required|min:3|max:50|string',
             'telefone' =>'required|unique:cliente,telefone',
             'estadobrasil_id' => 'integer|nullable',
             'cidadebrasil_id' => 'integer|nullable',
             'firma_aberta' => 'boolean',
+            'tiposervico_id' => 'required',
             'cnh' => 'boolean',
             'cpf' => 'boolean',
             'certificacao_digital' => 'boolean'
-        ]);
+        ], ['tiposervico_id.required' => 'O campo demanda é obrigatório']);
         
-            // validate request and update cliente
-        // $validated = $request->validate($dynamicRules);
+        // validate request and update cliente
         if($validated->fails()){
             return redirect()
-                ->route('clientes.create')
+                ->route('alerts.errors')
                 ->withErrors($validated)
                 ->withInput();
         }
-        Debugbar::info($validated);
         $cliente = $this->cliente->find($id);
         $updated = $cliente->update($request->all());
 
@@ -228,6 +132,9 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
+        $estado = $cliente['estadobrasil_id'];
+        $cidade = $cliente['cidadebrasil_id'];
+        (isset($cliente->ordens[0]) ? $ordem = $cliente->ordens[0] : $ordem = null);
         $states = EstadoBrasil::orderBy('nome')->get();
         $services = TipoServico::orderBy('nome')->get();
 
@@ -236,7 +143,9 @@ class ClienteController extends Controller
         $cityIdEnd = Str::padRight($cliente->estadobrasil_id, 7, '9');
         $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
         
-        return view('admin.cliente.edit', compact('cliente', 'services', 'states', 'cities'));             
+        return view(
+            'admin.cliente.edit', 
+            compact('cliente', 'services', 'states', 'cities','ordem', 'estado', 'cidade'));             
     }
 
     /**
@@ -248,10 +157,16 @@ class ClienteController extends Controller
      */
     public function update(Request $request, $id)
     {      
+        // look for client
         $cliente = $this->cliente->find($id);
-        $tipoServico = $request['tipo_servico'];
 
+        // check wether an order was saved or not
+        $order = OrdemServico::where('cliente_id', $id)->get()->last();
 
+        // request to use in ordem_servico table
+        $tipoServico = $request['tiposervico_id'];
+
+        // client doesn't exist send a warning
         if($cliente === null){
             return redirect()
             ->route('clientes.edit')
@@ -261,32 +176,74 @@ class ClienteController extends Controller
                 ]
             )
             ->withInput();
+
+            // client exist, check wether is a partial update or not to determine the validation 
+            // rules
         } else if($request->method() === 'PATCH'){
-            $dynamicRules = array();
+            $dynamicRulesClient = array();
             
+            // create partial rules to partial update
             foreach($cliente->rules() as $input => $rule){
                 if(array_key_exists($input, $request->all())){
-                    $dynamicRules[$input] = $rule;
+                    $dynamicRulesClient[$input] = $rule;
                 }
             }  
-            $request->validate($dynamicRules);
+            // validate client with partial rules
+            $request->validate($dynamicRulesClient);
+
+            // validate order
+            $orderValidated = Validator::make(
+                $request->all(),
+                [
+                    'tiposervico_id' => 'required|integer'
+                ], 
+                [
+                    'tiposervico_id.required' => 'O campo demanda é obrigatório'
+                ]);
+                if($orderValidated->fails()){
+                    return redirect()
+                        ->route('alerts.errors')
+                        ->withErrors($orderValidated)
+                        ->withInput();
+                }
         } else {
+            // validate with all rules
             $request->validate($cliente->rules());
 
         }
-            $update = $cliente->update($request->all());
+
+        // update client
+        $update = $cliente->update($request->all());
+
+        // update order binded with this client
+        // no order in database, create one
+        if($order == null){
+
+            // check wether demanda field was filled
+            if($tipoServico){
+                OrdemServico::create(
+                    [
+                        'cliente_id' => $id,
+                        'tiposervico_id' => $tipoServico
+                    ]
+                );
+            }
+        } else {
+            // in case a previous order exists, update it
+            $order->update(['tiposervico_id' => $tipoServico]);
+        }
  
-            if($update){
+        if($update){
+        return redirect()
+            ->route('clientes.last')
+            ->with(['success' => 'Dados do cliente alterados com sucesso'])
+            ->withInput();                
+        } else {
             return redirect()
-                ->route('clientes.last')
-                ->with(['success' => 'Dados do cliente alterados com sucesso'])
-                ->withInput();                
-            } else {
-                return redirect()
-                    ->route('clientes.edit')
-                    ->withErrors(['errors' => 'Falha na alteração. Tente novamente'])
-                    ->withInput();
-            }              
+                ->route('alerts.errors')
+                ->withErrors(['errors' => 'Falha na alteração. Tente novamente'])
+                ->withInput();
+        }              
     }
     /**
      * Remove the specified resource from storage.

@@ -30,8 +30,6 @@ Route::prefix('/clientes')
         {
             route::get('/', 'index')->name('clientes.index');
             route::get('/last', 'indexLast')->name('clientes.last');
-            route::get('/telephone', 'telephone')->name('clientes.telephone');
-            route::post('/telephone', 'telephoneStore')->name('clientes.telephoneStore');
             route::get('/create/{validated?}', 'create')->name('clientes.create');
             route::post('/{id?}', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
@@ -104,4 +102,21 @@ Route::prefix('comentarios')
     ->controller('App\Http\Controllers\Admin\ComentarioController')
     ->group(function(){
         route::post('/', 'store')->name('comentarios.store');
+    });
+
+// ALERTS
+Route::prefix('alerts')
+    ->middleware(['auth'])
+    ->controller('App\Http\Controllers\Apoio\AlertsController')
+    ->group(function(){
+        route::get('/error-message', 'errorMessage')->name('alerts.errors');
+    });
+
+// TELEPHONE - NEW CLIENT
+Route::prefix('telephones')
+    ->middleware(['auth'])
+    ->controller('App\Http\Controllers\Admin\TelephoneController')
+    ->group(function(){
+        route::get('/create', 'create')->name('telephones.create');
+        route::post('/', 'store')->name('telephones.store');
     });

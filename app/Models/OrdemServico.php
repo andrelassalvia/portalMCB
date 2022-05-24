@@ -38,6 +38,22 @@ class OrdemServico extends Model
 
     ];
 
+    public function rules()
+    {
+        return [
+            'cliente_id' => 'required|integer',
+            'tiposervico_id' =>'required|integer',
+            'fornecedor_id' =>'integer|nullable',
+            'statusordem_id' => 'integer|nullable',
+            'classificacao_id' => 'integer|nullable',
+            'data_inicio' => 'date|nullable',
+            'data_fim' => 'date|nullable',
+            'receita' => 'numeric|nullable',
+            'custo' => 'numeric|nullable',
+            'cotacao' => 'numeric|nullable'
+        ];
+    }
+
     public function getDataInicioAttribute($value)
     {
         if($value) {

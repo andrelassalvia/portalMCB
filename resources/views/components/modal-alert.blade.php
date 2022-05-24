@@ -18,25 +18,31 @@
         {{-- message printed when an alert is trigged --}}
         {{ $msg }} 
 
-        {{-- not all modal will use cancel button --}}
+        {{-- not all modal will use cancel or ok buttons --}}
         @isset($btncancel)
         <button 
           type="button" 
           class="btn btn-mcb" 
-          @empty($btncancel)
-          style="opacity: 0" 
-          @endempty
           id="cancelButton"
+          @empty($btncancel)
+            style="display: none"
+          @endempty
         >
           {{$btncancel}}
         </button>
         @endisset
-        <button 
-          type="button" 
-          class="btn btn-mcb" 
-          id="okButton"
-        >
-          {{$btnok}}</button>
+        @isset($btnok)
+          <button 
+            type="button" 
+            class="btn btn-mcb" 
+            id="okButton"
+            @empty($btnok)
+              style="display: none"
+            @endempty
+          >
+            {{$btnok}}
+          </button>
+        @endisset
       </div>
     </div>
   </div>

@@ -19,10 +19,11 @@
         @foreach ($clientes as $item)           
             <tr>                        
               <th scope="row">{{$item->updated_at}}</th>
-              <td class="d-none">{{$item->id}}</td>
+              <td class="d-none">{{$item->id}}</td> {{-- id to use DataTable JS --}}
               <td>{{$item->nome}}</td>
               <td style="font-size: small">{{$item->telefone}}</td>
               <td>
+                {{-- Case a demand was placed --}}
                 @isset($item->ordens[0])
                   {{$item->ordens[0]->tipoServico->nome}}
                 @endisset
