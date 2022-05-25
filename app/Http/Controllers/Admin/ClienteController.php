@@ -25,8 +25,6 @@ class ClienteController extends Controller
         $this->order = $order;
     }
 
-    
-
     /**
      * Display a listing of the resource.
      *
@@ -39,6 +37,10 @@ class ClienteController extends Controller
         return view('admin.cliente.index', compact('clientes'));
     }
 
+    /*
+    Method to show only contacts with potencial status
+    Inactive or with orders running will not be shown here
+    * */
     public function indexLast()
     {
         $clientes = Cliente::IndexStatus([1]);  
@@ -254,17 +256,6 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function loadCidades($estado)
-    {        
-        $cidades = DB::table('cidade_brasil')
-                    ->select('cidade_brasil.id', 'cidade_brasil.nome')
-                    ->where('estadobrasil_id',$estado)
-                    ->orderBy('nome', 'ASC')
-                    ->get();
-
-        return view('admin.cliente.loadCidade', compact('cidades'));
     }
 
     public function loadCities($country)

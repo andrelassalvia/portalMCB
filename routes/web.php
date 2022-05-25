@@ -35,7 +35,6 @@ Route::prefix('/clientes')
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
-            route::get('/load_cidades/{estado}', 'loadCidades');
             route::get('/load_cities/{country}', 'loadCities');
             route::any('/inativar/{cliente}', 'inactive')->name('clientes.inactive');
             route::get('/cards/{cliente}', 'loadCards')->name('clientes.cards');
@@ -62,6 +61,9 @@ Route::prefix('/cidadesBrasil')
         ->controller('App\Http\Controllers\Apoio\CidadeBrasilController')
         ->group(function(){
             route::get('/{cidadeBrasil}', 'show')->name('cidadesBrasil.show');
+            route::get('/load_cidades/{estado}', 'loadCidades')
+                ->name('cidadesBrasil.loadCidades');
+
         });
 
 // CIDADE

@@ -79,7 +79,7 @@ class TelephoneController extends Controller
         if($cliente){
             return view(
                 'admin.cliente.edit', 
-                compact('cliente', 'states', 'services')
+                compact('cliente', 'states', 'services', 'cities')
             );
             
             // if not create an id and redirect to create blade
