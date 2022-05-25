@@ -71,29 +71,18 @@
               
               {{-- Intaivar Button --}}
               <td>
-                <button class="btn btn-sm btn-outline-danger">Inativar</button>
+                <a href="{{route('clientes.inactive', $item->id)}}" class="btn btn-sm btn-outline-danger">Inativar</a>
               </td>
             </tr>
             @endforeach
           </tbody>                    
         </table>
   </section>
-  {{-- Js to show modal --}}
-  @if (Session::has('success'))
-    <x-modal-alert  btncancel="Ok" btnok="">
-      <x-slot name="title">Alteração</x-slot>
-      <p>{{Session::get('success')}}</p>
-      <x-slot name="msg"></x-slot>
-    </x-modal-alert>
-  @endif
+  
   <script 
     type="text/javascript" 
     src="{{asset('js/tableContacts.js')}}"
     >
   </script>
-  <script 
-    type="text/javascript"
-    src="{{asset('js/alertModal.js')}}"
-    >
-  </script>
+  
 @endsection

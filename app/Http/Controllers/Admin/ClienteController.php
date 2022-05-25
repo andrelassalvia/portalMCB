@@ -272,13 +272,18 @@ class ClienteController extends Controller
     public function inactive($id)
     {
         $cliente = Cliente::find($id);
-        $inactive = 2;
         $update = $cliente->update(['statuscliente_id' => 2]);
-
-        return redirect()
-                ->route('home')
-                ->with(['success' => 'Cliente inativado com sucesso'])
+        if($update){
+            return redirect()
+                    ->route('alerts.success')
+                    ->with(['success' => 'Cliente inativado com sucesso'])
+                    ->withInput();
+        } else {
+            return redirect()
+                ->route('alerts.errors')
+                ->withErrors(['errors' => 'Falha na inativação deste cliente'])
                 ->withInput();
+        }
     }
 
     public function loadCards($id)

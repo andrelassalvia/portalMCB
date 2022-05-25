@@ -112,6 +112,7 @@ Route::prefix('alerts')
     ->controller('App\Http\Controllers\Apoio\AlertsController')
     ->group(function(){
         route::get('/error-message', 'errorMessage')->name('alerts.errors');
+        route::get('/success-message', 'successMessage')->name('alerts.success');
     });
 
 // TELEPHONE - NEW CLIENT
