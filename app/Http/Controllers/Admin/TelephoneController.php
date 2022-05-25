@@ -33,11 +33,6 @@ class TelephoneController extends Controller
      */
     public function store(Request $request)
     {
-        // data necessary case redirect to edit client
-        $states = EstadoBrasil::orderBy('nome')->get();
-        $services = TipoServico::orderBy('nome')->get();
-        $cities = CidadeBrasil::find(1100015)->get(); // passing one city to not brake the code
-
         // validation rules
         $validated = Validator::make(
             $request->all(),
@@ -77,9 +72,28 @@ class TelephoneController extends Controller
 
         // if telephone exists call it and edit
         if($cliente){
+            $estado = $cliente['estadobrasil_id'];
+            $cidade = $cliente['cidadebrasil_id'];
+            (isset($cliente->ordens[0]) ? $ordem = $cliente->ordens[0] : $ordem = null);
+            $states = EstadoBrasil::orderBy('nome')->get();
+            $services = TipoServico::orderBy('nome')->get();
+
+            // Load only cities from the client state - reduce the amount of registers
+            $cityIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');
+            $cityIdEnd = Str::padRight($cliente->estadobrasil_id, 7, '9');
+            $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
+
             return view(
                 'admin.cliente.edit', 
-                compact('cliente', 'states', 'services', 'cities')
+                compact(
+                    'cliente',
+                    'services',
+                    'states', 
+                    'cities', 
+                    'ordem',
+                    'estado',
+                    'cidade'
+                )
             );
             
             // if not create an id and redirect to create blade

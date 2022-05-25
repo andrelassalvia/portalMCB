@@ -147,7 +147,16 @@ class ClienteController extends Controller
         
         return view(
             'admin.cliente.edit', 
-            compact('cliente', 'services', 'states', 'cities','ordem', 'estado', 'cidade'));             
+            compact(
+                'cliente', 
+                'services', 
+                'states', 
+                'cities',
+                'ordem', 
+                'estado', 
+                'cidade'
+            )
+        );             
     }
 
     /**

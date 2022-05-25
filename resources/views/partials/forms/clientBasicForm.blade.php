@@ -57,7 +57,9 @@
       :id="'estado_brasil'"
     >
       <option value="">Selecione</option>
+      {{-- Case this client has a state registred --}}
       @if (isset($estado))
+        {{-- there is a logic to retrieve the saved state --}}
         <x-select.option-foreach-and-isset
           :object="$cliente"
           :arr="$states"
@@ -66,8 +68,9 @@
           column="nome"
         />
       @else
+      {{-- case this client hasn't a state registred, list all --}}
         <x-select.option-and-foreach
-          :arr="$states"
+          :arr="$states" {{-- list all states in Brazil --}}
           value="id"
           column="nome"
         />
