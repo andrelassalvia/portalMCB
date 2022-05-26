@@ -10,6 +10,7 @@ class OrdemServico extends Model
 {
     use HasFactory;
 
+    //  ========== BASIC SETS ===============
     protected $table = 'ordem_servico';
     protected $fillable = [
         'cliente_id',
@@ -37,7 +38,9 @@ class OrdemServico extends Model
         'cotacao' => 'float',
 
     ];
+    //  ===============================================
 
+    // ============ VALIDATION RULES ==================
     public function rules()
     {
         return [
@@ -53,7 +56,9 @@ class OrdemServico extends Model
             'cotacao' => 'numeric|nullable'
         ];
     }
+    //  ================================================
 
+    // ========== GET AND SET ATTRIBUTES ================
     public function getDataInicioAttribute($value)
     {
         if($value) {
@@ -61,7 +66,9 @@ class OrdemServico extends Model
             return Carbon::parse($value)->format('d-m-y');
         }
     }
+    // ================================================
 
+    // ============ START RELATIONSHIP BLOCK ==========
     public function tipoServico()
     {
         return $this->belongsTo(TipoServico::class, 'tiposervico_id', 'id');
@@ -86,4 +93,19 @@ class OrdemServico extends Model
     {
         return $this->belongsTo(Classificacao::class, 'classificacao_id', 'id');
     }
+    // ================= END RELATIONSHIP BLOCK =====================
+
+    // ================= SCOPE and LOCAL METHODS ====================
+
+        // build array with partial rules to run with PATCH method
+        public function partialRules($req)
+        {
+            $rules = array();
+            foreach(OrdemServico::rules() as $input => $rule){
+                if(array_key_exists($input, $req)){
+                    $rules[$input] = $rule;
+                }
+            }  
+            return $rules;
+        }
 }

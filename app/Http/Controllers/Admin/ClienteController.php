@@ -12,6 +12,7 @@ use App\Models\Comentarios;
 use App\Models\OrdemServico;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
@@ -55,21 +56,23 @@ class ClienteController extends Controller
     public function store(Request $request, $id)
     {
         // validation rules
-        $validated = Validator::make($request->all(), [
-            'nome' => 'required|min:3|max:50|string',
-            'telefone' =>'required|unique:cliente,telefone',
-            'estadobrasil_id' => 'integer|nullable',
-            'cidadebrasil_id' => 'integer|nullable',
-            'firma_aberta' => 'boolean',
-            'tiposervico_id' => 'required',
-            'cnh' => 'boolean',
-            'cpf' => 'boolean',
-            'certificacao_digital' => 'boolean'
-        ], ['tiposervico_id.required' => 'O campo demanda é obrigatório']);
-        
+        $rulesClient = $this->cliente->partialRules($request->all());
+        $rulesOrder = $this->order->partialRules($request->all());
+        $validateClient = Validator::make(
+            $request->all(), 
+            $rulesClient,
+        );
+        $validateOrder = Validator::make(
+            $request->all(),
+            $rulesOrder,
+            ['tiposervico_id.required' => 'O campo demanda é obrigatório']
+        );
         // redirect case validation fails
-        if($validated->fails()){
-            return Cliente::redirectErrors($validated);
+        if($validateClient->fails()){
+            return Cliente::redirectErrors($validateClient);
+        }
+        if($validateOrder->fails()){
+            return Cliente::redirectErrors($validateOrder);
         }
 
         // find recently created client and update 
@@ -165,16 +168,16 @@ class ClienteController extends Controller
             // client exist, check wether is a partial update or not to determine the validation 
             // rules
         } else if($request->method() === 'PATCH'){
-            $dynamicRulesClient = array();
             
-            // create partial rules to partial update
-            foreach($cliente->rules() as $input => $rule){
-                if(array_key_exists($input, $request->all())){
-                    $dynamicRulesClient[$input] = $rule;
-                }
-            }  
-            // validate client with partial rules
-            $request->validate($dynamicRulesClient);
+            // partial rules because method patch 
+            $rules = $this->cliente->PartialRules($request->all());
+            $clientValidate = Validator::make(
+                $request->all(),
+                $rules
+            );
+            if($clientValidate->fails()){
+                return Cliente::redirectErrors($clientValidate);
+            }
 
             // validate order
             $orderValidated = Validator::make(

@@ -69,7 +69,7 @@
                 />                 
               </td>
               
-              {{-- Intaivar Button --}}
+              {{-- Inativar Button --}}
               <td>
                 <a href="{{route('clientes.inactive', $item->id)}}" class="btn btn-sm btn-outline-danger">Inativar</a>
               </td>

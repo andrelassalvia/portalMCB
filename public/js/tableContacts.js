@@ -1,3 +1,5 @@
+// Script to create search, number of entries per page and
+// allow click on line to edit client
 $(function () {
     // SEARCH FIELD PAGINATION AND SHOW ENTRIES
     $("#tableContacts").DataTable({

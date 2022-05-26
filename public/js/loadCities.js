@@ -1,4 +1,4 @@
-// Script para recuperar old estado e cidade - validacao falhar
+// Script to load list of cities form Brazil and out of Brazil
 $(function () {
     const urlsLoadCidades = [
         "http://192.168.1.85:8000/cidadesBrasil/load_cidades/",

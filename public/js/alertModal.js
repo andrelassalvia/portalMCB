@@ -18,7 +18,6 @@ $(function () {
 
         // button to go to index page
         $("#cancelButton").on("click", function () {
-            // hide();
             window.location.href = "/clientes/last";
         });
     });

@@ -1,3 +1,5 @@
+// script to manage base layout features
+
 // Js to show and hide sidebar
 const body = document.querySelector("body"),
     sidebar = document.querySelector(".sidebar"),

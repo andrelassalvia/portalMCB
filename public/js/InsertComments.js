@@ -1,8 +1,11 @@
+// Script to create e show a comment
 $(function () {
     const urlsClientComments = [
         "http://localhost:8000/comentarios/cards/",
         "http://192.168.1.85:8000/comentarios/cards/",
     ];
+
+    // save id got from data-id
     const id = $("#clientId").attr("data-id");
 
     // SHOW COMMENTS

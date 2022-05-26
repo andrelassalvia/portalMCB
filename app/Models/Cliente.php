@@ -137,7 +137,7 @@ class Cliente extends Model
     }
     // ================================================
 
-    // ============ START RELATIONSHIP BLOCK =====================
+    // ============ START RELATIONSHIP BLOCK ==========
     public function statusCliente()
     {
         return $this->belongsTo(StatusCliente::class, 'statuscliente_id', 'id');
@@ -177,10 +177,9 @@ class Cliente extends Model
     {
         return $this->hasMany(Comentarios::class, 'cliente_id', 'id');
     }
-
     // ================= END RELATIONSHIP BLOCK =====================
 
-    // ================= SCOPE and LOCAL METHODS ==============================
+    // ================= SCOPE and LOCAL METHODS ====================
     
     // Retrieve clients with declared status
     public function scopeIndexStatus($query, $status)
@@ -189,6 +188,18 @@ class Cliente extends Model
             ->with(['ordens', 'statusCliente'])
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    // build array with partial rules to run with PATCH method
+    public function partialRules($req)
+    {
+        $rules = array();
+        foreach(Cliente::rules() as $input => $rule){
+            if(array_key_exists($input, $req)){
+                $rules[$input] = $rule;
+            }
+        }  
+        return $rules;
     }
 
     // redirect to error modal
