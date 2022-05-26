@@ -4,11 +4,11 @@
 
   {{-- Modal coming from cliente store controller --}}
   @if (Session::has('client_success'))
-    <x-modal-alert btncancel="Não" btnok="Sim">
+    <x-modal.modal-alert btncancel="Não" btnok="Sim">
       <x-slot name="title">Cadastrar OS?</x-slot>
       <p>{{Session::get('client_success')}}</p>
       <x-slot name="msg"></x-slot>
-    </x-modal-alert>
+    </x-modal.modal-alert>
   @endif
     
   <div id="new-OS-view">
@@ -527,7 +527,7 @@
         });
       </script>
       {{-- Dropdown list of cities --}}
-    <script type="text/javascript" src="{{asset('js/cliente/clienteLoadCities.js')}}"></script> 
+    <script type="text/javascript" src="{{asset('js/loadCities.js')}}"></script> 
 
     {{-- Manage providers forms --}}
     <script type="text/javascript" src="{{asset('js/fornecedor/index/manageProvider.js')}}"></script>

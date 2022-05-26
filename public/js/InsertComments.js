@@ -1,7 +1,7 @@
 $(function () {
     const urlsClientComments = [
-        "http://localhost:8000/clientes/cards/",
-        "http://192.168.1.85:8000/clientes/cards/",
+        "http://localhost:8000/comentarios/cards/",
+        "http://192.168.1.85:8000/comentarios/cards/",
     ];
     const id = $("#clientId").attr("data-id");
 

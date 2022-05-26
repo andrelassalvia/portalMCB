@@ -32,7 +32,7 @@
 
 <script 
   type="text/javascript" 
-  src="{{asset('js/clienteLoadCities.js')}}"
+  src="{{asset('js/loadCities.js')}}"
 >
 </script> 
  

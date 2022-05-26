@@ -70,13 +70,16 @@ class TelephoneController extends Controller
         // check if the phone already exists
         $cliente = Cliente::where('telefone', $tel)->get()->first();
 
+        // variables to be used within edit and create blades
+        $states = EstadoBrasil::orderBy('nome')->get();
+        $services = TipoServico::orderBy('nome')->get();
+
         // if telephone exists call it and edit
         if($cliente){
             $estado = $cliente['estadobrasil_id'];
             $cidade = $cliente['cidadebrasil_id'];
             (isset($cliente->ordens[0]) ? $ordem = $cliente->ordens[0] : $ordem = null);
-            $states = EstadoBrasil::orderBy('nome')->get();
-            $services = TipoServico::orderBy('nome')->get();
+           
 
             // Load only cities from the client state - reduce the amount of registers
             $cityIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');
@@ -98,6 +101,8 @@ class TelephoneController extends Controller
             
             // if not create an id and redirect to create blade
         } else {
+            // send a city to not brake the code
+            $cities = CidadeBrasil::find(1100015)->get();
             $clienteId = DB::table('cliente')
                 ->insertGetId(
                 [

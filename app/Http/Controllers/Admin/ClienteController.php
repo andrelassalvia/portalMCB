@@ -7,18 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
 use App\Models\TipoServico;
-use Illuminate\Support\Facades\DB;
 use App\Models\Cliente;
 use App\Models\Comentarios;
 use App\Models\OrdemServico;
 use Barryvdh\Debugbar\Facades\Debugbar;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
-
     public function __construct(Cliente $cliente, OrdemServico $order)
     {
         $this->cliente = $cliente;
@@ -33,18 +30,18 @@ class ClienteController extends Controller
     public function index()
     {
         $clientes = Cliente::IndexStatus([1,2,3,4]);
-        
         return view('admin.cliente.index', compact('clientes'));
     }
 
-    /*
-    Method to show only contacts with potencial status
-    Inactive or with orders running will not be shown here
-    * */
+    /**
+    * Method to show only contacts with potencial status
+    * Inactive or with orders running will not be shown here
+    * @param status_id from status_cliente table
+    * @return clientes list to a view 
+    */
     public function indexLast()
     {
         $clientes = Cliente::IndexStatus([1]);  
-
         return view('admin.cliente.indexLast', compact('clientes'));
     }
 
@@ -57,6 +54,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request, $id)
     {
+        // validation rules
         $validated = Validator::make($request->all(), [
             'nome' => 'required|min:3|max:50|string',
             'telefone' =>'required|unique:cliente,telefone',
@@ -69,19 +67,18 @@ class ClienteController extends Controller
             'certificacao_digital' => 'boolean'
         ], ['tiposervico_id.required' => 'O campo demanda é obrigatório']);
         
-        // validate request and update cliente
+        // redirect case validation fails
         if($validated->fails()){
-            return redirect()
-                ->route('alerts.errors')
-                ->withErrors($validated)
-                ->withInput();
+            return Cliente::redirectErrors($validated);
         }
-        $cliente = $this->cliente->find($id);
-        $updated = $cliente->update($request->all());
+
+        // find recently created client and update 
+        $updated = $this->cliente->findAndUpdate($id, $request->all());
 
         // bind a type of service in this client
         $service = $request['tiposervico_id'];
 
+        // create an order simultaneously with a new client
         OrdemServico::create(
             [
                 'cliente_id' => $id,
@@ -89,27 +86,8 @@ class ClienteController extends Controller
             ]
         );
 
-        // in case update sucecessfull
-        if($updated){
-            return redirect()
-                ->route('ordens.create', ['id' => $id])
-                ->with(
-                    [
-                        'client_success' => 'Cliente inserido com sucesso. Deseja iniciar uma ordem de serviço agora?',
-                        
-                    ]
-                )
-                ->withInput();
-        } else {
-            return redirect()
-                ->route('clientes.create')
-                ->withErrors(
-                    [
-                        'errors' => 'Falha no cadastramento.'
-                    ]
-                )
-                ->withInput();
-        }
+        // redirect response from update
+        return Cliente::responseFromUpdate($updated, $id);
     }
 
     /**
@@ -121,7 +99,6 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente = Cliente::find($id);
-
         return  view('admin.cliente.show', compact('cliente'));                        
     }
 
@@ -174,19 +151,16 @@ class ClienteController extends Controller
         // check wether an order was saved or not
         $order = OrdemServico::where('cliente_id', $id)->get()->last();
 
-        // request to use in ordem_servico table
+        // save type of service from request to use in ordem_servico table
         $tipoServico = $request['tiposervico_id'];
 
         // client doesn't exist send a warning
         if($cliente === null){
-            return redirect()
-            ->route('clientes.edit')
-            ->withErrors(
+            return Cliente::redirectErrors(
                 [
                     'errors' => 'Cliente não encontrado no banco de dados. Cadastrá-lo novamente.'
-                ]
-            )
-            ->withInput();
+                    ]
+                );
 
             // client exist, check wether is a partial update or not to determine the validation 
             // rules
@@ -212,15 +186,11 @@ class ClienteController extends Controller
                     'tiposervico_id.required' => 'O campo demanda é obrigatório'
                 ]);
                 if($orderValidated->fails()){
-                    return redirect()
-                        ->route('alerts.errors')
-                        ->withErrors($orderValidated)
-                        ->withInput();
+                    return Cliente::redirectErrors($orderValidated);
                 }
         } else {
             // validate with all rules
             $request->validate($cliente->rules());
-
         }
 
         // update client
@@ -244,16 +214,19 @@ class ClienteController extends Controller
             $order->update(['tiposervico_id' => $tipoServico]);
         }
  
+        // response message
         if($update){
-        return redirect()
-            ->route('clientes.last')
-            ->with(['success' => 'Dados do cliente alterados com sucesso'])
-            ->withInput();                
+        return Cliente::redirectSuccess(
+            [
+                'success' => 'Dados do cliente alterados com sucesso'
+            ]
+        );               
         } else {
-            return redirect()
-                ->route('alerts.errors')
-                ->withErrors(['errors' => 'Falha na alteração. Tente novamente'])
-                ->withInput();
+            return Cliente::redirectErrors(
+                [
+                    'errors' => 'Falha na alteração. Tente novamente'
+                ]
+            );
         }              
     }
     /**
@@ -267,39 +240,27 @@ class ClienteController extends Controller
         //
     }
 
-    public function loadCities($country)
-    {
-        $cities = DB::table('cidade')
-                    ->select('cidade.id', 'cidade.nome')
-                    ->where('pais_id', $country)
-                    ->orderBy('nome')
-                    ->get();
-
-        return view('admin.cliente.loadCidade', compact('cities'));
-    }
-
+    /**
+    * method to turn client status as inactive
+    * @param id
+    * @return message with a success or error response
+    */
     public function inactive($id)
     {
         $cliente = Cliente::find($id);
         $update = $cliente->update(['statuscliente_id' => 2]);
         if($update){
-            return redirect()
-                    ->route('alerts.success')
-                    ->with(['success' => 'Cliente inativado com sucesso'])
-                    ->withInput();
+            return Cliente::redirectSuccess(
+                [
+                    'success' => 'Cliente inativado com sucesso'
+                ]
+            );
         } else {
-            return redirect()
-                ->route('alerts.errors')
-                ->withErrors(['errors' => 'Falha na inativação deste cliente'])
-                ->withInput();
+            return Cliente::redirectErrors(
+                [
+                    'errors' => 'Falha na inativação do cliente'
+                ]
+            );
         }
     }
-
-    public function loadCards($id)
-    {
-        $comment = Comentarios::where('cliente_id', $id)->orderBy('created_at', 'desc')->get();
-        $client = Cliente::find($id);
-        return response()->json([$comment, $client]);
-    }
-
 }

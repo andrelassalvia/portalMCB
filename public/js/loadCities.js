@@ -6,8 +6,8 @@ $(function () {
     ];
 
     const urlsLoadCities = [
-        "http://192.168.1.85:8000/clientes/load_cities/",
-        "http://localhost:8000/clientes/load_cities/",
+        "http://192.168.1.85:8000/cities/load_cities/",
+        "http://localhost:8000/cities/load_cities/",
     ];
 
     const loadCities = function (id, url, cityId) {

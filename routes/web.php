@@ -35,9 +35,7 @@ Route::prefix('/clientes')
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
-            route::get('/load_cities/{country}', 'loadCities');
             route::any('/inativar/{cliente}', 'inactive')->name('clientes.inactive');
-            route::get('/cards/{cliente}', 'loadCards')->name('clientes.cards');
             route::any('/{id}/update', 'update')->name('clientes.update');
         });
 
@@ -72,6 +70,7 @@ Route::prefix('/cities')
         ->controller('App\Http\Controllers\Apoio\CitiesController')
         ->group(function(){
             route::get('/{cities}', 'show')->name('cities.show');
+            route::get('/load_cities/{country}', 'loadCities')->name('cities.loadCities');
         });
 
 // OCCUPATION
@@ -104,6 +103,7 @@ Route::prefix('comentarios')
     ->controller('App\Http\Controllers\Admin\ComentarioController')
     ->group(function(){
         route::post('/', 'store')->name('comentarios.store');
+        route::get('/cards/{cliente}', 'show')->name('comentarios.show');
     });
 
 // ALERTS
