@@ -1,4 +1,10 @@
 $(function () {
+    // function to redirect route
+    const redirectRoute = function (button) {
+        // data-route coming from modal-alert blade
+        let route = $(button).data("route");
+        route ? (window.location.href = route) : window.history.back();
+    };
     const hide = function () {
         return $("#alertModal").modal("hide");
     };
@@ -7,18 +13,18 @@ $(function () {
     $(window).on("load", function () {
         $("#alertModal").modal("show");
 
-        // button to go back last page
+        // case ok button is clicked
         $("#okButton").on("click", function () {
             if ($("#telefoneStore")) {
                 $("#telefoneStore").trigger("submit");
                 hide();
             }
-            window.history.back();
+            redirectRoute($(this));
         });
 
-        // button to go to index page
+        // case cancel button is clicked
         $("#cancelButton").on("click", function () {
-            window.location.href = "/clientes/last";
+            redirectRoute($(this));
         });
     });
 });

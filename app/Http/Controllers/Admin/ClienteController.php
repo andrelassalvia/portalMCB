@@ -14,9 +14,12 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\redirectAlertsMessages;
 
 class ClienteController extends Controller
 {
+    use redirectAlertsMessages;
+
     public function __construct(Cliente $cliente, OrdemServico $order)
     {
         $this->cliente = $cliente;
@@ -69,10 +72,16 @@ class ClienteController extends Controller
         );
         // redirect case validation fails
         if($validateClient->fails()){
-            return Cliente::redirectErrors($validateClient);
+            return redirectAlertsMessages::redirectErrors(
+                $validateClient,
+                'Ok'
+            );
         }
         if($validateOrder->fails()){
-            return Cliente::redirectErrors($validateOrder);
+            return redirectAlertsMessages::redirectErrors(
+                $validateOrder,
+                'Ok'
+            );
         }
 
         // find recently created client and update 
@@ -90,7 +99,20 @@ class ClienteController extends Controller
         );
 
         // redirect response from update
-        return Cliente::responseFromUpdate($updated, $id);
+        if($updated){
+            return redirectAlertsMessages::redirectSuccess(
+                ['success' => 'Cliente inserido com sucesso. Deseja cadastrar ordem de serviço?'],
+                'Sim',
+                ['route' => 'ordens.create', 'param' => $id],
+                'Não',
+                ['route' => 'clientes.last']
+            );
+        } else {
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Falha no cadastramento'],
+                'Ok'
+            );
+        }
     }
 
     /**
@@ -176,7 +198,10 @@ class ClienteController extends Controller
                 $rules
             );
             if($clientValidate->fails()){
-                return Cliente::redirectErrors($clientValidate);
+                return redirectAlertsMessages::redirectErrors(
+                    $clientValidate,
+                    'Ok'
+                );
             }
 
             // validate order
@@ -189,7 +214,10 @@ class ClienteController extends Controller
                     'tiposervico_id.required' => 'O campo demanda é obrigatório'
                 ]);
                 if($orderValidated->fails()){
-                    return Cliente::redirectErrors($orderValidated);
+                    return redirectAlertsMessages::redirectErrors(
+                        $orderValidated,
+                        'Ok'
+                    );
                 }
         } else {
             // validate with all rules
@@ -225,10 +253,9 @@ class ClienteController extends Controller
             ]
         );               
         } else {
-            return Cliente::redirectErrors(
-                [
-                    'errors' => 'Falha na alteração. Tente novamente'
-                ]
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Falha na alteração. Tente novamente'],
+                'Ok'
             );
         }              
     }
@@ -253,16 +280,38 @@ class ClienteController extends Controller
         $cliente = Cliente::find($id);
         $update = $cliente->update(['statuscliente_id' => 2]);
         if($update){
-            return Cliente::redirectSuccess(
-                [
-                    'success' => 'Cliente inativado com sucesso'
-                ]
+            return redirectAlertsMessages::redirectSuccess(
+                ['success' => 'Cliente inativado'],
+                'Ok',
+                
             );
         } else {
-            return Cliente::redirectErrors(
-                [
-                    'errors' => 'Falha na inativação do cliente'
-                ]
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Falha na inativação do cliente'],
+                'Ok'
+            );
+        }
+    }
+
+    /**
+     * Method to turn client status as active
+     * @param id
+     * @return
+     */
+    public function active($id)
+    {
+        $cliente = Cliente::find($id);
+        $update = $cliente->update(['statuscliente_id' => 1]);
+        if($update){
+            return redirectAlertsMessages::redirectSuccess(
+                ['success' => 'Cliente reativado com sucesso'],
+                'Ok',
+                ['route' => 'clientes.last']
+            );
+        } else {
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Falha na inativação do cliente'],
+                'Ok'
             );
         }
     }

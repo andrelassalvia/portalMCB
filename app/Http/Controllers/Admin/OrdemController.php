@@ -15,10 +15,13 @@ use App\Models\OrdemServico;
 use App\Models\Pais;
 use App\Models\TipoServico;
 use Barryvdh\Debugbar\Facade as Debugbar;
+use App\Traits\redirectAlertsMessages;
+
 
 
 class OrdemController extends Controller
 {
+    use redirectAlertsMessages;
 
     public function __construct(OrdemServico $ordem)
     {
@@ -43,8 +46,15 @@ class OrdemController extends Controller
     {
 
         $cliente = Cliente::find($id);
-        Debugbar::info("Ordem",$cliente->ordens[0]);
-        $ordemId = $cliente->ordens[0]->id;
+        if(isset($cliente->ordens[0])){
+            $ordemId = $cliente->ordens[0]->id;
+        } else{
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Cadastrar uma demanda'],
+                'Ok',
+                'clientes.last'
+            );
+        }
         $ordem = $cliente->ordens[0];
         $occupations = Occupation::orderBy('nome')->get();
         $maritalStatus = MaritalStatus::orderBy('nome')->get();

@@ -13,7 +13,14 @@ class AlertsController extends Controller
      * **/
      public function errorMessage()
      {
-        return view('apoio.alerts.errors');
+        $btnOk = session()->get('btnok');
+        $okRoute = session()->get('okroute');
+        $btnCancel = session()->get('btncancel');
+        $cancelRoute = session()->get('cancelroute');
+        return view(
+           'apoio.alerts.errors',
+           compact('btnOk', 'okRoute', 'btnCancel', 'cancelRoute')
+         );
      }
 
      /** 
@@ -22,6 +29,15 @@ class AlertsController extends Controller
      * **/
      public function successMessage()
      {
-        return view('apoio.alerts.success');
+         $success = session()->get('success');
+         $btnOk = session()->get('btnok');
+         $okRoute = session()->get('okroute');
+         $btnCancel = session()->get('btncancel');
+         $cancelRoute = session()->get('cancelroute');
+
+        return view(
+           'apoio.alerts.success',
+           compact('success', 'btnOk', 'okRoute', 'btnCancel', 'cancelRoute')
+         );
      }
 }

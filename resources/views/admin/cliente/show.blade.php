@@ -55,8 +55,71 @@
           />
         </p>
 
-        <a class="btn btn-mcb" href="{{route('clientes.edit', $cliente->id)}}">Alterar Dados</a>
-        <a class="btn btn-mcb">Criar Ordem Serviço</a>
+        {{-- when client is potencial --}}
+        @if ($cliente->statuscliente_id == 1)
+        {{-- update data button --}}
+        <x-button.button-mcb
+          route="clientes.edit"
+          :params="$cliente->id"
+          title="Alterar"
+        />
+        {{-- create order button --}}
+        <a class="btn btn-mcb">Criar Ordem</a>
+         {{-- inactive client button --}}
+        <x-button.button-danger
+          route="clientes.inactive"
+          :params="$cliente->id"
+          title="Inativar"
+        />
+        @endif
+
+        {{-- when client is inactive--}}
+        @if ($cliente->statuscliente_id == 2)
+        {{-- reactive client --}}
+        <x-button.button-mcb
+          route="clientes.active"
+          :params="$cliente->id"
+          title="Reativar"
+        />
+        {{-- create new order --}}
+        <x-button.button-mcb
+          route="ordens.create"
+          :params="$cliente->id"
+          title="Criar Ordem Serviço"
+        />
+        @endif
+
+        {{-- when client has an order running--}}
+        {{-- @if ($client->statusclient_id == 3) --}}
+        {{-- end order --}}
+        {{-- <x-button.button-mcb
+          route=""
+          :params=""
+          title="Encerrar Ordem"
+        /> --}}
+        {{-- update order --}}
+        {{-- <x-button.button-mcb
+          route=""
+          :params=""
+          title="Alterar"
+        />
+        @endif --}}
+
+        {{-- when client has an order done--}}
+        {{-- @if ($client->statusclient_id == 4) --}}
+            {{-- potential client again --}}
+        {{-- <x-button.button-mcb
+        route=""
+        :params=""
+        title="Potencial"
+      /> --}}
+        {{-- new order --}}
+        {{-- <x-button.button-mcb
+          route=""
+          :params=""
+          title="Nova Ordem Serviço"
+        />@endif --}}
+
       </div>
       {{-- COMMENTS --}}
       <div class="col-4 mx-auto">

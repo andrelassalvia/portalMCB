@@ -3,13 +3,18 @@
 @section('content')
 
   {{-- Modal coming from cliente store controller --}}
-  @if (Session::has('client_success'))
-    <x-modal.modal-alert btncancel="Não" btnok="Sim">
+  {{-- @if (Session::has('client_success'))
+    <x-modal.modal-alert 
+      btnok="Sim"
+      routeok=""
+      btncancel="Não" 
+      routecancel=""
+    >
       <x-slot name="title">Cadastrar OS?</x-slot>
       <p>{{Session::get('client_success')}}</p>
       <x-slot name="msg"></x-slot>
     </x-modal.modal-alert>
-  @endif
+  @endif --}}
     
   <div id="new-OS-view">
     {{-- Client Form --}}   
@@ -33,7 +38,7 @@
                   class="form-control"
                   name="nome"
                   id="nomeCliente"
-                  value="{{old('nome')}}"
+                  value="{{$cliente->nome ?? old('nome')}}"
                 >
               </div>
               <div class="col-md-6">
@@ -55,7 +60,7 @@
                   class="form-control"
                   name="email"
                   id="emailCliente"
-                  value="{{old('email')}}"
+                  value="{{$cliente->email ?? old('email')}}"
                 >
               </div>
               <div class="col-md-6">
@@ -88,7 +93,7 @@
                   class="form-control"
                   name="data_nascimento"
                   id="dataNascimento"
-                  value="{{old('data_nascimento')}}"
+                  value="{{$cliente->data_nascimento ?? old('data_nascimento')}}"
                 >
               </div>
               <div class="col-md-6">
@@ -100,7 +105,7 @@
                 >
                   <option value="">Selecione</option>
                   @foreach ($maritalStatus as $item)
-                    <option value="{{$item->id}}">{{$item->nome}}</option>
+                    <option value="{{$item->id}}"{{$cliente->maritalstatus_id == $item->id ? 'select' : ""}}>{{$item->nome}}</option>
                   @endforeach
                 </select>
               </div>
@@ -515,7 +520,7 @@
  
 
     
-      <script type="text/javascript">
+      {{-- <script type="text/javascript">
         $(function(){
           $('#alertModal').modal('show');
           $('#cancelButton').on('click', function(){
@@ -525,7 +530,7 @@
             $('#alertModal').modal('hide');
           });
         });
-      </script>
+      </script> --}}
       {{-- Dropdown list of cities --}}
     <script type="text/javascript" src="{{asset('js/loadCities.js')}}"></script> 
 

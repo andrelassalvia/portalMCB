@@ -2,7 +2,12 @@
 
 @section('content')
   {{-- trigger modal to insert a new client telephone --}}
-  <x-modal.modal-alert btncancel="Cancelar" btnok="Ok">
+  <x-modal.modal-alert 
+    btncancel="Cancelar" 
+    btnok="Ok"
+    routecancel="/clientes/last"
+    routeok=""
+  >
     <x-slot name="title">Insira o telefone do cliente:</x-slot>
     <div class="container">
       <div class="row">

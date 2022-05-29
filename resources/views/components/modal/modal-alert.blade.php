@@ -24,6 +24,7 @@
           type="button" 
           class="btn btn-mcb" 
           id="cancelButton"
+          data-route="{{$routecancel}}"
           @empty($btncancel)
             style="display: none"
           @endempty
@@ -36,6 +37,7 @@
             type="button" 
             class="btn btn-mcb" 
             id="okButton"
+            data-route="{{$routeok}}"
             @empty($btnok)
               style="display: none"
             @endempty

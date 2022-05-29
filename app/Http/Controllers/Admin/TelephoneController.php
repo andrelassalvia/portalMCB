@@ -13,9 +13,11 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\redirectAlertsMessages;
 
 class TelephoneController extends Controller
 {
+    use redirectAlertsMessages;
     /**
      * method to show a modal to insert a new telephone
      * intending to create a new client
@@ -45,10 +47,10 @@ class TelephoneController extends Controller
         );
         // Redirect to alert errors case validation fails
         if($validated->fails()){
-            return redirect()
-                ->route('alerts.errors')
-                ->withErrors($validated)
-                ->withInput();
+            return redirectAlertsMessages::redirectErrors(
+                $validated,
+                'Ok'
+            );
         }
 
         // remove all characters but numbers to show telephone in form
@@ -58,13 +60,10 @@ class TelephoneController extends Controller
         // check if the phone length is ok
         $length = Str::length($tel);
         if($length < 12){
-            return redirect()
-            ->route('alerts.errors')
-            ->withErrors(
-                [
-                    'errors' => 'Telefone deve iniciar com o código do país'
-                ])
-            ->withInput();
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Não esqueça de inserir o código de área do país'],
+                'Ok',
+            );
         }
 
         // check if the phone already exists

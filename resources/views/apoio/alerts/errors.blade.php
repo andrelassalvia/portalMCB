@@ -5,10 +5,16 @@
   @extends('layouts.base')
 
   @section('content')
+  
+  @if (isset($errors) && count($errors) > 0)
+    <x-modal.modal-alert 
+      :btnok="$btnOk"
+      :routeok="$okRoute"
+      :btncancel="$btnCancel" 
+      :routecancel="$cancelRoute"
       
-    @if (isset($errors) && count($errors) > 0)
-    <x-modal.modal-alert btncancel="" btnok="Ok">
-      <x-slot name="title">Erro de gravação</x-slot>
+    >
+      <x-slot name="title"></x-slot>
       @foreach ($errors->all() as $error)
       <p>{{$error}}</p>
       @endforeach

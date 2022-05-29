@@ -13,11 +13,15 @@ class modalAlert extends Component
      */
     public $btncancel;
     public $btnok;
+    public $routecancel;
+    public $routeok;
 
-    public function __construct($btncancel, $btnok)
+    public function __construct($btncancel, $btnok, $routecancel, $routeok)
     {
         $this->btncancel = $btncancel;
         $this->btnok = $btnok;
+        $this->routecancel = $routecancel;
+        $this->routeok = $routeok;
     }
 
     /**
@@ -27,6 +31,7 @@ class modalAlert extends Component
      */
     public function render()
     {
+        
         return view('components.modal.modal-alert');
     }
 }

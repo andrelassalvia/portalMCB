@@ -36,6 +36,7 @@ Route::prefix('/clientes')
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
             route::any('/inativar/{cliente}', 'inactive')->name('clientes.inactive');
+            route::any('/ativar/{cliente}', 'active')->name('clientes.active');
             route::any('/{id}/update', 'update')->name('clientes.update');
         });
 
@@ -111,7 +112,7 @@ Route::prefix('alerts')
     ->middleware(['auth'])
     ->controller('App\Http\Controllers\Apoio\AlertsController')
     ->group(function(){
-        route::get('/error-message', 'errorMessage')->name('alerts.errors');
+        route::get('/errors-message', 'errorMessage')->name('alerts.errors');
         route::get('/success-message', 'successMessage')->name('alerts.success');
     });
 

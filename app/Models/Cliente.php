@@ -228,28 +228,28 @@ class Cliente extends Model
     }
 
     // Redirect as result of update
-    public static function responseFromUpdate($updated, $id)
-    {
-        if($updated){
-            return redirect()
-                ->route('ordens.create', ['id' => $id])
-                ->with(
-                    [
-                        'client_success' => 'Cliente inserido com sucesso. Deseja iniciar uma ordem de serviço agora?'
-                    ]
-                )
-                ->withInput();
-        } else {
-            return redirect()
-                ->route('alerts.errors')
-                ->withErrors(
-                    [
-                        'errors' => 'Falha no cadastramento.'
-                    ]
-                )
-                ->withInput();
-        }
-    }
+    // public static function responseFromUpdate($updated, $id)
+    // {
+    //     if($updated){
+    //         return redirect()
+    //             ->route('ordens.create', ['id' => $id])
+    //             ->with(
+    //                 [
+    //                     'client_success' => 'Cliente inserido com sucesso. Deseja iniciar uma ordem de serviço agora?'
+    //                 ]
+    //             )
+    //             ->withInput();
+    //     } else {
+    //         return redirect()
+    //             ->route('alerts.errors')
+    //             ->withErrors(
+    //                 [
+    //                     'errors' => 'Falha no cadastramento.'
+    //                 ]
+    //             )
+    //             ->withInput();
+    //     }
+    // }
 
     // ===============================================================
 }
