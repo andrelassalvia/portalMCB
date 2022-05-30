@@ -30,9 +30,10 @@
           <x-slot name="icon">
             <i class="bx bx-face icon"></i>
           </x-slot>
-          <x-dropdown.item title="Últimos Contatos" route="clientes.last"></x-dropdown.item>
           <x-dropdown.item title="Novo cliente" route="telephones.create"></x-dropdown.item>
-          <x-dropdown.item title="Lista Clientes" route="clientes.index"></x-dropdown.item>
+          <x-dropdown.item title="Clientes Potenciais" route="clients.potential"></x-dropdown.item>
+          <x-dropdown.item title="Clientes com Ordem" route="clients.withOrders"></x-dropdown.item>
+          <x-dropdown.item title="Clientes Inativos" route="clients.inactives"></x-dropdown.item>
         </x-dropdown.link>
 
         {{-- Ordem Servico --}}

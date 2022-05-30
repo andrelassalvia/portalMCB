@@ -29,15 +29,31 @@ Route::prefix('/clientes')
         ->group(function()
         {
             route::get('/', 'index')->name('clientes.index');
-            route::get('/last', 'indexLast')->name('clientes.last');
             route::get('/create/{validated?}', 'create')->name('clientes.create');
             route::post('/{id?}', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
             route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
+            route::any('/{id}/update', 'update')->name('clientes.update');
+        });
+
+// CLIENTS LIST 
+Route::prefix('/clientsList')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Admin\ClienteListsController')
+        ->group(function(){
+            route::get('/potential', 'potentialClients')->name('clients.potential');
+            route::get('/withOrders', 'withOrdersClients')->name('clients.withOrders');
+            route::get('/inactives', 'inactivesClients')->name('clients.inactives');
+        });
+
+// CLIENTS TOGGLE ACTIVE
+Route::prefix('/clientsToggle')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Admin\ClienteToggleActive')
+        ->group(function(){
             route::any('/inativar/{cliente}', 'inactive')->name('clientes.inactive');
             route::any('/ativar/{cliente}', 'active')->name('clientes.active');
-            route::any('/{id}/update', 'update')->name('clientes.update');
         });
 
 // ORDENS

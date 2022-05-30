@@ -33,20 +33,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::IndexStatus([1,2,3,4]);
-        return view('admin.cliente.index', compact('clientes'));
-    }
-
-    /**
-    * Method to show only contacts with potencial status
-    * Inactive or with orders running will not be shown here
-    * @param status_id from status_cliente table
-    * @return clientes list to a view 
-    */
-    public function indexLast()
-    {
-        $clientes = Cliente::IndexStatus([1]);  
-        return view('admin.cliente.indexLast', compact('clientes'));
+        
     }
 
     /**
@@ -181,11 +168,10 @@ class ClienteController extends Controller
 
         // client doesn't exist send a warning
         if($cliente === null){
-            return Cliente::redirectErrors(
-                [
-                    'errors' => 'Cliente não encontrado no banco de dados. Cadastrá-lo novamente.'
-                    ]
-                );
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Cliente não encontrado no banco de dados'],
+                'Ok'
+            );
 
             // client exist, check wether is a partial update or not to determine the validation 
             // rules
@@ -247,11 +233,11 @@ class ClienteController extends Controller
  
         // response message
         if($update){
-        return Cliente::redirectSuccess(
-            [
-                'success' => 'Dados do cliente alterados com sucesso'
-            ]
-        );               
+            return redirectAlertsMessages::redirectSuccess(
+                ['success' => 'Dados do cliente alterados com sucesso'],
+                'Ok',
+                ['route' => 'clientes.last']
+            );
         } else {
             return redirectAlertsMessages::redirectErrors(
                 ['errors' => 'Falha na alteração. Tente novamente'],
@@ -268,51 +254,5 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-    * method to turn client status as inactive
-    * @param id
-    * @return message with a success or error response
-    */
-    public function inactive($id)
-    {
-        $cliente = Cliente::find($id);
-        $update = $cliente->update(['statuscliente_id' => 2]);
-        if($update){
-            return redirectAlertsMessages::redirectSuccess(
-                ['success' => 'Cliente inativado'],
-                'Ok',
-                
-            );
-        } else {
-            return redirectAlertsMessages::redirectErrors(
-                ['errors' => 'Falha na inativação do cliente'],
-                'Ok'
-            );
-        }
-    }
-
-    /**
-     * Method to turn client status as active
-     * @param id
-     * @return
-     */
-    public function active($id)
-    {
-        $cliente = Cliente::find($id);
-        $update = $cliente->update(['statuscliente_id' => 1]);
-        if($update){
-            return redirectAlertsMessages::redirectSuccess(
-                ['success' => 'Cliente reativado com sucesso'],
-                'Ok',
-                ['route' => 'clientes.last']
-            );
-        } else {
-            return redirectAlertsMessages::redirectErrors(
-                ['errors' => 'Falha na inativação do cliente'],
-                'Ok'
-            );
-        }
     }
 }

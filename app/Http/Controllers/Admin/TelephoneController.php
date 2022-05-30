@@ -18,6 +18,12 @@ use App\Traits\redirectAlertsMessages;
 class TelephoneController extends Controller
 {
     use redirectAlertsMessages;
+
+    public function __construct(Cliente $cliente)
+    {
+        $this->cliente = $cliente;
+    }
+
     /**
      * method to show a modal to insert a new telephone
      * intending to create a new client
@@ -36,30 +42,23 @@ class TelephoneController extends Controller
     public function store(Request $request)
     {
         // validation rules
-        $validated = Validator::make(
+        $rulesTelephone = $this->cliente->partialRules($request->all());
+        $validatedTelephone = Validator::make(
             $request->all(),
-            [
-                'telefone' => array(
-                    'required',
-                    'regex:/[-+()0-9]/'
-                ),
-            ]
+            $rulesTelephone
         );
+       
         // Redirect to alert errors case validation fails
-        if($validated->fails()){
+        if($validatedTelephone->fails()){
             return redirectAlertsMessages::redirectErrors(
-                $validated,
+                $validatedTelephone,
                 'Ok'
             );
         }
 
-        // remove all characters but numbers to show telephone in form
-        $tel = $request->telefone;
-        $tel = preg_replace('/[^0-9]/', '', $tel);
-
-        // check if the phone length is ok
-        $length = Str::length($tel);
-        if($length < 12){
+        // handling phone number before save
+        $tel = $this->cliente->cleanPhone($request->telefone);
+        if(Str::length($tel) < 12){
             return redirectAlertsMessages::redirectErrors(
                 ['errors' => 'Não esqueça de inserir o código de área do país'],
                 'Ok',
@@ -78,7 +77,6 @@ class TelephoneController extends Controller
             $estado = $cliente['estadobrasil_id'];
             $cidade = $cliente['cidadebrasil_id'];
             (isset($cliente->ordens[0]) ? $ordem = $cliente->ordens[0] : $ordem = null);
-           
 
             // Load only cities from the client state - reduce the amount of registers
             $cityIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');

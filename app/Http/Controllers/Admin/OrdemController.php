@@ -44,7 +44,6 @@ class OrdemController extends Controller
      */
     public function create($id)
     {
-
         $cliente = Cliente::find($id);
         if(isset($cliente->ordens[0])){
             $ordemId = $cliente->ordens[0]->id;

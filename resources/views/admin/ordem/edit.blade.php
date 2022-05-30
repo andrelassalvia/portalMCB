@@ -2,6 +2,7 @@
 
 @section('content')
 
+  {{-- Change the order status --}}
     <div class="container">  
       <div class="progress-container mx-auto">
         <div class="progress" id="progress"></div>

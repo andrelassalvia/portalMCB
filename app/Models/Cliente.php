@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Traits\redirectAlertsMessages;
 
 
 class Cliente extends Model
 {
-    use HasFactory;
+    use HasFactory, redirectAlertsMessages;
 
     //  ========== BASIC SETS ===============
     protected $table = 'cliente';
@@ -185,7 +185,7 @@ class Cliente extends Model
     public function scopeIndexStatus($query, $status)
     {
         return $query->whereIn('statuscliente_id', $status)
-            ->with(['ordens', 'statusCliente'])
+            ->with(['ordens.tipoServico', 'statusCliente'])
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -202,30 +202,37 @@ class Cliente extends Model
         return $rules;
     }
 
-    // redirect to error modal
-    public static function redirectErrors($error)
-    {
-        return redirect()
-        ->route('alerts.errors')
-        ->withErrors($error)
-        ->withInput();
-    }
-
-    // redirect to success modal
-    public static function redirectSuccess($success)
-    {
-        return redirect()
-        ->route('alerts.success')
-        ->with($success)
-        ->withInput();
-    }
-
     // find client and update with request->all
     public function findAndUpdate($id, $request)
     {
         $cliente = Cliente::find($id);
         return $cliente->update($request);
     }
+
+    // cleaning phone number to save
+    public function cleanPhone($tel)
+    {
+        return preg_replace('/[^0-9]/','',$tel);
+    }
+
+    // redirect to error modal
+    // public static function redirectErrors($error)
+    // {
+    //     return redirect()
+    //     ->route('alerts.errors')
+    //     ->withErrors($error)
+    //     ->withInput();
+    // }
+
+    // // redirect to success modal
+    // public static function redirectSuccess($success)
+    // {
+    //     return redirect()
+    //     ->route('alerts.success')
+    //     ->with($success)
+    //     ->withInput();
+    // }
+
 
     // Redirect as result of update
     // public static function responseFromUpdate($updated, $id)
