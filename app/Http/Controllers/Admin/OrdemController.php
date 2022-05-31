@@ -38,8 +38,8 @@ class OrdemController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * Show the form for creating a new service order
+     * @param id from client because an order is binded with a client.
      * @return \Illuminate\Http\Response
      */
     public function create($id)
@@ -51,7 +51,7 @@ class OrdemController extends Controller
             return redirectAlertsMessages::redirectErrors(
                 ['errors' => 'Cadastrar uma demanda'],
                 'Ok',
-                'clientes.last'
+                ['route' => 'clients.potential']
             );
         }
         $ordem = $cliente->ordens[0];

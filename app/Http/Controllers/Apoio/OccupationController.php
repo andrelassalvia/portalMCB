@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Apoio;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Occupation;
+use Illuminate\Support\Facades\Validator;
+use App\Traits\redirectAlertsMessages;
 use Illuminate\Support\Facades\DB;
 
 class OccupationController extends Controller
 {
+    use redirectAlertsMessages;
     /**
      * Display a listing of the resource.
      *
@@ -37,25 +40,21 @@ class OccupationController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nome' => 'required|min:3|max:40|string'
-        ]); 
+        $validateOccupation = Validator::make(
+            $request->all(),
+            ['nome' => 'required|min:3|max:40|string']
+        );
 
-        // Check Database
-        $name = $validated['nome'];        
-        $check = Occupation::where('nome', $name)->get()->first();
-        if($check){
-            return response()->json(
-                ['error' => 'Ocupação já cadastrada']                
+        if($validateOccupation->fails()){
+            return redirectAlertsMessages::redirectErrors(
+                $validateOccupation,
+                'Ok',
             );
-             
-        } else {
-            $savedData = DB::table('occupation')->insert([
-                'nome' => $name,
-            ]);
-
-            return response()->json($savedData);
-        }        
+        }
+        Occupation::firstOrCreate(
+            ['nome' => $request['nome']]
+        );
+        return redirect()->route('ordens.create', $request['id']);
     }
 
     /**

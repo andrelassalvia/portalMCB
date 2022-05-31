@@ -55,7 +55,7 @@
           />
         </p>
 
-        {{-- when client is potencial --}}
+        {{-- when client is potential --}}
         @if ($cliente->statuscliente_id == 1)
         {{-- update data button --}}
         <x-button.button-mcb
@@ -64,7 +64,11 @@
           title="Alterar"
         />
         {{-- create order button --}}
-        <a class="btn btn-mcb">Criar Ordem</a>
+        <x-button.button-mcb
+          route="ordens.create"
+          :params="$cliente->id"
+          title="Criar Ordem Serviço"
+        />
          {{-- inactive client button --}}
         <x-button.button-danger
           route="clientes.inactive"

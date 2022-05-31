@@ -24,3 +24,10 @@
 <label class="form-check-label" for="{{$id}}">
     {{$title}}
 </label>  
+
+{{-- 
+    obj
+    name
+    id
+    title
+     --}}

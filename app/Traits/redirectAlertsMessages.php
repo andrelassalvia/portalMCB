@@ -7,8 +7,12 @@ use Illuminate\Support\Arr;
 
 trait redirectAlertsMessages
 {
-  // check route name and transform to http://
-  protected static function findRoute($path)
+  /**
+   * Method to transform input name in a route name
+   * @param array with route name and parameters
+   * @return route name with parameters 
+   */
+  protected static function findRoute(array $path = null)
   {
     if($path){
       $route = Arr::get($path, 'route');
@@ -18,13 +22,14 @@ trait redirectAlertsMessages
   }
   /**
    * method to redirect to a error message
+   * @param string|array 
    */
   public function redirectErrors(
     $error, 
-    $btnOk = null,
-    $okRoute = null,
-    $btnCancel = null, 
-    $cancelRoute = null
+    string $btnOk = null,
+    array $okRoute = null,
+    string $btnCancel = null, 
+    array $cancelRoute = null
   )
   {
     // find the route from string
@@ -44,12 +49,16 @@ trait redirectAlertsMessages
         ->withInput();
   }
 
+    /**
+   * method to redirect to a success message
+   * @param string|array 
+   */
   public function redirectSuccess(
     $success, 
-    $btnOk = null,
-    $okRoute = null,
-    $btnCancel = null, 
-    $cancelRoute = null
+    string $btnOk = null,
+    array $okRoute = null,
+    string $btnCancel = null, 
+    array $cancelRoute = null
   )
   {
     // find the route from string

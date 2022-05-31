@@ -5,7 +5,7 @@
   <x-modal.modal-alert 
     btncancel="Cancelar" 
     btnok="Ok"
-    routecancel="/clientes/last"
+    routecancel="/clientsList/potential"
     routeok=""
   >
     <x-slot name="title">Insira o telefone do cliente:</x-slot>

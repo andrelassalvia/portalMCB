@@ -92,7 +92,7 @@ class ClienteController extends Controller
                 'Sim',
                 ['route' => 'ordens.create', 'param' => $id],
                 'Não',
-                ['route' => 'clientes.last']
+                ['route' => 'clients.potential']
             );
         } else {
             return redirectAlertsMessages::redirectErrors(
@@ -236,7 +236,7 @@ class ClienteController extends Controller
             return redirectAlertsMessages::redirectSuccess(
                 ['success' => 'Dados do cliente alterados com sucesso'],
                 'Ok',
-                ['route' => 'clientes.last']
+                ['route' => 'clients.potential']
             );
         } else {
             return redirectAlertsMessages::redirectErrors(

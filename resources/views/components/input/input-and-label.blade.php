@@ -6,3 +6,11 @@
     name="{{$name}}"
     value="{{old("$name") ?? "$value"}}"
 >
+
+{{-- 
+    id
+    title
+    type
+    name
+    value
+    --}}

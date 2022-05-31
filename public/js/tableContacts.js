@@ -37,7 +37,7 @@ $(function () {
         e.preventDefault;
         var data = table.row(this).data();
 
-        let id = data[1]; // id para ser enviado ao edit
+        let id = data[1]; // id para ser enviado ao show
         window.location.href = "/clientes/" + id;
     });
 });

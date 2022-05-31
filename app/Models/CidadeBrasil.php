@@ -9,6 +9,7 @@ class CidadeBrasil extends Model
 {
     use HasFactory;
 
+    // ========= BASIC SETS ========================= //
     protected $table = 'cidade_brasil';
     protected $fillable = ['nome', 'estadobrasil_id'];
     protected $casts = [
@@ -16,6 +17,7 @@ class CidadeBrasil extends Model
         'estadobrasil_id' => 'integer'
     ];
 
+    // =========== RELATIONSHIPS ==================== //
     public function clientes()
     {
         return $this->hasMany(Cliente::class, 'cidadebrasil_id', 'id');

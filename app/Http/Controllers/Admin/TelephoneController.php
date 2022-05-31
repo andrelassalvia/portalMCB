@@ -27,6 +27,7 @@ class TelephoneController extends Controller
     /**
      * method to show a modal to insert a new telephone
      * intending to create a new client
+     * @return view
      */
     public function create()
     {

@@ -1,20 +1,6 @@
 @extends('layouts.base')
 
 @section('content')
-
-  {{-- Modal coming from cliente store controller --}}
-  {{-- @if (Session::has('client_success'))
-    <x-modal.modal-alert 
-      btnok="Sim"
-      routeok=""
-      btncancel="Não" 
-      routecancel=""
-    >
-      <x-slot name="title">Cadastrar OS?</x-slot>
-      <p>{{Session::get('client_success')}}</p>
-      <x-slot name="msg"></x-slot>
-    </x-modal.modal-alert>
-  @endif --}}
     
   <div id="new-OS-view">
     {{-- Client Form --}}   
@@ -26,43 +12,64 @@
     >
       @csrf
       @method('PATCH')
-      <div class="col-10 col-xl-8 mx-auto mb-5 mt-5">
+      <div class="col-10 col-xl-8 mx-auto mb-4 mt-5">
         <section title="Dados do cliente" class="card shadow">
           <h5 class="card-header">Dados do Cliente</h5>
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-md-6">
-                <label for="nomeCliente" class="form-label">Nome:</label>
+
+                {{-- Hidden inputs --}}
                 <input 
-                  type="text"
-                  class="form-control"
-                  name="nome"
+                  type="hidden"
+                  data-id="{{$cliente->id}}"
+                >
+                <input
+                  type="hidden"
+                  data-pais_id="{{$cliente->pais_id}}"
+                >
+                <input
+                  type="hidden"
+                  name="statuscliente_id"
+                  value="3"
+                >
+
+                {{-- Client name --}}
+                <x-input.input-and-label
                   id="nomeCliente"
-                  value="{{$cliente->nome ?? old('nome')}}"
-                >
-              </div>
-              <div class="col-md-6">
-                <label for="telefoneCliente" class="form-label">Telefone:</label>
-                <input 
+                  title="Nome:"
                   type="text"
-                  class="form-control"
-                  name="telefone"
+                  name="nome"
+                  :value="$cliente->nome"
+                />
+              </div>
+
+              {{-- Client telefone --}}
+              <div class="col-md-6">
+                <x-input.input-and-label
                   id="telefoneCliente"
-                  value="{{$cliente->telefone ?? old('telefone')}}"
-                >
+                  title="Telefone:"
+                  type="text"
+                  name="telefone"
+                  :value="$cliente->telefone"
+                />
               </div>
             </div>
+
             <div class="row mb-3">
+
+              {{-- Cliente email --}}
               <div class="col-md-6">
-                <label for="emailCliente" class="form-label">Email:</label>
-                <input 
-                  type="email" 
-                  class="form-control"
-                  name="email"
+                <x-input.input-and-label
                   id="emailCliente"
-                  value="{{$cliente->email ?? old('email')}}"
-                >
+                  title="Email:"
+                  type="email"
+                  name="email"
+                  :value="$cliente->email"
+                />
               </div>
+
+              {{-- Client occupation --}}
               <div class="col-md-6">
                 <label for="occupation" class="form-label">Ocupação:</label>
                 <div class="d-flex">
@@ -86,296 +93,210 @@
               </div>
             </div>
             <div class="row mb-3">
+
+              {{-- Birth Date --}}
               <div class="col-md-6">
-                <label for="dataNascimento" class="form-label">Data de Nascimento:</label>
-                <input 
-                  type="date" 
-                  class="form-control"
-                  name="data_nascimento"
+                <x-input.input-and-label
                   id="dataNascimento"
-                  value="{{$cliente->data_nascimento ?? old('data_nascimento')}}"
-                >
+                  title="Data de Nascimento:"
+                  type="date"
+                  name="data_nascimento"
+                  :value="$cliente->data_nascimento"
+                />
               </div>
+
+              {{-- Marital status --}}
               <div class="col-md-6">
-                <label for="maritalStatus" class="form-label">Estado Civil:</label>
-                <select 
-                  class="form-select"
-                  name="maritalstatus_id" 
-                  id="maritalStatus"
+                <x-select.select-and-label
+                  name="maritalstatus_id"
+                  title="Estado Civil:"
+                  :id="'maritalStatus'"
                 >
-                  <option value="">Selecione</option>
-                  @foreach ($maritalStatus as $item)
-                    <option value="{{$item->id}}"{{$cliente->maritalstatus_id == $item->id ? 'select' : ""}}>{{$item->nome}}</option>
-                  @endforeach
-                </select>
+                  <x-select.option-foreach-and-isset
+                    :arr="$maritalStatus"
+                    value="id"
+                    :object="$cliente"
+                    foreignId="maritalstatus_id"
+                    column="nome"
+                  />
+                </x-select.select-and-label>
               </div>
             </div>
             <label for="" class="form-label">Documentos:</label>
               <div class="row mb-3">
                 <div class="col-12 d-md-flex">
                   <div class="form-check d-flex d-md-block col-2 align-items-center">
-                    @if ($cliente->firma_aberta == 1)
-                      <input 
-                        class="form-check-input"
-                        type="checkbox" 
-                        name="firma_aberta" 
-                        value="1" 
-                        checked 
-                        id="firma_aberta"
-                      >
-                    @else
-                      <input 
-                        type="hidden" 
-                        name="firma_aberta" 
-                        value="0" 
-                        id="firma_aberta"
-                      >
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="firma_aberta" 
-                        value="1" {{old('firma_aberta') == 1 ? 'checked' : ''}} 
-                        id="firma_aberta"
-                      >                          
-                    @endif
-                    <label class="form-check-label" for="firma_aberta">
-                      Firma aberta
-                    </label>
+
+                    {{-- Firma Aberta Check --}}
+                    <x-input.check-and-label
+                    :obj="$cliente"
+                    name="firma_aberta"
+                    :id="'firma_aberta'"
+                    title="Firma aberta"
+                    />
                   </div>
+
+                  {{-- CNH check --}}
                   <div class="form-check col-2">
-                    @if ($cliente->cnh == 1)
-                      <input 
-                        type="checkbox" 
-                        name="cnh" 
-                        checked 
-                        id="cnh"
-                        value="1"
-                      >
-                    @else
-                      <input 
-                        type="hidden" 
-                        name="cnh" 
-                        value="0"
-                        id="cnh"
-                      >
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="cnh" 
-                        value="1" {{old('cnh') == 1 ? 'checked' : ''}}
-                        id="cnh"
-                      >                          
-                    @endif
-                    <label class="form-check-label" for="cnh">
-                      CNH
-                    </label>
+                    <x-input.check-and-label
+                      :obj="$cliente"
+                      name="cnh"
+                      :id="'cnh'"
+                      title="CNH"
+                    />
                   </div>
+
+                  {{-- CPF check --}}
                   <div class="form-check col-2">
-                    @if ($cliente->cpf == 1)
-                      <input 
-                        type="checkbox" 
-                        name="cpf"
-                        checked 
-                        id="cpf"
-                        value="1"
-                      >    
-                    @else
-                      <input 
-                        type="hidden" 
-                        name="cpf" 
-                        value="0"
-                        id="cpf"
-                      >
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="cpf" 
-                        value="1" {{old('cpf') == 1 ? 'checked' : ''}}
-                        id="cpf"
-                      >                          
-                    @endif
-                    <label class="form-check-label" for="cpf">
-                      CPF
-                    </label>
+                    <x-input.check-and-label
+                      :obj="$cliente"
+                      name="cpf"
+                      :id="'cpf'"
+                      title="CPF"
+                    />
                   </div>
+
+                  {{-- Certificacao check --}}
                   <div class="form-check col-2">
-                    @if ($cliente->certificacao_digital == 1)
-                      <input 
-                        type="checkbox"                            
-                        name="certificacao_digital"
-                        checked 
-                        id="certificacao_digital"
-                        value="1"
-                      >    
-                    @else
-                      <input 
-                        type="hidden" 
-                        name="certificacao_digital" 
-                        value="0"
-                        id="certificacao_digital"
-                      >
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="certificacao_digital" 
-                        value="1" {{old('certificacao_digital') == 1 ? 'checked' : ''}}
-                        id="certificacao_digital"
-                      >                          
-                    @endif
-                    <label class="form-check-label" for="certificacao_digital">
-                      Certificação
-                    </label>
+                    <x-input.check-and-label
+                      :obj="$cliente"
+                      name="certificacao_digital"
+                      :id="'certificacao_digital'"
+                      title="Certificação"
+                    />
                   </div>
+
+                  {{-- RG check --}}
                   <div class="form-check col-2">
-                    @if ($cliente->rg == 1)
-                      <input 
-                        type="checkbox"
-                        name="rg"
-                        checked
-                        id="rg"
-                        value="1"
-                      >                            
-                    @else
-                      <input 
-                        type="hidden" 
-                        name="rg" 
-                        value="0"
-                        id="rg"
-                      >
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="rg" 
-                        value="1" {{old('rg') == 1 ? 'checked' : ''}}
-                        id="rg"
-                      >                            
-                    @endif
-                    <label class="form-check-label" for="rg">
-                      RG
-                    </label>
+                    <x-input.check-and-label
+                      :obj="$cliente"
+                      name="rg"
+                      :id="'rg'"
+                      title="RG"
+                    />
                   </div>
+
+                  {{-- passaporte check --}}
                   <div class="form-check col-2">
-                    @if ($cliente->passaporte == 1)
-                        <input 
-                          type="checkbox"
-                          name="passaporte"
-                          checked
-                          id="passsaporte"
-                          value="1"
-                        >
-                    @else
-                      <input 
-                        type="hidden" 
-                        name="passaporte" 
-                        value="0"
-                        id="passaporte"
-                      >
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        name="passaporte" 
-                        value="1" {{old('passaporte') == 1 ? 'checked' : ''}}
-                        id="passaporte"
-                      >                            
-                    @endif
-                    <label class="form-check-label" for="passaporte">
-                      Passaporte
-                    </label>
+                    <x-input.check-and-label
+                      :obj="$cliente"
+                      name="passaporte"
+                      :id="'passaporte'"
+                      title="Passaporte"
+                    />
                   </div>
                 </div>                      
               </div>
               <div class="row mb-3">
+
+                {{-- Estado Select --}}
                 <div class="col-md-6">
-                  <label for="estado_brasil" class="form-label">Estado:</label>
-                  <select 
-                    class="form-select" 
-                    name="estadobrasil_id" 
-                    id="estado_brasil" 
+                  <x-select.select-and-label
+                    name="estadobrasil_id"
+                    title="Estado:"
+                    :id="'estado_brasil'"
                   >
                     <option value="">Selecione</option>
-                    @foreach ($estados as $estado)                        
-                      <option value="{{$estado->id}}">{{$estado->nome}}</option>                
-                    @endforeach            
-                  </select>
+                      <x-select.option-foreach-and-isset
+                        :arr="$estados"
+                        value="id"
+                        :object="$cliente"
+                        foreignId="estadobrasil_id"
+                        column="nome"
+                      />
+                  </x-select.select-and-label>
                 </div>
+
+                {{-- Cidade Select --}}
                 <div class="col-md-6">
-                  <label for="cidade_brasil" class="form-label">Cidade:</label>
-                  <select 
-                    class="form-select" 
+                  <x-select.select-and-label
                     name="cidadebrasil_id"
-                    id="cidade_brasil"
+                    title="Cidade:"
+                    :id="'cidade_brasil'"
                   >
                     @isset($cidades)
                       <option value="">Selecione</option>
                     @endisset
-                  </select>
+                  </x-select.select-and-label>
                 </div>
               </div> 
               <div class="row mb-3">
+
+                {{-- Pais select --}}
                 <div class="col-md-6">
-                  <label for="pais_id" class="form-label">País:</label>
-                  <select 
-                    class="form-select" 
-                    name="pais_id" 
-                    id="pais" 
+                  <x-select.select-and-label
+                    name="pais_id"
+                    title="País:"
+                    :id="'pais'"
                   >
                     <option value="">Selecione</option>
-                    @foreach ($countries as $item)
-                      <option value="{{$item->id}}" {{$cliente->pais_id == $item->id ? 'selected' : ''}}>
-                        {{$item->nome}}
-                      </option>                
-                    @endforeach            
-                  </select>
+                      <x-select.option-foreach-and-isset
+                        :arr="$countries"
+                        value="id"
+                        :object="$cliente"
+                        foreignId="pais_id"
+                        column="nome"
+                      />
+                  </x-select.select-and-label>
                 </div>
+
+                {{-- Cidade Exterior select --}}
                 <div class="col-md-6">
-                  <label for="cidade" class="form-label">Cidade no exterior:</label>
-                  <select 
-                    class="form-select" 
+                  <x-select.select-and-label
                     name="cidade_id"
-                    id="cidade"
+                    title="Cidade no Exterior:"
+                    :id="'cidade'"
                   >
                     @isset($cities)
                       <option value="">Selecione</option>                
                     @endisset
-                  </select>
+                  </x-select.select-and-label>
                 </div>
               </div>
               <div class="row mb-3">
+
+                {{-- RG File --}}
                 <div class="col-md-3">
-                  <label for="rgFileCliente" class="form-label">RG:</label>
-                  <input 
-                    type="file" 
-                    class="form-control" 
-                    name="rg_file" 
-                    id="rgFileCliente"
-                  >
+                  <x-input.input-and-label
+                    :id="'rgFileCliente'"
+                    title="RG:"
+                    type="file"
+                    name="rg_file"
+                    value=""
+                  />
                 </div>
+
+                {{-- Passaporte File --}}
                 <div class="col-md-3">
-                  <label for="passaporteFileCliente" class="form-label">Passaporte:</label>
-                  <input 
-                    type="file" 
-                    class="form-control" 
-                    name="passaporte_file" 
-                    id="passaporteFileCliente"
-                  >
+                  <x-input.input-and-label
+                    :id="'passaporteFileCliente'"
+                    title="Passaporte:"
+                    type="file"
+                    name="passaporte_file"
+                    value=""
+                  />
                 </div>
+
+                {{-- CNH File --}}
                 <div class="col-md-3">
-                  <label for="cnhFileCliente" class="form-label">CNH:</label>
-                  <input 
-                    type="file" 
-                    class="form-control" 
-                    name="cnh_file" 
-                    id="cnhFileCliente"
-                  >
+                  <x-input.input-and-label
+                    :id="'cnhFileCliente'"
+                    title="CNH:"
+                    type="file"
+                    name="cnh_file"
+                    value=""
+                  />
                 </div>
+
+                {{-- Comprovante endereco file --}}
                 <div class="col-md-3">
-                  <label for="enderecoFileCliente" class="form-label">Endereço:</label>
-                  <input 
-                    type="file" 
-                    class="form-control" 
-                    name="endereco_file" 
-                    id="enderecoFileCliente"
-                  >
+                  <x-input.input-and-label
+                    :id="'enderecoFileCliente'"
+                    title="Endereço:"
+                    type="file"
+                    name="endereco_file"
+                    value=""
+                  />
                 </div>
               </div> 
           </div>
@@ -403,28 +324,31 @@
         name="statusordem_id"
         value="1"
       >
-      <div class="col-10 col-xl-8 mx-auto mb-5">
+      <div class="col-10 col-xl-8 mx-auto mb-4">
         <section title="Dados da OS" class="card shadow">
           <h5 class="card-header">Dados da Ordem de Serviço</h5>
             <div class="card-body">
               <div class="row mb-3 mx-auto">
+
+                {{-- Tipo de servico Select --}}
                 <div class="col-md-6">
-                  <label for="tipoServico" class="form-label">Tipo de Serviço:</label>
-                  <select 
-                    class="form-select" 
-                    name="tiposervico_id" 
-                    id="tipoServico" 
+                  <x-select.select-and-label
+                    name="tiposervico_id"
+                    title="Tipo de Serviço"
+                    :id="'tipoServico'"
                   >
-                      <option value="">Selecione</option>
-                      @foreach ($demandas as $item)
-                        <option 
-                          value="{{$item->id}}"{{$ordem->tipoServico->id == $item->id ? 'selected' : ''}}
-                        >
-                          {{$item->nome}}
-                        </option>                                                                                                                                   
-                      @endforeach                       
-                  </select>
+                    <option value="">Selecione</option>
+                    <x-select.option-foreach-and-isset
+                      :arr="$demandas"
+                      value="id"
+                      :object="$ordem->tipoServico"
+                      foreignId="id"
+                      column="nome"
+                    />
+                  </x-select.select-and-label>
                 </div>
+
+                {{-- Fornecedor Input --}}
                 <div class="col-md-6">
                   <div class="d-flex justify-content-between">
                     <label for="fornecedor" class="form-label">Fornecedor:</label>
@@ -453,6 +377,8 @@
                   </div>
                 </div>
               </div>
+
+              {{-- DATAS DE INICIO E CONCLUSAO - VERIFICAR NECESSIDADE --}}
               <div class="row mb-3 d-none">
                 <div class="col-md-6">
                   <label for="dataInicio" class="form-label">Data Início:</label>
@@ -484,58 +410,85 @@
                   >
                 </div>
               </div> 
+
+              {{-- VALORES --}}
               <div class="row mb-3 mx-auto">
+
+                {{-- Receita Input --}}
                 <div class="col-md-4">
                   <label class="form-label" for="receita">Receita:</label>
                   <input class="form-control" type="number" step="0.01" name="receita" value="{{$ordem[0]->receita ?? old('receita')}}">
                 </div>
+
+                {{-- Custo Input --}}
                 <div class="col-md-4">
                   <label class="form-label" for="custo">Custo:</label>
                   <input class="form-control" type="number" step="0.01" name="custo" value="{{$ordem[0]->custo ?? old('custo')}}">
                 </div>
+
+                {{-- Cotacao Input --}}
                 <div class="col-md-4">
                   <label class="form-label" for="cotacao">Cotação Moeda:</label>
                   <input class="form-control" type="number" step="0.01" name="cotacao" value="{{$ordem[0]->cotacao ?? old('cotacao')}}">
                 </div>
-              </div>   
+              </div>  
+              
+              {{-- Comentario refatorar --}}
               <div class="row mb-3 mx-auto">
                 <div class="col-md-12">
                   <label for="comentario" class="form-label">Comentários</label>
                   <textarea name="comentario" class="form-control"></textarea>                    
                 </div>  
-              </div>                                                                                                                                                                                                                         
             </div>
         </section>
       </div> 
+      <div class="text-center mb-5">
+        <x-button.button-mcb
+          route="clients.potential"
+          params=""
+          title="Cancelar"
+        />
+        <button 
+          title="Salvar dados da Ordem de Serviço" 
+          id="submitButton" 
+          class="btn btn-mcb"
+        >
+          Salvar
+        </button>
+      </div>
     </form>
+
+      {{-- <a 
+        title="Voltar para Home" 
+        id="cancelButton" 
+        class="btn btn-mcb me-2" 
+        href="{{route('home')}}"
+        >
+          Cancelar
+      </a> --}}
+      
   </div> 
 
+    {{-- Fornecedores table --}}
+    @include('admin.fornecedor.index')
+
+    {{-- Esta somente criando um modal sem conteudo --}}
+    @include('admin.ordem.modal.create')
+
+    {{-- Modal to create occupations --}}
+    @include('apoio.occupation.modal.create')
 
     {{-- Create provider modal --}}
     @include('admin.fornecedor.modal.create')
 
-    @include('admin.fornecedor.index')
 
-
- 
-
-    
-      {{-- <script type="text/javascript">
-        $(function(){
-          $('#alertModal').modal('show');
-          $('#cancelButton').on('click', function(){
-            window.location.href = "{{route('clientes.last')}}"
-          });
-          $('#okButton').on('click', function(){
-            $('#alertModal').modal('hide');
-          });
-        });
-      </script> --}}
       {{-- Dropdown list of cities --}}
     <script type="text/javascript" src="{{asset('js/loadCities.js')}}"></script> 
+
+    {{-- Create new occupation and feed it dropdown --}}
+    <script type="text/javascript" src="{{asset('js/ordem/create/occupation.js')}}"></script>
 
     {{-- Manage providers forms --}}
     <script type="text/javascript" src="{{asset('js/fornecedor/index/manageProvider.js')}}"></script>
 
-    
 @endsection

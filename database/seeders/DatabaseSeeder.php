@@ -14,20 +14,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        \App\Models\Cliente::factory(1000)->create();
-        // $this->call([
+        // \App\Models\Cliente::factory(1000)->create();
+        $this->call([
             // Estado_Brasil::class,
             // Cidade_Brasil::class,
             // Tipo_Servico::class
             // Status_Cliente::class,
             // PaisSeeder::class,
-            // UnitedKingdomSeeder::class,
+            UnitedKingdomSeeder::class,
             // SpainSeeder::class,
             // FranceSeeder::class,
             // PortugalSeeder::class,
             // ItalySeeder::class,
             // OccupationSeeder::class
-        // ]);        
+        ]);        
     }
 }
 

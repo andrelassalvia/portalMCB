@@ -16,8 +16,14 @@
               id="occupation-form-create"
             >
               @csrf
-              <label class="form-label" for="name">Inserir nova ocupação:</label>
-              <input class="form-control" type="text" name="nome">
+              <input type="hidden" name="id" value="{{$cliente->id}}">
+              <x-input.input-and-label
+                id="occupationName"
+                title="Inserir nova ocupação"
+                type="text"
+                name="nome"
+                value=""
+              />
             </form>                
           </div>
         </div>                                                                           

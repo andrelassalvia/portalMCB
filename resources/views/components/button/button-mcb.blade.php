@@ -4,3 +4,9 @@
 >
     {{ $title }}
 </a>
+
+{{-- 
+    route
+    params
+    title
+    --}}

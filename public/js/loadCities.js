@@ -18,7 +18,6 @@ $(function () {
             $.each(url, function (i, u) {
                 $.ajax(u + stateId, {
                     success: function (response) {
-                        console.log(response);
                         $(cityId).html(response);
                     },
                 });

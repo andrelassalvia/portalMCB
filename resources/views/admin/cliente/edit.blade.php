@@ -19,7 +19,7 @@
             
             {{-- Buttons to cancel and save --}}
             <div class="row d-flex justify-content-center mt-3">
-              <a href="{{route('clientes.last')}}" class="col-2 btn btn-mcb me-2">Cancelar</a>  
+              <a href="{{route('clients.potential')}}" class="col-2 btn btn-mcb me-2">Cancelar</a>  
               <input value="Salvar" type="submit" class="col-2 btn btn-mcb" id="submitButton">  
             </div>                        
         </form>                      
