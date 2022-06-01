@@ -31,9 +31,8 @@ class FornecedorController extends Controller
      */
     public function create()
     {
-        // $estado = EstadoBrasil::orderBy('nome', 'asc')->get();
-        // DebugBar::info($estado);
-        return view('admin.fornecedor.modal.create', compact('estado'));
+        $estados = EstadoBrasil::orderBy('nome', 'asc')->get();
+        return view('admin.fornecedor.modal.create', compact('estados'));
     }
 
     /**
@@ -91,15 +90,15 @@ class FornecedorController extends Controller
                 'classificacao_id' => $validated['classificacao_id']
             ]);
 
-            if($save){
-                return response()->json([
-                    'success' => 'Fornecedor gravado com sucesso'
-                ]);
-            } else {
-                return response()->json([
-                    'error' => 'Falha no cadastramento'
-                ]);
-            }
+            // if($save){
+            //     return response()->json([
+            //         'success' => 'Fornecedor gravado com sucesso'
+            //     ]);
+            // } else {
+            //     return response()->json([
+            //         'error' => 'Falha no cadastramento'
+            //     ]);
+            // }
         }       
     }
 

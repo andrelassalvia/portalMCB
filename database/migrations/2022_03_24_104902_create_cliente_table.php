@@ -19,9 +19,10 @@ class CreateClienteTable extends Migration
             $table->string('telefone');
             $table->string('email')->nullable();
             $table->date('data_nascimento')->nullable();
-            $table->boolean('firma_aberta');
-            $table->boolean('cnh');
-            $table->boolean('cpf');
+            $table->boolean('firma_aberta')->nullable();
+            $table->boolean('cnh')->nullable();
+            $table->boolean('cpf')->nullable();
+            $table->boolean('certificacao_digital')->nullable();
             $table->boolean('rg')->nullable();
             $table->boolean('passaporte')->nullable();
             $table->unsignedBigInteger('estadobrasil_id')->nullable();
@@ -34,7 +35,10 @@ class CreateClienteTable extends Migration
             $table->foreign('cidade_id')->references('id')->on('cidade');
             $table->unsignedBigInteger('statuscliente_id')->default(1);
             $table->foreign('statuscliente_id')->references('id')->on('status_cliente');
-            $table->text('comentario')->nullable();
+            $table->unsignedBigInteger('maritalstatus_id')->nullable();
+            $table->foreign('maritalstatus_id')->references('id')->on('marital_status');
+            $table->unsignedBigInteger('occupation_id')->nullable();
+            $table->foreign('occupation_id')->references('id')->on('occupation');
             $table->string('rg_file')->nullable();
             $table->string('passaporte_file')->nullable();
             $table->string('cnh_file')->nullable();

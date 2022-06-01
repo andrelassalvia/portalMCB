@@ -11893,10 +11893,6 @@ tr {
   padding: 0.15rem 0.5rem;
 }
 
-#providerModal .modal-header {
-  background-color: transparent;
-}
-
 #providerAlertModal .modal-footer {
   background-color: #eae4e473 !important;
 }

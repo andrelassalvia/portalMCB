@@ -14,9 +14,21 @@ class Status_Cliente extends Seeder
      */
     public function run()
     {
-        $status = new StatusCliente();
-        $status->insert(['nome' => 'Ativo']);
-        $status->insert(['nome' => 'Inativo']);
-        $status->save();
+        // $status = new StatusCliente();
+        // $status->insert(['nome' => 'Potencial']);
+        // $status->insert(['nome' => 'Inativo']);
+        // $status->insert(['nome' => 'Ordem em Andamento']);
+        // $status->insert(['nome' => 'Ordem Finalizada']);
+        // $status->save();
+        $status = [
+            ['nome' => 'Potencial'],
+            ['nome' => 'Inativo'],
+            ['nome' => 'Ordem em Andamento'],
+            ['nome' => 'Ordem Finalizada'],
+        ];
+
+        foreach ($status as $value) {
+            StatusCliente::create($value);
+        }
     }
 }

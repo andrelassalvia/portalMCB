@@ -15,17 +15,15 @@ class CreateFornecedorTable extends Migration
     {
         Schema::create('fornecedor', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('nome_contato');
+            $table->string('nome')->nullable();
+            $table->string('nome_contato')->nullable();
             $table->string('telefone');
-            $table->string('email');
-            $table->string('zap');
-            $table->unsignedBigInteger('estadobrasil_id');
+            $table->string('email')->nullable();
+            $table->string('zap')->nullable();
+            $table->unsignedBigInteger('estadobrasil_id')->nullable();
             $table->foreign('estadobrasil_id')->references('id')->on('estado_brasil');
-            $table->unsignedBigInteger('cidadebrasil_id');
+            $table->unsignedBigInteger('cidadebrasil_id')->nullable();
             $table->foreign('cidadebrasil_id')->references('id')->on('cidade_brasil');
-            $table->unsignedBigInteger('classificacao_id');
-            $table->foreign('classificacao_id')->references('id')->on('classificacao');
             $table->timestamps();
         });
     }

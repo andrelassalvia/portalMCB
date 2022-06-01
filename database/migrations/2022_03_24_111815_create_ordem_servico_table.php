@@ -23,6 +23,8 @@ class CreateOrdemServicoTable extends Migration
             $table->foreign('fornecedor_id')->references('id')->on('fornecedor');
             $table->unsignedBigInteger('statusordem_id')->nullable();
             $table->foreign('statusordem_id')->references('id')->on('status_ordem');
+            $table->unsignedBigInteger('classificacao_id')->nullable();
+            $table->foreign('classificacao_id')->references('id')->on('classificacao');
             $table->date('data_inicio')->nullable();
             $table->date('data_fim')->nullable();
             $table->float('receita', 8,2)->nullable();

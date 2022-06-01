@@ -14,13 +14,18 @@ class Tipo_Servico extends Seeder
      */
     public function run()
     {
-       $service = new TipoServico();
-       $service->insert(['nome' => 'Procuração']);
-       $service->insert(['nome' => 'Certidões']);
-       $service->insert(['nome' => 'E-Consular']);
-       $service->insert(['nome' => 'Separação']);
-       $service->insert(['nome' => 'Casamento']);
-       $service->insert(['nome' => 'Autorização de Viagem']);
-       $service->save();
+        $services = [
+            ['nome' => 'Procuração'],
+            ['nome' => 'Certidões'],
+            ['nome' => 'E-Consular'],
+            ['nome' => 'Separação'],
+            ['nome' => 'Casamento'],
+            ['nome' => 'Autorização de Viagem'],
+            ['nome' => 'Outros']
+        ];
+
+        foreach ($services as $service) {
+            TipoServico::create($service);
+        }
     }
 }

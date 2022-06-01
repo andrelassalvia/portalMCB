@@ -26,4 +26,9 @@ $(function () {
     };
     loadCities("#estado_brasil", urlsLoadCidades, "#cidade_brasil");
     loadCities("#pais", urlsLoadCities, "#cidade");
+    loadCities(
+        "#fornecedorCreateEstadoBrasil",
+        urlsLoadCidades,
+        "#fornecedorCreateCidadeBrasil"
+    );
 });

@@ -390,14 +390,6 @@
                       id="dataInicio"
                       value="{{$ordem->data_inicio}}"
                     >
-                  {{-- @else
-                    <input 
-                      type="date" 
-                      class="form-control" 
-                      name="data_inicio" 
-                      id="dataInicio"
-                      value="{{$today}}"
-                    >                         --}}
                   @endif
                 </div>
                 <div class="col-md-6">
@@ -457,38 +449,32 @@
         </button>
       </div>
     </form>
-
-      {{-- <a 
-        title="Voltar para Home" 
-        id="cancelButton" 
-        class="btn btn-mcb me-2" 
-        href="{{route('home')}}"
-        >
-          Cancelar
-      </a> --}}
-      
   </div> 
 
     {{-- Fornecedores table --}}
     @include('admin.fornecedor.index')
 
+    {{-- Create provider modal --}}
+    @include('admin.fornecedor.modal.create')
+    
     {{-- Esta somente criando um modal sem conteudo --}}
     @include('admin.ordem.modal.create')
 
     {{-- Modal to create occupations --}}
     @include('apoio.occupation.modal.create')
 
-    {{-- Create provider modal --}}
-    @include('admin.fornecedor.modal.create')
 
 
       {{-- Dropdown list of cities --}}
     <script type="text/javascript" src="{{asset('js/loadCities.js')}}"></script> 
 
     {{-- Create new occupation and feed it dropdown --}}
-    <script type="text/javascript" src="{{asset('js/ordem/create/occupation.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/occupation.js')}}"></script>
 
     {{-- Manage providers forms --}}
     <script type="text/javascript" src="{{asset('js/fornecedor/index/manageProvider.js')}}"></script>
+
+     {{-- Send both forms at the same time --}}
+     <script type="text/javascript" src="{{asset('js/ordem/create/sendForms.js')}}"></script>
 
 @endsection
