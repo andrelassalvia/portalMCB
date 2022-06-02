@@ -11374,6 +11374,7 @@ body {
   --primary-color-light: #f6f5ff;
   --toogle-color: #ddd;
   --text-color: #707070;
+  --error-color: #d9480f;
   /* ====== TRANSITION ========= */
   --tran-02: all 0.2s ease;
   --tran-03: all 0.3s ease;
@@ -11613,6 +11614,12 @@ main.open {
 .card-header {
   background-color: var(--primary-color) !important;
   color: var(--sidebar-color);
+}
+
+.errorMessages {
+  font-size: small;
+  margin-top: 5px;
+  color: var(--error-color);
 }
 
 .modal-title #clientDetailsModalTitle {

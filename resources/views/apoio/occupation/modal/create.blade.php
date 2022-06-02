@@ -23,6 +23,7 @@
                 type="text"
                 name="nome"
                 value=""
+                req=""
               />
             </form>                
           </div>

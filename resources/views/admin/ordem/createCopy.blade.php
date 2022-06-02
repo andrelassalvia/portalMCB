@@ -41,6 +41,7 @@
                   type="text"
                   name="nome"
                   :value="$cliente->nome"
+                  req=""
                 />
               </div>
 
@@ -52,6 +53,7 @@
                   type="text"
                   name="telefone"
                   :value="$cliente->telefone"
+                  req="*"
                 />
               </div>
             </div>
@@ -66,6 +68,7 @@
                   type="email"
                   name="email"
                   :value="$cliente->email"
+                  req=""
                 />
               </div>
 
@@ -102,6 +105,7 @@
                   type="date"
                   name="data_nascimento"
                   :value="$cliente->data_nascimento"
+                  req=""
                 />
               </div>
 
@@ -111,7 +115,9 @@
                   name="maritalstatus_id"
                   title="Estado Civil:"
                   :id="'maritalStatus'"
+                  req=""
                 >
+                  <option value="">Selecione</option>
                   <x-select.option-foreach-and-isset
                     :arr="$maritalStatus"
                     value="id"
@@ -195,6 +201,7 @@
                     name="estadobrasil_id"
                     title="Estado:"
                     :id="'estado_brasil'"
+                    req=""
                   >
                     <option value="">Selecione</option>
                       <x-select.option-foreach-and-isset
@@ -213,6 +220,7 @@
                     name="cidadebrasil_id"
                     title="Cidade:"
                     :id="'cidade_brasil'"
+                    req=""
                   >
                     @isset($cidades)
                       <option value="">Selecione</option>
@@ -228,6 +236,7 @@
                     name="pais_id"
                     title="País:"
                     :id="'pais'"
+                    req=""
                   >
                     <option value="">Selecione</option>
                       <x-select.option-foreach-and-isset
@@ -246,6 +255,7 @@
                     name="cidade_id"
                     title="Cidade no Exterior:"
                     :id="'cidade'"
+                    req=""
                   >
                     @isset($cities)
                       <option value="">Selecione</option>                
@@ -263,6 +273,7 @@
                     type="file"
                     name="rg_file"
                     value=""
+                    req=""
                   />
                 </div>
 
@@ -274,6 +285,7 @@
                     type="file"
                     name="passaporte_file"
                     value=""
+                    req=""
                   />
                 </div>
 
@@ -285,6 +297,7 @@
                     type="file"
                     name="cnh_file"
                     value=""
+                    req=""
                   />
                 </div>
 
@@ -296,6 +309,7 @@
                     type="file"
                     name="endereco_file"
                     value=""
+                    req=""
                   />
                 </div>
               </div> 
@@ -336,6 +350,7 @@
                     name="tiposervico_id"
                     title="Tipo de Serviço"
                     :id="'tipoServico'"
+                    req="*"
                   >
                     <option value="">Selecione</option>
                     <x-select.option-foreach-and-isset
@@ -355,7 +370,8 @@
                     <a 
                       class="btn btn-sm btn-mcb" 
                       id="select-provider-button"
-                      title="Selecionar fornecedor"                        
+                      title="Selecionar fornecedor"  
+                      href="{{route('fornecedores.index')}}"                      
                     >
                       Selecionar
                     </a>
@@ -452,10 +468,10 @@
   </div> 
 
     {{-- Fornecedores table --}}
-    @include('admin.fornecedor.index')
+    {{-- @include('admin.fornecedor.index') --}}
 
     {{-- Create provider modal --}}
-    @include('admin.fornecedor.modal.create')
+    {{-- @include('admin.fornecedor.modal.create') --}}
     
     {{-- Esta somente criando um modal sem conteudo --}}
     @include('admin.ordem.modal.create')

@@ -1,4 +1,4 @@
-<label for="{{$name}}" class="form-label">{{$title}}</label>
+<label for="{{$name}}" class="form-label">{{$title}} <span style="color:red">{{$req}}</span></label>
 <select
     class="form-select"
     name="{{$name}}"

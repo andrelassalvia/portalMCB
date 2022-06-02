@@ -14,12 +14,14 @@ class selectAndLabel extends Component
     public $title;
     public $id;
     public $name;
+    public $req;
 
-    public function __construct($title, $id, $name)
+    public function __construct($title, $id, $name, $req)
     {
         $this->title = $title;
         $this->id = $id;
         $this->name = $name;
+        $this->req = $req;
     }
 
     /**

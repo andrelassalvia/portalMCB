@@ -1,3 +1,6 @@
+  @extends('layouts.base')
+
+  @section('content')
   <div class="container">
     <div class="row">      
       <section id="fornecedoresIndexLista" title="Lista de fornecedores" class="home-clients-list">
@@ -8,7 +11,7 @@
               <th scope="col">Nome</th>
               <th scope="col">Estado</th>
               <th scope="col">Cidade</th>
-              <th scope="col">Classificação</th>
+              {{-- <th scope="col">Classificação</th> --}}
               <th scope="col">Contato</th>
               <th scope="col">Zap</th>
               <th scope="col">Telefone</th>
@@ -18,6 +21,7 @@
                   id="fornecedorIndexInsertButton"
                   class="btn btn-success btn-sm"                   
                   title="Inserir novo fornecedor"
+                  href="{{route('fornecedores.create')}}"
                 >
                   Novo
                 </a>
@@ -38,7 +42,7 @@
                   @else
                     <td>N/I</td>
                   @endif                                 
-                  @switch($item->classificacao_id)
+                  {{-- @switch($item->classificacao_id)
                       @case(2)
                         <td class="one-star">★</td>                          
                         @break  
@@ -56,7 +60,7 @@
                         @break
                       @default
                         <td>Sem classificação</td>                        
-                  @endswitch
+                  @endswitch --}}
                   <td>{{$item->nome_contato}}</td>                  
                   <td>{{$item->zap}}</td>
                   <td>{{$item->telefone}}</td>
@@ -78,3 +82,4 @@
         </table>
     </div>
   </div>
+  @endsection

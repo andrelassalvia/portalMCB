@@ -9,6 +9,7 @@
       type="text"
       name="nome"
       :value="$cliente->nome"
+      req="*"
     />
   </div>
 
@@ -20,6 +21,7 @@
       type="text"
       name="telefone"
       :value="$cliente->telefone"
+      req="*"
     />
   </div>
 
@@ -29,6 +31,7 @@
       title="Demanda:"
       name="tiposervico_id"
       :id="'tipo_servico'"
+      req=""
     >
       <option value="">Selecione</option>
       @if (isset($ordem))
@@ -55,6 +58,7 @@
       title="Estado:"
       name="estadobrasil_id"
       :id="'estado_brasil'"
+      req=""
     >
       <option value="">Selecione</option>
       {{-- Case this client has a state registred --}}
@@ -84,6 +88,7 @@
       title="Cidade:"
       name="cidadebrasil_id"
       :id="'cidade_brasil'"
+      req=""
     >
       <option value="">Selecione</option>
       @if (isset($cidade))
@@ -113,7 +118,7 @@
         title="Firma Aberta"
         name="firma_aberta"
         :id="'firma_aberta'"
-        :obj="$cliente"
+        :obj="$cliente"        
       />                                             
     </div>
 

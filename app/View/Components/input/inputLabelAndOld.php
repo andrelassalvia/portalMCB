@@ -4,28 +4,24 @@ namespace App\View\Components\input;
 
 use Illuminate\View\Component;
 
-class inputAndLabel extends Component
+class inputLabelAndOld extends Component
 {
+    public $id;
+    public $title;
+    public $type;
+    public $name;
+    public $req;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-
-    public $title;
-    public $type;
-    public $id;
-    public $name;
-    public $value;
-    public $req;
-
-    public function __construct($title, $type, $id, $name, $value, $req)
+    public function __construct($id, $title, $type, $name, $req)
     {
+        $this->id = $id;
         $this->title = $title;
         $this->type = $type;
-        $this->id = $id;
         $this->name = $name;
-        $this->value = $value;
         $this->req = $req;
     }
 
@@ -36,6 +32,6 @@ class inputAndLabel extends Component
      */
     public function render()
     {
-        return view('components.input.input-and-label');
+        return view('components.input.input-label-and-old');
     }
 }

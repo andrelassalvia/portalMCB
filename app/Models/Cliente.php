@@ -67,7 +67,7 @@ class Cliente extends Model
     public function rules()
     {
         return [
-            'nome' => 'required|min:3|max:50|string',
+            'nome' => 'required|min:3|max:100|string',
             'telefone' =>'required|unique:cliente,telefone,'.$this->id.'',
             'email' => 'email|nullable',
             'data_nascimento' => 'date|nullable',
@@ -171,6 +171,11 @@ class Cliente extends Model
     public function occupation()
     {
         return $this->hasOne(Occupation::class, 'occupation_id', 'id');
+    }
+
+    public function maritalStatus()
+    {
+        return $this->hasOne(MaritalStatus::class, 'maritalstatus_id', 'id');
     }
 
     public function comentarios()

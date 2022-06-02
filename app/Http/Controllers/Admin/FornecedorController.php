@@ -6,11 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Fornecedor;
 use App\Models\EstadoBrasil;
+use App\Models\CidadeBrasil;
+use Illuminate\Support\Str;
+use App\Traits\redirectAlertsMessages;
 use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Support\Facades\DB;
 
 class FornecedorController extends Controller
 {
+    use redirectAlertsMessages;
+
+    public function __construct(Fornecedor $fornecedor)
+    {
+        $this->fornecedor = $fornecedor;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +27,7 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        $providers = Fornecedor::with(['estadoBrasil'])
-            ->orderBy('classificacao_id', 'desc')
-            ->get();
+        $providers = Fornecedor::with(['estadoBrasil'])->get();
         return view('admin.fornecedor.index', compact('providers'));
     }    
 
@@ -32,7 +39,12 @@ class FornecedorController extends Controller
     public function create()
     {
         $estados = EstadoBrasil::orderBy('nome', 'asc')->get();
-        return view('admin.fornecedor.modal.create', compact('estados'));
+
+        // Load only cities from the client state - reduce the amount of registers
+        $cityIdBegin = Str::padRight($this->fornecedor->estadobrasil_id, 7,'0');
+        $cityIdEnd = Str::padRight($this->fornecedor->estadobrasil_id, 7, '9');
+        $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
+        return view('admin.fornecedor.create', compact('estados', 'cities'));
     }
 
     /**
@@ -42,64 +54,20 @@ class FornecedorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {       
-        $validated = $request->validate([
-            'nome' => array(
-                'required',
-                'min:3',
-                'max:40',
-                'regex:/[a-zA-Z0-9]/'
-            ),
-            'nome_contato' => array(
-                'nullable',
-                'min:3',
-                'max:40',
-                'regex:/[a-zA-Z]/'
-            ),
-            'telefone' => array(
-                'required',
-                'regex:/[+0-9]/',                
-            ),
-            'email' => 'email|nullable',
-            'zap' => array(
-                'nullable',
-                'regex:/[+0-9]/',                
-            ),
-            'estadobrasil_id' => 'nullable|integer',
-            'cidadebrasil_id' => 'nullable|integer', 
-            'classificacao_id' => 'nullable|integer',           
-        ]);
-                
-        $check = DB::table('fornecedor')
-            ->where('telefone', $validated['telefone'])
-            ->first();
-        
-        if($check){
-            return response()->json([
-                'error' => 'Fornecedor já cadastrado'
-            ]);                        
-        } else {
-            $save = DB::table('fornecedor')->insert([
-                'nome' => $validated['nome'],
-                'nome_contato' => $validated['nome_contato'],
-                'telefone' => $validated['telefone'],
-                'email' => $validated['email'],
-                'zap' => $validated['zap'],
-                'estadobrasil_id' => $validated['estadobrasil_id'],
-                'cidadebrasil_id' => $validated['cidadebrasil_id'],
-                'classificacao_id' => $validated['classificacao_id']
-            ]);
+    {     
+        $validated = $request->validate(
+            $this->fornecedor->rules(), 
+        $this->fornecedor->errorMsg()
+        );
 
-            // if($save){
-            //     return response()->json([
-            //         'success' => 'Fornecedor gravado com sucesso'
-            //     ]);
-            // } else {
-            //     return response()->json([
-            //         'error' => 'Falha no cadastramento'
-            //     ]);
-            // }
-        }       
+        $fornecedor = Fornecedor::firstOrCreate($validated);
+        if($fornecedor){
+            return redirectAlertsMessages::redirectSuccess(
+                ['success' => 'Fornecedor gravado com sucesso'],
+                'Ok',
+                ['route' => 'fornecedores.index']
+            );
+        }
     }
 
     /**

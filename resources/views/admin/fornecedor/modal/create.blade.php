@@ -22,6 +22,7 @@
               <div class="mb-2">
                 <label for="fornecedorCreateNome" class="form-label">Nome:</label>
                 <input type="text" name="nome" id="fornecedorCreateNome" class="form-control">
+                {{ print_r($errors) }}
               </div>
               <div class="mb-2">
                 <label for="fornecedorCreateContato" class="form-label">Contato:</label>

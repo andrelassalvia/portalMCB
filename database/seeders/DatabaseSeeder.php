@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             FranceSeeder::class,
             PortugalSeeder::class,
             ItalySeeder::class,
+            MaritalStatusSeeder::class,
         ]);        
     }
 }
