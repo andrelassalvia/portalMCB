@@ -1,3 +1,4 @@
+{{-- ARQUIVO SUJEITO A APAGAR --}}
 <div class="modal fade" id="message" tabindex="-1" aria-labelledby="messageLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">        

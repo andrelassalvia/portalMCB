@@ -27,7 +27,7 @@ class FornecedorController extends Controller
      */
     public function index()
     {
-        $providers = Fornecedor::with(['estadoBrasil'])->get();
+        $providers = Fornecedor::with(['estadoBrasil', 'cidadeBrasil'])->get();
         return view('admin.fornecedor.index', compact('providers'));
     }    
 

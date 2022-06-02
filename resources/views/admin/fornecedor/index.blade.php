@@ -9,6 +9,7 @@
           <thead>
             <tr>
               <th scope="col">Nome</th>
+              <th class="d-none" scope="col">Id</th>
               <th scope="col">Estado</th>
               <th scope="col">Cidade</th>
               {{-- <th scope="col">Classificação</th> --}}
@@ -32,6 +33,7 @@
             @foreach ($providers as $item)                    
                 <tr>                  
                   <th>{{$item->nome}}</th>  
+                  <td class="d-none">{{$item->id}}</td> {{-- Passing id to DataTable in JS--}}
                   @if (isset($item->estadoBrasil->nome))
                     <td>{{$item->estadoBrasil->nome}}</td>                            
                   @else
@@ -82,4 +84,6 @@
         </table>
     </div>
   </div>
+  {{-- DataTable --}}
+  <script type="text/javascript" src="{{asset('js/tableContacts.js')}}"></script>
   @endsection

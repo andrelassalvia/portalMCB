@@ -63,7 +63,7 @@ class OrdemController extends Controller
         $providers = Fornecedor::all();
        
         return view(
-            'admin.ordem.createCopy', 
+            'admin.ordem.create', 
             compact(
                 'cliente', 
                 'occupations', 
