@@ -253,6 +253,9 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // deleting client after creating telephone but before save client data
+        $cliente = Cliente::find($id);
+        $cliente->delete();
+        return redirect()->route('clients.potential');
     }
 }

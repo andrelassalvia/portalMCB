@@ -33,7 +33,7 @@ Route::prefix('/clientes')
             route::post('/{id?}', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
-            route::delete('/{cliente}', 'destroy')->name('clientes.destroy');
+            route::get('/delete/{cliente}', 'destroy')->name('clientes.destroy');
             route::any('/{id}/update', 'update')->name('clientes.update');
         });
 
