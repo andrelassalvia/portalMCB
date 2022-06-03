@@ -14,12 +14,6 @@ class Status_Cliente extends Seeder
      */
     public function run()
     {
-        // $status = new StatusCliente();
-        // $status->insert(['nome' => 'Potencial']);
-        // $status->insert(['nome' => 'Inativo']);
-        // $status->insert(['nome' => 'Ordem em Andamento']);
-        // $status->insert(['nome' => 'Ordem Finalizada']);
-        // $status->save();
         $status = [
             ['nome' => 'Potencial'],
             ['nome' => 'Inativo'],

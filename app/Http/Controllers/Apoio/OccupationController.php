@@ -54,7 +54,7 @@ class OccupationController extends Controller
         Occupation::firstOrCreate(
             ['nome' => $request['nome']]
         );
-        return redirect()->route('ordens.create', $request['id']);
+        return redirect()->route('clientsEdit.edit', $request['id']);
     }
 
     /**

@@ -9,6 +9,7 @@
         <header>
           <h3>Detalhes do Cliente</h2>
         </header>
+        
         <form 
           action="{{route('clientes.store', $cliente->id)}}" 
           method="post" 
@@ -25,7 +26,7 @@
             <button type="submit" class="col-2 btn btn-mcb" id="submitButton">Salvar</button>  
           </div>                
         </form>
-      </section>                  
+      </section>  
     </div>
   </div>      
 </div>

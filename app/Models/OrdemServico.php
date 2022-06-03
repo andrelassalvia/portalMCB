@@ -56,6 +56,13 @@ class OrdemServico extends Model
             'cotacao' => 'numeric|nullable'
         ];
     }
+
+    public function errorMsg()
+    {
+        return [
+            'tiposervico_id.required' => 'O campo demanda é obrigatório'
+        ];
+    }
     //  ================================================
 
     // ========== GET AND SET ATTRIBUTES ================

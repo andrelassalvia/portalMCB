@@ -90,6 +90,7 @@ class Cliente extends Model
             'endereco_file' => 'file|nullable',                
         ];
     }
+
     //  ================================================
 
     // ========== GET AND SET ATTRIBUTES ================
@@ -219,49 +220,5 @@ class Cliente extends Model
     {
         return preg_replace('/[^0-9]/','',$tel);
     }
-
-    // redirect to error modal
-    // public static function redirectErrors($error)
-    // {
-    //     return redirect()
-    //     ->route('alerts.errors')
-    //     ->withErrors($error)
-    //     ->withInput();
-    // }
-
-    // // redirect to success modal
-    // public static function redirectSuccess($success)
-    // {
-    //     return redirect()
-    //     ->route('alerts.success')
-    //     ->with($success)
-    //     ->withInput();
-    // }
-
-
-    // Redirect as result of update
-    // public static function responseFromUpdate($updated, $id)
-    // {
-    //     if($updated){
-    //         return redirect()
-    //             ->route('ordens.create', ['id' => $id])
-    //             ->with(
-    //                 [
-    //                     'client_success' => 'Cliente inserido com sucesso. Deseja iniciar uma ordem de serviço agora?'
-    //                 ]
-    //             )
-    //             ->withInput();
-    //     } else {
-    //         return redirect()
-    //             ->route('alerts.errors')
-    //             ->withErrors(
-    //                 [
-    //                     'errors' => 'Falha no cadastramento.'
-    //                 ]
-    //             )
-    //             ->withInput();
-    //     }
-    // }
-
     // ===============================================================
 }

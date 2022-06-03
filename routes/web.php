@@ -47,6 +47,15 @@ Route::prefix('/clientsList')
             route::get('/inactives', 'inactivesClients')->name('clients.inactives');
         });
 
+// CLIENTS EDIT ALL
+route::prefix('/clientsEdit')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Admin\ClientEditController')
+        ->group(function(){
+            route::get('/{id}/edit', 'edit')->name('clientsEdit.edit');
+            route::patch('/{id}', 'update')->name('clientsEdit.update');
+        });
+
 // CLIENTS TOGGLE ACTIVE
 Route::prefix('/clientsToggle')
         ->middleware(['auth'])
@@ -69,6 +78,15 @@ Route::prefix('/ordens')
             route::any('/{id}/updateStatus', 'updateStatus')->name('ordens.updateStatus');
             route::any('/{id}/updateClassif', 'updateClassif')->name('ordens.updateClassif');
         });
+
+// ORDEM NEW
+Route::prefix('/ordensNew')
+        ->middleware(['auth'])
+        ->controller('App\Http\Controllers\Admin\OrdemNewController')
+        ->group(function(){
+            route::get('/{id}/edit', 'edit')->name('ordensNew.edit');
+            route::patch('/{id}', 'update')->name('ordensNew.update');
+        });        
 
 // CIDADE BRASIL
 Route::prefix('/cidadesBrasil')

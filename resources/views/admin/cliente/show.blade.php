@@ -65,7 +65,7 @@
         />
         {{-- create order button --}}
         <x-button.button-mcb
-          route="ordens.create"
+          route="clientsEdit.edit"
           :params="$cliente->id"
           title="Criar Ordem Serviço"
         />
@@ -87,7 +87,7 @@
         />
         {{-- create new order --}}
         <x-button.button-mcb
-          route="ordens.create"
+          route="clientsEdit.edit"
           :params="$cliente->id"
           title="Criar Ordem Serviço"
         />
