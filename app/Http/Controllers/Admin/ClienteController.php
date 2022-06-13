@@ -47,9 +47,11 @@ class ClienteController extends Controller
     {
         $services = TipoServico::orderBy('nome')->get();
         $states = EstadoBrasil::orderBy('nome')->get();
+
         // send a city to not brake the code
         $cities = CidadeBrasil::find(1100015)->get();
         $tel = session()->get('tel');
+
         return view('admin.cliente.create', compact('services', 'states', 'cities', 'tel'));
     }
 
@@ -68,11 +70,13 @@ class ClienteController extends Controller
         $request->validate($rulesClient);
         $request->validate($rulesOrder, $this->order->errorMsg());
 
+        // clean phone number before store
+        $tel = $this->cliente->cleanPhone($request->telefone);
+
         $clienteId = DB::table('cliente')->insertGetId(
             [
-                // inserir dados do form
                 'nome' => $request->nome,
-                'telefone' => $request->telefone,
+                'telefone' => $tel,
                 'estadobrasil_id' => $request->estadobrasil_id,
                 'cidadebrasil_id' => $request->cidadebrasil_id,
                 'firma_aberta' => $request->firma_aberta,

@@ -68,7 +68,8 @@ class Cliente extends Model
     {
         return [
             'nome' => 'required|min:3|max:100|string',
-            'telefone' =>'required|unique:cliente,telefone,'.$this->id.'',
+            // 'telefone' =>'required|unique:cliente,telefone,'.$this->id.'',
+            'telefone' =>'required',
             'email' => 'email|nullable',
             'data_nascimento' => 'date|nullable',
             'maritalstatus_id' => 'integer|nullable',
