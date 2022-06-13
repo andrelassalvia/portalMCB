@@ -5,8 +5,6 @@
     <form 
     action="{{route('clientsEdit.update', $cliente->id)}}" 
     method="post" 
-    class="" 
-    id=""
     >
       @csrf
       @method('PATCH')

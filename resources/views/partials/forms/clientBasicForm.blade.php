@@ -2,6 +2,7 @@
 <div class="p-2 border-1 shadow">
 
   {{-- Input Nome --}}
+  @if (isset($cliente))
   <div class="mb-3">
     <x-input.input-and-label
       title="Nome:"
@@ -11,8 +12,11 @@
       :value="$cliente->nome"
       req="*"
     />
+    @if ($errors->has('nome'))
+        <p class="errorMessages">{{$errors->first('nome')}}</p>
+    @endif
   </div>
-
+  
   {{-- Input Telefone --}}
   <div class="mb-3">
     <x-input.input-and-label
@@ -23,7 +27,40 @@
       :value="$cliente->telefone"
       req="*"
     />
+    @if ($errors->has('telefone'))
+        <p class="errorMessages">{{$errors->first('telefone')}}</p>
+    @endif
   </div>
+  @else
+  <div class="mb-3">
+    <x-input.input-and-label
+      title="Nome:"
+      :id="'nome'"
+      type="text"
+      name="nome"
+      value=""
+      req="*"
+    />
+    @if ($errors->has('nome'))
+        <p class="errorMessages">{{$errors->first('nome')}}</p>
+    @endif
+  </div>
+  
+  {{-- Input Telefone --}}
+  <div class="mb-3">
+    <x-input.input-and-label
+      title="Telefone:"
+      :id="'telefone'"
+      type="text"
+      name="telefone"
+      :value="$tel"
+      req="*"
+    />
+    @if ($errors->has('telefone'))
+        <p class="errorMessages">{{$errors->first('telefone')}}</p>
+    @endif
+  </div>
+  @endif
 
   {{-- Select Demanda --}}
   <div class="mb-3">
@@ -31,7 +68,7 @@
       title="Demanda:"
       name="tiposervico_id"
       :id="'tipo_servico'"
-      req=""
+      req="*"
     >
       <option value="">Selecione</option>
       @if (isset($ordem))
@@ -50,6 +87,9 @@
         />
       @endif
     </x-select.select-and-label>
+    @if ($errors->has('tiposervico_id'))
+        <p class="errorMessages">{{$errors->first('tiposervico_id')}}</p>
+    @endif
   </div>  
 
   {{-- Select Estado --}}
@@ -80,6 +120,9 @@
         />
       @endif
     </x-select.select-and-label>
+    @if ($errors->has('estadobrasil_id'))
+        <p class="errorMessages">{{$errors->first('estadobrasil_id')}}</p>
+    @endif
   </div>
 
   {{-- Select Cidade --}}
@@ -107,12 +150,16 @@
         />
       @endif
     </x-select.select-and-label>
+    @if ($errors->has('cidadebrasil_id'))
+        <p class="errorMessages">{{$errors->first('cidadebrasil_id')}}</p>
+    @endif
   </div>  
   
   {{-- CHECKS RADIOS --}}
   <div class="d-flex mb-3 justify-content-between">
 
     {{-- Input Firma aberta --}}
+    @if (isset($cliente))
     <div class="form-check me-3">                      
       <x-input.check-and-label
         title="Firma Aberta"
@@ -151,5 +198,46 @@
         :obj="$cliente"
       />
     </div>
+    @else
+    <div class="form-check me-3">                      
+      <x-input.check-and-label
+        title="Firma Aberta"
+        name="firma_aberta"
+        :id="'firma_aberta'"
+        obj=""        
+      />                                             
+    </div>
+
+    {{-- Input CNH --}}
+    <div class="form-check me-3">                      
+      <x-input.check-and-label
+        title="CNH"
+        name="cnh"
+        :id="'cnh'"
+        obj=""
+      />
+    </div>
+
+    {{-- INput CPF --}}
+    <div class="form-check me-3">
+      <x-input.check-and-label
+        title="CPF"
+        name="cpf"
+        :id="'cpf'"
+        obj=""
+      />
+    </div>
+
+    {{-- Input Certificacao Digital --}}
+    <div class="form-check">
+      <x-input.check-and-label
+        title="Certificação Digital"
+        name="certificacao_digital"
+        :id="'certificacao_digital'"
+        obj=""
+      />
+    </div>
+    @endif
+    
   </div>                                     
 </div>

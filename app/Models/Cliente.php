@@ -220,5 +220,16 @@ class Cliente extends Model
     {
         return preg_replace('/[^0-9]/','',$tel);
     }
+
+    // Format telephone to be shown on forms
+    public function formatTelephone($value)
+    {
+        $adjusted = Str::start($value, '(+');
+        $adjusted =  Str::substrReplace($adjusted, ')',4,0);
+        $adjusted =  Str::substrReplace($adjusted, ' ',5,0);
+        $adjusted =   Str::substrReplace($adjusted, '-',11,0);
+
+        return Str::substrReplace($adjusted, '-', 15,0);
+    }
     // ===============================================================
 }

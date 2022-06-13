@@ -29,8 +29,8 @@ Route::prefix('/clientes')
         ->group(function()
         {
             route::get('/', 'index')->name('clientes.index');
-            route::get('/create/{validated?}', 'create')->name('clientes.create');
-            route::post('/{id?}', 'store')->name('clientes.store');
+            route::get('/create', 'create')->name('clientes.create');
+            route::post('/', 'store')->name('clientes.store');
             route::get('/{cliente}', 'show')->name('clientes.show');
             route::get('/{cliente}/edit', 'edit')->name('clientes.edit');
             route::get('/delete/{cliente}', 'destroy')->name('clientes.destroy');
@@ -157,5 +157,6 @@ Route::prefix('telephones')
     ->controller('App\Http\Controllers\Admin\TelephoneController')
     ->group(function(){
         route::get('/create', 'create')->name('telephones.create');
-        route::post('/', 'store')->name('telephones.store');
+        // route::post('/', 'store')->name('telephones.store');
+        route::post('/', 'telephoneCheck')->name('telephones.telephoneCheck');
     });

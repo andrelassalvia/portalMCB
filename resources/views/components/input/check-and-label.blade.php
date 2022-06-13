@@ -1,12 +1,4 @@
-@if ($obj->$name == 1)
-    <input
-        type="checkbox"
-        name="{{$name}}"
-        checked
-        id={{$id}}
-        value="1"
-    >
-@else
+@if ($obj == "")
     <input 
         type="hidden" 
         name="{{$name}}" 
@@ -20,7 +12,16 @@
         value="1" {{old($name) == 1 ? 'checked' : ''}}
         id="{{$id}}"
     >   
+@elseif($obj->name == 1)
+    <input
+        type="checkbox"
+        name="{{$name}}"
+        checked
+        id={{$id}}
+        value="1"
+    >
 @endif
+
 <label class="form-check-label" for="{{$id}}">
     {{$title}}
 </label>  

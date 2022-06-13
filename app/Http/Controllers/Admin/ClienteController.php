@@ -8,12 +8,16 @@ use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
 use App\Models\TipoServico;
 use App\Models\Cliente;
-use App\Models\Comentarios;
+use App\Models\Occupation;
+use App\Models\MaritalStatus;
 use App\Models\OrdemServico;
+use App\Models\Pais;
+use App\Models\Cidade;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use App\Traits\redirectAlertsMessages;
 
 class ClienteController extends Controller
@@ -37,69 +41,67 @@ class ClienteController extends Controller
     }
 
     /**
+     * Method to create a new client
+     */
+    public function create()
+    {
+        $services = TipoServico::orderBy('nome')->get();
+        $states = EstadoBrasil::orderBy('nome')->get();
+        // send a city to not brake the code
+        $cities = CidadeBrasil::find(1100015)->get();
+        $tel = session()->get('tel');
+        return view('admin.cliente.create', compact('services', 'states', 'cities', 'tel'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      * came from telephone blade
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
         // validation rules
         $rulesClient = $this->cliente->partialRules($request->all());
         $rulesOrder = $this->order->partialRules($request->all());
-        $validateClient = Validator::make(
-            $request->all(), 
-            $rulesClient,
-        );
-        $validateOrder = Validator::make(
-            $request->all(),
-            $rulesOrder,
-            ['tiposervico_id.required' => 'O campo demanda é obrigatório']
-        );
-        // redirect case validation fails
-        if($validateClient->fails()){
-            return redirectAlertsMessages::redirectErrors(
-                $validateClient,
-                'Ok'
-            );
-        }
-        if($validateOrder->fails()){
-            return redirectAlertsMessages::redirectErrors(
-                $validateOrder,
-                'Ok'
-            );
-        }
+        $request->validate($rulesClient);
+        $request->validate($rulesOrder, $this->order->errorMsg());
 
-        // find recently created client and update 
-        $updated = $this->cliente->findAndUpdate($id, $request->all());
+        $clienteId = DB::table('cliente')->insertGetId(
+            [
+                // inserir dados do form
+                'nome' => $request->nome,
+                'telefone' => $request->telefone,
+                'estadobrasil_id' => $request->estadobrasil_id,
+                'cidadebrasil_id' => $request->cidadebrasil_id,
+                'firma_aberta' => $request->firma_aberta,
+                'cnh' => $request->cnh,
+                'cpf' => $request->cpf,
+                'certificacao_digital' => $request->certificacao_digital,
+                'created_at' => Carbon::now()->toDateTimeString()
+            ]
+        );
 
         // bind a type of service in this client
         $service = $request['tiposervico_id'];
 
         // create an order simultaneously with a new client
-        OrdemServico::create(
+        $ordemId = DB::table('ordem_servico')->insertGetId(
             [
-                'cliente_id' => $id,
+                'cliente_id' => $clienteId,
                 'tiposervico_id' => $service
             ]
         );
 
         // redirect response from update
-        if($updated){
-            return redirectAlertsMessages::redirectSuccess(
-                ['success' => 'Cliente inserido com sucesso. Deseja cadastrar ordem de serviço?'],
-                'Sim',
-                ['route' => 'ordens.create', 'param' => $id],
-                'Não',
-                ['route' => 'clients.potential']
-            );
-        } else {
-            return redirectAlertsMessages::redirectErrors(
-                ['errors' => 'Falha no cadastramento'],
-                'Ok'
-            );
-        }
+        return redirectAlertsMessages::redirectSuccess(
+            ['success' => 'Cliente inserido com sucesso. Deseja cadastrar ordem de serviço?'],
+            'Sim',
+            ['route' => 'ordens.create', 'param' => $ordemId],
+            'Não',
+            ['route' => 'clients.potential']
+        );
     }
 
     /**
@@ -123,27 +125,30 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
-        $estado = $cliente['estadobrasil_id'];
-        $cidade = $cliente['cidadebrasil_id'];
+        $occupations = Occupation::orderBy('nome')->get();
+        $maritalStatus = MaritalStatus::orderBy('nome')->get();
         (isset($cliente->ordens[0]) ? $ordem = $cliente->ordens[0] : $ordem = null);
-        $states = EstadoBrasil::orderBy('nome')->get();
-        $services = TipoServico::orderBy('nome')->get();
-
+        $estados = EstadoBrasil::orderBy('nome')->get();
+        $countries = Pais::orderBy('nome')->get();
+       
         // Load only cities from the client state - reduce the amount of registers
-        $cityIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');
-        $cityIdEnd = Str::padRight($cliente->estadobrasil_id, 7, '9');
-        $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
+        $cidadeIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');
+        $cidadeIdFim = Str::padRight($cliente->estadobrasil_id, 7, '9');
+        $cidades = CidadeBrasil::whereBetween('id', [$cidadeIdBegin, $cidadeIdFim])->get();
+
+        $cities = Cidade::where('pais_id', $cliente->pais_id)->orderBy('nome')->get();
         
         return view(
             'admin.cliente.edit', 
             compact(
                 'cliente', 
-                'services', 
-                'states', 
-                'cities',
-                'ordem', 
-                'estado', 
-                'cidade'
+                'occupations',
+                'maritalStatus',
+                'estados',
+                'ordem',
+                'cidades',
+                'countries',
+                'cities'
             )
         );             
     }

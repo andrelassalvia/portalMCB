@@ -11,7 +11,7 @@
     <x-slot name="title">Insira o telefone do cliente:</x-slot>
     <div class="container">
       <div class="row">
-        <form id="telefoneStore" action="{{route('telephones.store')}}" method="post">
+        <form id="telefoneStore" action="{{route('telephones.telephoneCheck')}}" method="post">
           @csrf
           <input type="text" name="telefone" class="form-control">
         </form>
