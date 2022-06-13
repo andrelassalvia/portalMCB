@@ -137,14 +137,14 @@
       @if (isset($cidade))
         <x-select.option-foreach-and-isset
           :object="$cliente"
-          :arr="$cities"
+          :arr="$cidades"
           value="id"
           foreignId="cidadebrasil_id"
           column="nome"
         />
       @else
         <x-select.option-and-foreach
-          :arr="$cities"
+          :arr="$cidades"
           value="id"
           column="nome"
         />

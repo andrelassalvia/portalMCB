@@ -129,30 +129,28 @@ class ClienteController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
-        $occupations = Occupation::orderBy('nome')->get();
-        $maritalStatus = MaritalStatus::orderBy('nome')->get();
+        $services = TipoServico::orderBy('nome')->get();
+
         (isset($cliente->ordens[0]) ? $ordem = $cliente->ordens[0] : $ordem = null);
-        $estados = EstadoBrasil::orderBy('nome')->get();
-        $countries = Pais::orderBy('nome')->get();
+        $states = EstadoBrasil::orderBy('nome')->get();
+        $cidade = $cliente['cidadebrasil_id'];
+        $estado = $cliente['estadobrasil_id'];
        
         // Load only cities from the client state - reduce the amount of registers
         $cidadeIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');
         $cidadeIdFim = Str::padRight($cliente->estadobrasil_id, 7, '9');
         $cidades = CidadeBrasil::whereBetween('id', [$cidadeIdBegin, $cidadeIdFim])->get();
-
-        $cities = Cidade::where('pais_id', $cliente->pais_id)->orderBy('nome')->get();
         
         return view(
             'admin.cliente.edit', 
             compact(
                 'cliente', 
-                'occupations',
-                'maritalStatus',
-                'estados',
+                'services',
+                'states',
                 'ordem',
+                'cidade',
+                'estado',
                 'cidades',
-                'countries',
-                'cities'
             )
         );             
     }
