@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Comentarios;
 use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
 use App\Models\TipoServico;
@@ -65,10 +66,11 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         // validation rules
-        $rulesClient = $this->cliente->partialRules($request->all());
-        $rulesOrder = $this->order->partialRules($request->all());
-        $request->validate($rulesClient);
-        $request->validate($rulesOrder, $this->order->errorMsg());
+        $request->validate($this->cliente->partialRules($request->all()));
+        $request->validate(
+            $this->order->partialRules($request->all()),
+            $this->order->errorMsg()
+        );
 
         // clean phone number before store
         $tel = $this->cliente->cleanPhone($request->telefone);
@@ -98,11 +100,23 @@ class ClienteController extends Controller
             ]
         );
 
+        // bind a comment to this client
+        $comment = $request['comentario'];
+
+        // create a comment with the client
+        if($comment != null){
+            Comentarios::create(
+                [
+                    'cliente_id' => $clienteId,
+                    'comentario' => $comment
+                ]
+            );
+        }
         // redirect response from update
         return redirectAlertsMessages::redirectSuccess(
             ['success' => 'Cliente inserido com sucesso. Deseja cadastrar ordem de serviço?'],
             'Sim',
-            ['route' => 'ordens.create', 'param' => $ordemId],
+            ['route' => 'clientsEdit.edit', 'param' => $clienteId],
             'Não',
             ['route' => 'clients.potential']
         );
@@ -173,6 +187,9 @@ class ClienteController extends Controller
         // save type of service from request to use in ordem_servico table
         $tipoServico = $request['tiposervico_id'];
 
+        // save comment from request to use in cometario table
+        $comment = $request['comentario'];
+
         // client doesn't exist send a warning
         if($cliente === null){
             return redirectAlertsMessages::redirectErrors(
@@ -185,33 +202,11 @@ class ClienteController extends Controller
         } else if($request->method() === 'PATCH'){
             
             // partial rules because method patch 
-            $rules = $this->cliente->PartialRules($request->all());
-            $clientValidate = Validator::make(
-                $request->all(),
-                $rules
+            $request->validate($this->cliente->partialRules($request->all()));
+            $request->validate(
+            $this->order->partialRules($request->all()),
+            $this->order->errorMsg()
             );
-            if($clientValidate->fails()){
-                return redirectAlertsMessages::redirectErrors(
-                    $clientValidate,
-                    'Ok'
-                );
-            }
-
-            // validate order
-            $orderValidated = Validator::make(
-                $request->all(),
-                [
-                    'tiposervico_id' => 'required|integer'
-                ], 
-                [
-                    'tiposervico_id.required' => 'O campo demanda é obrigatório'
-                ]);
-                if($orderValidated->fails()){
-                    return redirectAlertsMessages::redirectErrors(
-                        $orderValidated,
-                        'Ok'
-                    );
-                }
         } else {
             // validate with all rules
             $request->validate($cliente->rules());
@@ -236,6 +231,15 @@ class ClienteController extends Controller
         } else {
             // in case a previous order exists, update it
             $order->update(['tiposervico_id' => $tipoServico]);
+        }
+
+        if($comment != null){
+            Comentarios::create(
+                [
+                    'cliente_id' => $id,
+                    'comentario' => $comment
+                ]
+            );
         }
  
         // response message

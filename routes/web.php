@@ -22,6 +22,16 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->name('home');
 
+// TELEPHONE - NEW CLIENT
+Route::prefix('telephones')
+->middleware(['auth'])
+->controller('App\Http\Controllers\Admin\TelephoneController')
+->group(function(){
+    route::get('/create', 'create')->name('telephones.create');
+    // route::post('/', 'store')->name('telephones.store');
+    route::post('/', 'telephoneCheck')->name('telephones.telephoneCheck');
+});
+
 // CLIENTES
 Route::prefix('/clientes')
         ->middleware(['auth'])
@@ -132,7 +142,14 @@ Route::prefix('/fornecedores')
         route::get('/{fornecedor}', 'show')->name('fornecedores.show');        
     }); 
 
-
+// FORNECEDOR TO ORDEM
+Route::prefix('/providers')
+    ->middleware(['auth'])
+    ->controller('App\Http\Controllers\Admin\FornecedorToOrdemController')
+    ->group(function(){
+        route::get('/{ordem?}', 'listProviders')->name('providers.list');
+        route::get('/{provider}/{ordem}', 'selectProvider')->name('providers.select');
+    });
 // COMENTARIOS
 Route::prefix('comentarios')
     ->middleware(['auth'])
@@ -151,12 +168,3 @@ Route::prefix('alerts')
         route::get('/success-message', 'successMessage')->name('alerts.success');
     });
 
-// TELEPHONE - NEW CLIENT
-Route::prefix('telephones')
-    ->middleware(['auth'])
-    ->controller('App\Http\Controllers\Admin\TelephoneController')
-    ->group(function(){
-        route::get('/create', 'create')->name('telephones.create');
-        // route::post('/', 'store')->name('telephones.store');
-        route::post('/', 'telephoneCheck')->name('telephones.telephoneCheck');
-    });

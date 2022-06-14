@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\OrdemServico;
 use App\Models\Cliente;
 use App\Models\TipoServico;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 class OrdemNewController extends Controller
 {
@@ -24,9 +25,15 @@ class OrdemNewController extends Controller
      */
     public function edit($id)
     {
-        $cliente = Cliente::find($id);
-        $ordem = $this->ordem->where('cliente_id', $id)->get()->last();
-        $demandas = TipoServico::orderBy('nome')->get();
+        if(session()->has(['ordem', 'cliente', 'demandas'])){
+            $ordem = session()->get('ordem');
+            $cliente = session()->get('cliente');
+            $demandas = session()->get('demandas');
+        } else {
+            $ordem = $this->ordem->where('cliente_id', $id)->get()->last();
+            $cliente = Cliente::find($id);
+            $demandas = TipoServico::orderBy('nome')->get();
+        }
         return view('admin.ordemNew.edit', compact('cliente', 'ordem', 'demandas'));
     }
 
@@ -35,7 +42,10 @@ class OrdemNewController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate($this->ordem->rules(), $this->ordem->errorMsg());
+        $request->validate(
+            $this->ordem->partialRules($request->all()), 
+            $this->ordem->errorMsg()
+        );
         $ordem = $this->ordem->find($id);
         $ordem->update($request->all());
         $clienteId = $request['cliente_id'];

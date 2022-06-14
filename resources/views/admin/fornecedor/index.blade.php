@@ -67,17 +67,31 @@
                   <td>{{$item->zap}}</td>
                   <td>{{$item->telefone}}</td>
                   <td>{{$item->email}}</td>    
-                  <td>
-                    <a 
-                      class="btn btn-sm btn-mcb choose-provider-button"                         
-                      id=""
-                      title="Selecionar este fornecedor"
-                      data-value="{{$item->id}}"  
-                      data-name="{{$item->nome}}"                               
-                    >
+                  @if (isset($ordem))
+                    <td>
+                      <a 
+                        href="{{route('providers.select', [$item->id, $ordem])}}"
+                        class="btn btn-sm btn-mcb choose-provider-button" 
+                        id=""
+                        title="Selecionar este fornecedor"
+                      >
                       Selecionar
-                    </a>
+                      </a>
+                    </td>
+                  @else
+                    <td>
+                      <a 
+                        class="btn btn-sm btn-mcb choose-provider-button"                         
+                        id=""
+                        title="Selecionar este fornecedor"
+                        data-value="{{$item->id}}"  
+                        data-name="{{$item->nome}}"                               
+                      >
+                        Selecionar
+                      </a>
                   </td>                          
+                  @endif
+                  
                 </tr>
             @endforeach            
           </tbody>

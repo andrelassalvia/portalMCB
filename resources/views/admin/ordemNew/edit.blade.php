@@ -54,7 +54,7 @@
                             <div class="d-flex justify-content-between">
                                 <label for="fornecedor" class="form-label">Fornecedor:</label>
                                 <a 
-                                    href="{{route('fornecedores.index')}}"
+                                    href="{{route('providers.list', $ordem->id)}}"
                                     class="btn btn-sm btn-mcb"
                                     id="select-provider-button"
                                     title="Selecionar fornecedor"
@@ -62,21 +62,29 @@
                                     Selecionar
                                 </a>
                             </div>
-                            <div class="d-none">
-                                <input 
-                                  id="providerInput"
-                                  class="form-control" 
-                                  type="hidden" 
-                                  name="fornecedor_id"                                                 
-                                >
-                            </div>
                             <div>
-                                <input 
-                                  id="providerName"
-                                  class="form-control" 
-                                  type="text"                                                 
-                                >
-                              </div>
+                                @if ($ordem['fornecedor_id'] != null)
+                                    <input 
+                                        id="providerName"
+                                        class="form-control" 
+                                        type="text"    
+                                        value="{{old('fornecedor_id') ?? $ordem->fornecedor->nome}}"                                             
+                                    >
+                                    <input
+                                        type="hidden"
+                                        name="fornecedor_id"
+                                        value="{{$ordem->fornecedor_id}}"
+                                    >
+                                @else
+                                    <input 
+                                        id="providerName"
+                                        class="form-control" 
+                                        type="text"    
+                                        name="fornecedor_id"
+                                        value="{{old('fornecedor_id')}}"                                             
+                                    >                               
+                                @endif
+                            </div>
                         </div>
                     </div>
 

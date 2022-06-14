@@ -144,7 +144,7 @@
         />
       @else
         <x-select.option-and-foreach
-          :arr="$cidades"
+          :arr="$cities"
           value="id"
           column="nome"
         />
@@ -156,6 +156,7 @@
   </div>  
   
   {{-- CHECKS RADIOS --}}
+  <label for="" class="form-label">Documentos:</label>
   <div class="d-flex mb-3 justify-content-between">
 
     {{-- Input Firma aberta --}}
@@ -238,6 +239,11 @@
       />
     </div>
     @endif
-    
-  </div>                                     
+  </div>  
+
+  {{-- Input Cooment --}}
+  <div class="mb-3">
+    <label for="validationTextarea" class="form-label">Comentário:</label>
+    <textarea class="form-control" id="validationTextarea" placeholder="Inserir comentário" name="comentario"></textarea>
+  </div>                                   
 </div>
