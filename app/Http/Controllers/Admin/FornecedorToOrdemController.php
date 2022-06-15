@@ -50,6 +50,9 @@ class FornecedorToOrdemController extends Controller
         }
     }
 
+    /**
+     * Method to create a new provider when creating a new order
+     */
     public function createProvider($ordem)
     {
         $estados = EstadoBrasil::orderBy('nome', 'asc')->get();

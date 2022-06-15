@@ -41,12 +41,8 @@ class FornecedorController extends Controller
     public function create()
     {
         $estados = EstadoBrasil::orderBy('nome', 'asc')->get();
-
-        // Load only cities from the client state - reduce the amount of registers
-        $cityIdBegin = Str::padRight($this->fornecedor->estadobrasil_id, 7,'0');
-        $cityIdEnd = Str::padRight($this->fornecedor->estadobrasil_id, 7, '9');
-        $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
-        return view('admin.fornecedor.create', compact('estados', 'cities'));
+        $cidades = CidadeBrasil::where('id', 1100015)->get();
+        return view('admin.fornecedor.create', compact('estados', 'cidades'));
     }
 
     /**
@@ -88,7 +84,7 @@ class FornecedorController extends Controller
      */
     public function show($id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -99,7 +95,15 @@ class FornecedorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $fornecedor = Fornecedor::find($id);
+        $estados = EstadoBrasil::orderBy('nome', 'asc')->get();
+
+        // Load only cities from the client state - reduce the amount of registers
+        $cityIdBegin = Str::padRight($fornecedor['estadobrasil_id'], 7,'0');
+        $cityIdEnd = Str::padRight($fornecedor['estadobrasil_id'], 7, '9');
+        $cidades = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
+
+        return view('admin.fornecedor.edit', compact('fornecedor', 'estados', 'cidades'));
     }
 
     /**
@@ -111,7 +115,11 @@ class FornecedorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate($this->fornecedor->partialRules($request->all()));
+        $fornecedor = Fornecedor::find($id);
+        $fornecedor->update($validated);
+
+        return redirect()->route('fornecedores.index');
     }
 
     /**
@@ -122,6 +130,8 @@ class FornecedorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fornecedor = Fornecedor::with(['ordensServico'])->find($id);
+        dd($fornecedor);
+        $fornecedor->delete();
     }
 }

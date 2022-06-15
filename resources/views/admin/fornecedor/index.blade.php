@@ -21,11 +21,11 @@
                 <th>
                   <a
                   id="fornecedorIndexInsertButton"
-                  class="btn btn-success btn-sm"                   
+                  class="btn btn-outline-success btn-sm"                   
                   title="Inserir novo fornecedor"
                   href="{{route('providers.create', $ordem)}}"
                   >
-                    Novo
+                    Criar Fornecedor
                   </a>
                 </th>
               @else
@@ -33,11 +33,11 @@
                   {{-- isset ordem direcionar para fornecedoresToOrdem --}}
                   <a 
                     id="fornecedorIndexInsertButton"
-                    class="btn btn-success btn-sm"                   
+                    class="btn btn-outline-success btn-sm"                   
                     title="Inserir novo fornecedor"
                     href="{{route('fornecedores.create')}}"
                   >
-                    Novo
+                  Criar Fornecedor
                   </a>
                 </th>
               @endif          
@@ -81,7 +81,7 @@
                   <td>{{$item->zap}}</td>
                   <td>{{$item->telefone}}</td>
                   <td>{{$item->email}}</td> 
-                  @isset($ordem)
+                  @if (isset($ordem))
                     <td>
                       <a 
                         href="{{route('providers.select', [$item->id, $ordem])}}"
@@ -92,8 +92,26 @@
                       Selecionar
                       </a>
                     </td>
-                  @endisset   
-                  <td> </td>                          
+                  @else
+                    <td>
+                      <a 
+                        href="{{route('fornecedores.edit', $item->id)}}"
+                        class="btn btn-sm btn-mcb choose-provider-button" 
+                        id=""
+                        title="Editar fornecedor"
+                      >
+                      Editar
+                      </a>
+                      <a 
+                        href="{{route('fornecedores.destroy', $item->id)}}"
+                        class="btn btn-sm btn-outline-danger choose-provider-button" 
+                        id=""
+                        title="Apagar fornecedor"
+                      >
+                      Apagar
+                      </a>
+                    </td>
+                  @endif
                 </tr>
             @endforeach            
           </tbody>

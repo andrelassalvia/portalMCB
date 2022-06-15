@@ -79,7 +79,7 @@ class TelephoneController extends Controller
             // Load only cities from the client state - reduce the amount of registers
             $cityIdBegin = Str::padRight($cliente->estadobrasil_id, 7,'0');
             $cityIdEnd = Str::padRight($cliente->estadobrasil_id, 7, '9');
-            $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
+            $cidades = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
 
             return view(
                 'admin.cliente.edit', 
@@ -87,7 +87,7 @@ class TelephoneController extends Controller
                     'cliente',
                     'services',
                     'states', 
-                    'cities', 
+                    'cidades', 
                     'ordem',
                     'estado',
                     'cidade'

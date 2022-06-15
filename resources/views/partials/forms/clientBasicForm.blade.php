@@ -33,12 +33,11 @@
   </div>
   @else
   <div class="mb-3">
-    <x-input.input-and-label
+    <x-input.input-and-label-and-old
       title="Nome:"
       :id="'nome'"
       type="text"
       name="nome"
-      value=""
       req="*"
     />
     @if ($errors->has('nome'))
@@ -238,7 +237,7 @@
         obj=""
       />
     </div>
-    @endif
+  @endif
   </div>  
 
   {{-- Input Cooment --}}

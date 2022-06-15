@@ -95,6 +95,13 @@ class Fornecedor extends Model
         $this->attributes['telefone'] = $removed;            
     }
 
+    public function setZapAttribute($value)
+    {
+        // remove all characters but numbers to save telephone in DB
+        $removed = preg_replace('/[^0-9]/', '', $value);
+        $this->attributes['zap'] = $removed;            
+    }
+
     public function getNomeAttribute($value)
     {
         return Str::of($value)->title();

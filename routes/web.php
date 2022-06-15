@@ -139,7 +139,10 @@ Route::prefix('/fornecedores')
         route::get('/', 'index')->name('fornecedores.index');
         route::get('/create', 'create')->name('fornecedores.create');
         route::post('/', 'store')->name('fornecedores.store');
-        route::get('/{fornecedor}', 'show')->name('fornecedores.show');        
+        // route::get('/{fornecedor}', 'show')->name('fornecedores.show');        
+        route::get('/{fornecedor}/edit', 'edit')->name('fornecedores.edit');        
+        route::patch('/{fornecedor}', 'update')->name('fornecedores.update');        
+        route::any('/{fornecedor}', 'destroy')->name('fornecedores.destroy');        
     }); 
 
 // FORNECEDOR TO ORDEM
