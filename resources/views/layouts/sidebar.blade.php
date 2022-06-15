@@ -39,18 +39,24 @@
         {{-- Ordem Servico --}}
         <x-dropdown.link title="Ordens Serviço">
           <x-slot name="icon">
-            <i class="bx bx-bell icon"></i>
+            <i class="bx bx-run icon"></i>
           </x-slot>
           <x-dropdown.item title="Lista de Ordens" route="ordens.index"></x-dropdown.item>
         </x-dropdown.link>
 
         {{-- Fornecedores --}}
-        <li class="nav-link">
+        <x-dropdown.link title="Fornecedores">
+          <x-slot name="icon">
+            <i class="bx bx-cart icon"></i>
+          </x-slot>
+          <x-dropdown.item title="Lista de Fornecedores" route="fornecedores.index"/>
+          <x-dropdown.item title="Novo Fornecedor" route="fornecedores.create"/>
+        </x-dropdown.link>
+        {{-- <li class="nav-link">
           <a href="#">
-            <i class="bx bx-pie-chart-alt icon"></i>
             <span class="text nav-text">Fornecedores</span>
           </a>
-        </li>
+        </li> --}}
 
         {{-- Apoio --}}
         <li class="nav-link">

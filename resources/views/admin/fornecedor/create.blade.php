@@ -16,6 +16,15 @@
               @csrf
               <div class="p-2 border-1 shadow">
 
+                {{-- bind a new provider to an order --}}
+                @isset($ordem)
+                    <input
+                      type="hidden"
+                      name="ordem"
+                      value="{{$ordem}}"
+                    >
+                @endisset
+
                 {{-- Nome Cartorio --}}
                 <div class="mb-3">
                   <x-input.input-label-and-old

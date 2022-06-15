@@ -144,7 +144,7 @@
         />
       @else
         <x-select.option-and-foreach
-          :arr="$cities"
+          :arr="$cidades"
           value="id"
           column="nome"
         />

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Fornecedor;
+use App\Models\Cliente;
 use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
+use App\Models\OrdemServico;
 use Illuminate\Support\Str;
 use App\Traits\redirectAlertsMessages;
 use Barryvdh\Debugbar\Facade as Debugbar;
@@ -56,17 +58,25 @@ class FornecedorController extends Controller
     public function store(Request $request)
     {     
         $validated = $request->validate(
-            $this->fornecedor->rules(), 
+            $this->fornecedor->partialRules($request->all()), 
         $this->fornecedor->errorMsg()
         );
 
         $fornecedor = Fornecedor::firstOrCreate($validated);
         if($fornecedor){
-            return redirectAlertsMessages::redirectSuccess(
-                ['success' => 'Fornecedor gravado com sucesso'],
-                'Ok',
-                ['route' => 'fornecedores.index']
-            );
+            if($request->ordem){
+                return redirect()
+                    ->route(
+                        'providers.select',
+                        [$fornecedor->id, $request->ordem]
+                    );
+            } else {
+                return redirectAlertsMessages::redirectSuccess(
+                    ['success' => 'Fornecedor gravado com sucesso'],
+                    'Ok',
+                    ['route' => 'fornecedores.index']
+                );
+            }
         }
     }
 

@@ -148,6 +148,7 @@ Route::prefix('/providers')
     ->controller('App\Http\Controllers\Admin\FornecedorToOrdemController')
     ->group(function(){
         route::get('/{ordem?}', 'listProviders')->name('providers.list');
+        route::get('/create/{ordem}', 'createProvider')->name('providers.create');
         route::get('/{provider}/{ordem}', 'selectProvider')->name('providers.select');
     });
 // COMENTARIOS

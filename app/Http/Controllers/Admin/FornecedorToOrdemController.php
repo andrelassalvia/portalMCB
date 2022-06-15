@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\EstadoBrasil;
+use App\Models\CidadeBrasil;
+use Illuminate\Support\Str;
 use App\Models\Fornecedor;
 use App\Models\OrdemServico;
 use App\Models\Cliente;
@@ -45,5 +48,16 @@ class FornecedorToOrdemController extends Controller
                 ->route('ordensNew.edit', $cliente->id)
                 ->with(['ordem', 'cliente', 'demandas']);
         }
+    }
+
+    public function createProvider($ordem)
+    {
+        $estados = EstadoBrasil::orderBy('nome', 'asc')->get();
+
+        // Load only cities from the client state - reduce the amount of registers
+        $cityIdBegin = Str::padRight($this->fornecedor->estadobrasil_id, 7,'0');
+        $cityIdEnd = Str::padRight($this->fornecedor->estadobrasil_id, 7, '9');
+        $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
+        return view('admin.fornecedor.create', compact('ordem', 'estados', 'cities'));
     }
 }

@@ -16,17 +16,31 @@
               <th scope="col">Contato</th>
               <th scope="col">Zap</th>
               <th scope="col">Telefone</th>
-              <th scope="col">Email</th>              
-              <th>
-                <a 
+              <th scope="col">Email</th>    
+              @if (isset($ordem))
+                <th>
+                  <a
                   id="fornecedorIndexInsertButton"
                   class="btn btn-success btn-sm"                   
                   title="Inserir novo fornecedor"
-                  href="{{route('fornecedores.create')}}"
-                >
-                  Novo
-                </a>
-              </th>
+                  href="{{route('providers.create', $ordem)}}"
+                  >
+                    Novo
+                  </a>
+                </th>
+              @else
+                <th>
+                  {{-- isset ordem direcionar para fornecedoresToOrdem --}}
+                  <a 
+                    id="fornecedorIndexInsertButton"
+                    class="btn btn-success btn-sm"                   
+                    title="Inserir novo fornecedor"
+                    href="{{route('fornecedores.create')}}"
+                  >
+                    Novo
+                  </a>
+                </th>
+              @endif          
             </tr>
           </thead>
           <tbody>
@@ -66,8 +80,8 @@
                   <td>{{$item->nome_contato}}</td>                  
                   <td>{{$item->zap}}</td>
                   <td>{{$item->telefone}}</td>
-                  <td>{{$item->email}}</td>    
-                  @if (isset($ordem))
+                  <td>{{$item->email}}</td> 
+                  @isset($ordem)
                     <td>
                       <a 
                         href="{{route('providers.select', [$item->id, $ordem])}}"
@@ -78,20 +92,8 @@
                       Selecionar
                       </a>
                     </td>
-                  @else
-                    <td>
-                      <a 
-                        class="btn btn-sm btn-mcb choose-provider-button"                         
-                        id=""
-                        title="Selecionar este fornecedor"
-                        data-value="{{$item->id}}"  
-                        data-name="{{$item->nome}}"                               
-                      >
-                        Selecionar
-                      </a>
-                  </td>                          
-                  @endif
-                  
+                  @endisset   
+                  <td> </td>                          
                 </tr>
             @endforeach            
           </tbody>

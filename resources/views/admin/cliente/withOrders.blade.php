@@ -13,7 +13,8 @@
       <tbody>         
         @foreach ($clientes as $item)           
             <tr>
-              @include('partials.tables.clientsLists.body')                        
+              @include('partials.tables.clientsLists.body')     
+              <td></td>                   
             </tr>
             @endforeach
           </tbody>                    
