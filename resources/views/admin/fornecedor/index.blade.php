@@ -116,6 +116,9 @@
             @endforeach            
           </tbody>
         </table>
+        @isset($ordem)
+            <a class="btn btn-mcb btn-sm" href="{{session()->get('orderEditSession')}}">Cancelar</a>
+        @endisset
     </div>
   </div>
   {{-- DataTable --}}

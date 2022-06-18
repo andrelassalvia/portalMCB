@@ -131,7 +131,6 @@ class FornecedorController extends Controller
     public function destroy($id)
     {
         $fornecedor = Fornecedor::with(['ordensServico'])->find($id);
-        dd($fornecedor);
         $fornecedor->delete();
     }
 }

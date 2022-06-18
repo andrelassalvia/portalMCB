@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\OrdemServico;
 use App\Models\Cliente;
 use App\Models\TipoServico;
+use Illuminate\Support\Facades\Session;
 use Barryvdh\Debugbar\Facades\Debugbar;
 
 class OrdemNewController extends Controller
@@ -25,10 +26,12 @@ class OrdemNewController extends Controller
      */
     public function edit($id)
     {
+        Session::put('orderEditSession', request()->fullUrl());
         if(session()->has(['ordem', 'cliente', 'demandas'])){
             $ordem = session()->get('ordem');
             $cliente = session()->get('cliente');
             $demandas = session()->get('demandas');
+           
         } else {
             $ordem = $this->ordem->where('cliente_id', $id)->get()->last();
             $cliente = Cliente::find($id);
