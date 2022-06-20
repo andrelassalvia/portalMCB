@@ -73,6 +73,14 @@ class OrdemServico extends Model
             return Carbon::parse($value)->format('d-m-y');
         }
     }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        if($value) {
+
+            return Carbon::parse($value)->format('d-m-y');
+        }
+    }
     // ================================================
 
     // ============ START RELATIONSHIP BLOCK ==========

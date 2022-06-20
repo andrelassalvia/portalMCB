@@ -45,8 +45,9 @@
 }
 
 // SHOW
-#showClient {
-    margin-top: 10vh;
+#clientShowListOrders {
+    height: 75%;
+    overflow-y: scroll;
 }
 // Modal Edit
 .modal-body {

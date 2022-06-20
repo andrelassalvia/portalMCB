@@ -11707,8 +11707,9 @@ tr {
   color: var(--primary-color);
 }
 
-#showClient {
-  margin-top: 10vh;
+#clientShowListOrders {
+  height: 75%;
+  overflow-y: scroll;
 }
 
 .modal-body p {

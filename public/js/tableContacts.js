@@ -12,7 +12,7 @@ $(function () {
             },
 
             // which fields will be showed
-            bPaginate: true,
+            bPaginate: false,
             bLengthChange: true,
             bFilter: true,
             bInfo: false,

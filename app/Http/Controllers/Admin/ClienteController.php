@@ -50,10 +50,10 @@ class ClienteController extends Controller
         $states = EstadoBrasil::orderBy('nome')->get();
 
         // send a city to not brake the code
-        $cities = CidadeBrasil::find(1100015)->get();
+        $cidades = CidadeBrasil::find(1100015)->get();
         $tel = session()->get('tel');
 
-        return view('admin.cliente.create', compact('services', 'states', 'cities', 'tel'));
+        return view('admin.cliente.create', compact('services', 'states', 'cidades', 'tel'));
     }
 
     /**
@@ -131,7 +131,8 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente = Cliente::find($id);
-        return  view('admin.cliente.show', compact('cliente'));                        
+        $orders = OrdemServico::where('cliente_id', $id)->where('updated_at','<>', null)->orderBy('updated_at', 'desc')->get();
+        return  view('admin.cliente.show', compact('cliente', 'orders'));                        
     }
 
     /**

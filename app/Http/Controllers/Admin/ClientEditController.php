@@ -11,6 +11,7 @@ use App\Models\CidadeBrasil;
 use App\Models\MaritalStatus;
 use App\Models\Pais;
 use App\Models\Cidade;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 
@@ -27,6 +28,7 @@ class ClientEditController extends Controller
      */
     public function edit($id)
     {
+        Session::put('clientEditAllUrl', request()->fullUrl());
         $cliente = Cliente::find($id);
         $occupations = Occupation::orderBy('nome')->get();
         $maritalStatus = MaritalStatus::orderBy('nome')->get();

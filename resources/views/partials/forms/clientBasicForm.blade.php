@@ -33,7 +33,7 @@
   </div>
   @else
   <div class="mb-3">
-    <x-input.input-and-label-and-old
+    <x-input.input-label-and-old
       title="Nome:"
       :id="'nome'"
       type="text"

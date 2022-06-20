@@ -4,9 +4,9 @@
 <td style="font-size: small">{{$item->telefone}}</td> {{-- telefone--}}
 <td>
   {{-- Case a demand was placed --}}
-  @isset($item->ordens[0])
+  {{-- @isset($item->ordens[0])
     {{$item->ordens[0]->tipoServico->nome}}
-  @endisset
+  @endisset --}}
 </td>
 <td>
     {{-- Firma Aberta icon  --}}

@@ -131,11 +131,7 @@
             </section>
         </div>
         <div class="col-10 col-xl-8 mx-auto mb-4 d-flex justify-content-between">
-            <x-button.button-mcb
-              route="clients.potential"
-              params=""
-              title="Cancelar"
-            />
+            <a class="btn btn-mcb" href="{{Session::get('clientEditAllUrl')}}">Voltar</a>
             <button class="btn btn-mcb" type="submit">Salvar</button>
         </div>
     </form>

@@ -15,9 +15,11 @@
         <x-button.button-mcb
           route="clientes.show"
           :params="$cliente->id"
-          title="Cancelar"
+          title="Voltar"
         />
-        <button class="btn btn-mcb" type="submit">Prosseguir</button>
+        <button class="btn btn-mcb" type="submit">
+          <span style="font-size: 12px">Salvar e Prosseguir</span>
+        </button>
       </div>
     </form>   
   </div>

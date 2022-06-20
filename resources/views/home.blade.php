@@ -138,68 +138,6 @@
           </table>
     </section> 
 
-    {{-- Orders List --}}
-    <section title="Lista de ordens em andamento" class="home-orders-list">
-      <h3>Lista de Ordens em Andamento</h3>   
-      <div>        
-        
-        @if (isset($orders))
-        <table class="table table-hover" id="tableOrders">
-          <thead>
-            <tr>
-              <th scope="col">Data Início</th>  
-              <th scope="col">Nome</th>  
-              <th scope="col">Telefone</th>  
-              <th scope="col">Demanda</th>  
-              <th scope="col">Estado</th>  
-              <th scope="col">Cidade</th>  
-              <th scope="col" width=120 style="text-align: center">
-                <a 
-                class="btn btn-primary ms-auto btn-sm btn-novo-cliente" 
-                href="#"
-                >
-                  Nova OS
-                </a>
-              </th>  
-            </tr>  
-          </thead> 
-          <tbody>
-            @foreach ($orders as $item)   
-                <tr>
-                  <th scope="row">{{$item->data_inicio}}</th>
-                  <td data-nome="{{$item->id}}">{{$item->nome}}</td>
-                  <td>{{$item->telefone}}</td>
-                  <td>{{$item->tipoServico->nome}}</td>
-                  @if (isset($item->cliente->estadoBrasil->nome))
-                    <td>{{$item->cliente->estadoBrasil->nome}}</td>                            
-                  @else
-                    <td>N/I</td>
-                  @endif
-                  @if (isset($item->cliente->cidadeBrasil->nome))
-                    <td>{{$item->cliente->cidadeBrasil->nome}}</td>                            
-                  @else
-                    <td>N/I</td>    
-                  @endif
-                  <td width=120 style="text-align: center">
-                    <a 
-                      title="Encerrar ordem de serviço" 
-                      href="#" 
-                      class="btn btn-sm btn-success"
-                    >
-                      Encerra
-                    </a>                   
-                  </td>
-                </tr>
-            @endforeach
-          </tbody> 
-        </table>
-        @endif                
-      </div> 
-      <div>
-        <a href="">{{-- Botao para ver todos as ordens --}}</a>
-      </div>
-      
-    </section>  
 
     {{-- Client Details Modal --}}
     @include('apoio.comentarios.modal.clientes')

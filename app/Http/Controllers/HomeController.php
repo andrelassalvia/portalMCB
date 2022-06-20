@@ -26,10 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::with(['ordens'])
-            ->where('statuscliente_id', 1)
-            ->orderBy('created_at', 'desc')
-            ->get();   
+        $clientes = Cliente::cursor()->filter(function($cliente){
+            return $cliente->statuscliente_id = 1;
+        });
+        // $clientes = Cliente::with(['ordens'])
+        //     ->where('statuscliente_id', 1)
+        //     ->orderBy('created_at', 'desc')
+        //     ->get();   
                         
 
         $orders = OrdemServico::join('tipo_servico', 'ordem_servico.tiposervico_id', '=', 'tipo_servico.id' )

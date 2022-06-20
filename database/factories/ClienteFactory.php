@@ -22,7 +22,6 @@ class ClienteFactory extends Factory
             'cpf' => 0,
             'certificacao_digital' => 0,
             'statuscliente_id' => 1,
-
         ];
     }
 }

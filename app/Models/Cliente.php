@@ -232,5 +232,16 @@ class Cliente extends Model
 
         return Str::substrReplace($adjusted, '-', 15,0);
     }
+
+    // search query
+    public function scopeSearch($query, $q)
+    {
+        if($q == null) return $query; // no search query
+
+        return $query
+            ->where('nome', 'LIKE', "%{$q}%")
+            ->orWhere('email', 'LIKE', "%{{$q}}%")
+            ->orWhere('telefone', 'LIKE', "%{$q}%");
+    }
     // ===============================================================
 }

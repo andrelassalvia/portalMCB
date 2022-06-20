@@ -36,21 +36,6 @@
 
     <div class="row mb-3">
 
-      {{-- Cliente email --}}
-      <div class="col-md-6">
-        <x-input.input-and-label
-          id="emailCliente"
-          title="Email:"
-          type="email"
-          name="email"
-          :value="$cliente->email"
-          req=""
-        />
-        @if ($errors->has('email'))
-            <p class="errorMessages">{{$errors->first('email')}}</p>
-        @endif
-      </div>
-
       {{-- Client occupation --}}
       <div class="col-md-6">
         <label for="occupation" class="form-label">Ocupação:</label>
@@ -78,6 +63,21 @@
         </div>
         @if ($errors->has('occupation_id'))
             <p class="errorMessages">{{$errors->first('occupation_id')}}</p>
+        @endif
+      </div>
+
+      {{-- Cliente email --}}
+      <div class="col-md-6">
+        <x-input.input-and-label
+          id="emailCliente"
+          title="Email:"
+          type="email"
+          name="email"
+          :value="$cliente->email"
+          req=""
+        />
+        @if ($errors->has('email'))
+            <p class="errorMessages">{{$errors->first('email')}}</p>
         @endif
       </div>
     </div>
