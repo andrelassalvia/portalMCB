@@ -188,15 +188,6 @@ class Cliente extends Model
 
     // ================= SCOPE and LOCAL METHODS ====================
     
-    // Retrieve clients with declared status
-    public function scopeIndexStatus($query, $status)
-    {
-        return $query->whereIn('statuscliente_id', $status)
-            ->with(['ordens.tipoServico', 'statusCliente'])
-            ->orderBy('created_at', 'desc')
-            ->get();
-    }
-
     // build array with partial rules to run with PATCH method
     public function partialRules($req)
     {

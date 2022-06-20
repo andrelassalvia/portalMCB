@@ -11622,6 +11622,15 @@ main.open {
   color: var(--error-color);
 }
 
+.form-search {
+  max-width: 1000px;
+  width: 100%;
+}
+.form-search .bx {
+  font-size: 27px;
+  color: var(--text-color);
+}
+
 .modal-title #clientDetailsModalTitle {
   color: #212529;
 }
@@ -11679,6 +11688,7 @@ tr {
 
 #tableContacts {
   max-width: 1000px;
+  width: 100%;
 }
 #tableContacts th,
 #tableContacts td {
@@ -11708,8 +11718,13 @@ tr {
 }
 
 #clientShowListOrders {
-  height: 75%;
+  height: 80%;
   overflow-y: scroll;
+}
+
+.bx-arrow-back {
+  font-size: 26px;
+  color: var(--primary-color);
 }
 
 .modal-body p {

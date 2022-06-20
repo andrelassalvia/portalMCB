@@ -10,6 +10,7 @@
 
 #tableContacts {
     max-width: 1000px;
+    width: 100%;
     th,
     td {
         color: var(--primary-color);
@@ -46,9 +47,15 @@
 
 // SHOW
 #clientShowListOrders {
-    height: 75%;
+    height: 80%;
     overflow-y: scroll;
 }
+
+.bx-arrow-back {
+    font-size: 26px;
+    color: var(--primary-color);
+}
+
 // Modal Edit
 .modal-body {
     p {

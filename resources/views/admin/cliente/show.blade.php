@@ -10,8 +10,22 @@
         <div id="showClient">
           <p class="fs-6"><span class="text-sm fw-bold me-2">Nome:</span>{{$cliente->nome}}</p>
           <p class="fs-6"><span class="text-sm fw-bold me-2">Telefone:</span>{{$cliente->telefone}}</p>
-          <p class="fs-6"><span class="text-sm fw-bold me-2">Estado:</span>{{$cliente->estadoBrasil->nome}}</p>
-          <p class="fs-6"><span class="text-sm fw-bold me-2">Cidade:</span>{{$cliente->cidadeBrasil->nome}}</p>
+          <p class="fs-6">
+            <span class="text-sm fw-bold me-2">Estado:</span>
+            @if (isset($cliente->estadobrasil_id))
+              {{$cliente->estadoBrasil->nome}}
+            @else
+              {{""}}                
+            @endif
+          </p>
+          <p class="fs-6">
+            <span class="text-sm fw-bold me-2">Cidade:</span>
+            @if (isset($cliente->cidadebrasil_id))
+              {{$cliente->cidadeBrasil->nome}}
+            @else
+              {{""}}
+            @endif
+          </p>
           
           {{-- Firma Aberta --}}
           <p class="fs-6 d-flex align-items-center">
@@ -81,16 +95,17 @@
           @if ($cliente->statuscliente_id == 2)
           {{-- reactive client --}}
           <x-button.button-mcb
-            route="clientes.active"
+            route="clientes.edit"
             :params="$cliente->id"
-            title="Reativar"
+            title="Alterar"
           />
-          {{-- create new order --}}
-          <x-button.button-mcb
-            route="clientsEdit.edit"
-            :params="$cliente->id"
-            title="Criar Ordem Serviço"
-          />
+          <a 
+            href="{{route('clientes.active', $cliente->id)}}" 
+            class="btn btn-outline-success"
+          >
+            Reativar
+          </a>
+          
           @endif
 
           {{-- When Client Has An Order Running--}}
@@ -164,6 +179,14 @@
         @include('partials.comments.insertComments')   
       </div>
     </div>
+
+    @if($cliente->statuscliente_id == 2)
+      <div >
+        <a href="{{session()->get('clientInactiveList')}}">
+          <i class='bx bx-arrow-back' title="voltar"></i>
+        </a>
+      </div>
+    @endif
   </div>
   <script 
     type="text/javascript" 

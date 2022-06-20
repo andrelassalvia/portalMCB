@@ -257,3 +257,14 @@ main.open {
     margin-top: 5px;
     color: var(--error-color);
 }
+
+// ======== SEARCH =============
+.form-search {
+    max-width: 1000px;
+    width: 100%;
+
+    .bx {
+        font-size: 27px;
+        color: var(--text-color);
+    }
+}

@@ -1,50 +1,57 @@
-// Script to create search, number of entries per page and
 // allow click on line to edit client
 $(function () {
-    const configTable = function (idTable, route) {
-        // SEARCH FIELD PAGINATION AND SHOW ENTRIES
-        $(idTable).DataTable({
-            language: {
-                // manage legends
-                search: "_INPUT_", // remove search legend
-                searchPlaceholder: "Pesquisar...", // insert placeholder
-                lengthMenu: "_MENU_", // remove entries legend
-            },
+    // EDIT
+    $("#tableContacts tbody").on("click", "tr", function (e) {
+        e.preventDefault;
+        // var data = $(this).data("id");
+        var id = $(this).data("id");
 
-            // which fields will be showed
-            bPaginate: false,
-            bLengthChange: true,
-            bFilter: true,
-            bInfo: false,
-            bAutoWidth: false,
-        });
+        window.location.href = "/clientes/" + id;
+    });
+    // const configTable = function (idTable, route) {
+    //     // SEARCH FIELD PAGINATION AND SHOW ENTRIES
+    //     $(idTable).DataTable({
+    //         language: {
+    //             // manage legends
+    //             search: "_INPUT_", // remove search legend
+    //             searchPlaceholder: "Pesquisar...", // insert placeholder
+    //             lengthMenu: "_MENU_", // remove entries legend
+    //         },
 
-        var table = $(idTable).DataTable();
-        $(idTable + "_filter").css({
-            display: "flex",
-            "justify-content": "flex-end",
-        });
+    //         // which fields will be showed
+    //         bPaginate: false,
+    //         bLengthChange: true,
+    //         bFilter: true,
+    //         bInfo: false,
+    //         bAutoWidth: false,
+    //     });
 
-        // Increase row's margin bottom
-        $(idTable + "_wrapper .row").css({
-            "margin-bottom": "1.75rem",
-        });
+    //     var table = $(idTable).DataTable();
+    //     $(idTable + "_filter").css({
+    //         display: "flex",
+    //         "justify-content": "flex-end",
+    //     });
 
-        // Remove table legend
-        $(idTable + "_wrapper .row:eq(2) div:eq(0)").remove();
+    //     // Increase row's margin bottom
+    //     $(idTable + "_wrapper .row").css({
+    //         "margin-bottom": "1.75rem",
+    //     });
 
-        // EDIT
-        $(`${idTable} tbody`).on("click", "tr", function (e) {
-            e.preventDefault;
-            var data = table.row(this).data();
+    //     // Remove table legend
+    //     $(idTable + "_wrapper .row:eq(2) div:eq(0)").remove();
 
-            let id = data[1]; // id para ser enviado ao show
-            window.location.href = "/" + route + "/" + id;
-        });
-    };
+    //     // EDIT
+    //     $(`${idTable} tbody`).on("click", "tr", function (e) {
+    //         e.preventDefault;
+    //         var data = table.row(this).data();
 
-    configTable("#fornecedoresTable", "fornecedores");
-    configTable("#tableContacts", "clientes");
+    //         let id = data[1]; // id para ser enviado ao show
+    //         window.location.href = "/" + route + "/" + id;
+    //     });
+    // };
+
+    // configTable("#fornecedoresTable", "fornecedores");
+    // configTable("#tableContacts", "clientes");
 
     // $("#tableContacts").DataTable({
     //     language: {
