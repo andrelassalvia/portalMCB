@@ -11382,6 +11382,10 @@ body {
   --tran-05: all 0.5s ease;
 }
 
+html {
+  font-family: "Roboto", sans-serif;
+}
+
 body {
   height: 100vh;
   background-color: var(--body-color);

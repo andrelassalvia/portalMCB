@@ -10,6 +10,7 @@ use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
 use App\Models\OrdemServico;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 use App\Traits\redirectAlertsMessages;
 use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,7 @@ class FornecedorController extends Controller
      */
     public function index()
     {
+        Session::put('fornecedoresList', request()->fullUrl());
         $providers = Fornecedor::with(['estadoBrasil', 'cidadeBrasil'])->get();
         return view('admin.fornecedor.index', compact('providers'));
     }    
@@ -40,6 +42,7 @@ class FornecedorController extends Controller
      */
     public function create()
     {
+        
         $estados = EstadoBrasil::orderBy('nome', 'asc')->get();
         $cidades = CidadeBrasil::where('id', 1100015)->get();
         return view('admin.fornecedor.create', compact('estados', 'cidades'));
@@ -70,7 +73,7 @@ class FornecedorController extends Controller
                 return redirectAlertsMessages::redirectSuccess(
                     ['success' => 'Fornecedor gravado com sucesso'],
                     'Ok',
-                    ['route' => 'fornecedores.index']
+                    ['route' => session()->get('fornecedoresList')]
                 );
             }
         }

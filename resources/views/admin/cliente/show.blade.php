@@ -105,11 +105,16 @@
           >
             Reativar
           </a>
-          
           @endif
 
           {{-- When Client Has An Order Running--}}
-          {{-- @if ($client->statusclient_id == 3) --}}
+          @if ($cliente->statuscliente_id == 3)
+          <x-button.button-mcb
+            route="clientes.edit"
+            :params="$cliente->id"
+            title="Alterar"
+          />
+          @endif
           {{-- end order --}}
           {{-- <x-button.button-mcb
             route=""
@@ -165,6 +170,10 @@
           {{-- When Client Is Inactive--}}
 
           {{-- When Client Has An Order Running--}}
+          @if ($cliente->statuscliente_id == 3)
+            {{-- create order button --}}
+            <a href="{{route('ordens.create')}}" class="btn btn-mcb">Nova Ordem</a>
+          @endif
 
           {{-- When Client Has An Order Done--}}
         </div>
@@ -180,9 +189,29 @@
       </div>
     </div>
 
+    {{-- BACK BUTTON --}}
+    {{-- from inactive clients --}}
     @if($cliente->statuscliente_id == 2)
       <div >
         <a href="{{session()->get('clientInactiveList')}}">
+          <i class='bx bx-arrow-back' title="voltar"></i>
+        </a>
+      </div>
+    @endif
+
+    {{-- from potential clients --}}
+    @if($cliente->statuscliente_id == 1)
+      <div >
+        <a href="{{session()->get('clientPotentialList')}}">
+          <i class='bx bx-arrow-back' title="voltar"></i>
+        </a>
+      </div>
+    @endif
+
+    {{-- from with ordes clients --}}
+    @if($cliente->statuscliente_id == 3)
+      <div >
+        <a href="{{session()->get('clientWithOrdersList')}}">
           <i class='bx bx-arrow-back' title="voltar"></i>
         </a>
       </div>

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Support\Arr;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 
 trait redirectAlertsMessages
@@ -16,8 +17,8 @@ trait redirectAlertsMessages
   {
     if($path){
       $route = Arr::get($path, 'route');
-      $param = Arr::get($path, 'param');
-      return route($route, $param);
+      Debugbar::info($route);
+      return $route;
     }
   }
   /**

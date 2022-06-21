@@ -18,6 +18,7 @@ class ClienteListsController extends Controller
      */
     public function potentialClients(Request $request)
     {
+        Session::put('clientPotentialList', request()->fullUrl());
         $sortBy = 'created_at'; // Column to sort by
         $orderBy = 'desc'; // ascending or descending
         $perPage = 10;
@@ -45,6 +46,7 @@ class ClienteListsController extends Controller
      */
     public function withOrdersClients(Request $request)
     {
+        Session::put('clientWithOrdersList', request()->fullUrl());
         $sortBy = 'created_at'; // Column to sort by
         $orderBy = 'desc'; // ascending or descending
         $perPage = 10;

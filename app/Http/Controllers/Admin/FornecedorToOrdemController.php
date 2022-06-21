@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 use App\Models\EstadoBrasil;
 use App\Models\CidadeBrasil;
-use Illuminate\Support\Str;
 use App\Models\Fornecedor;
 use App\Models\OrdemServico;
 use App\Models\Cliente;

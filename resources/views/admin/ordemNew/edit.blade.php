@@ -21,8 +21,8 @@
             name="cliente_id"
             value="{{$cliente->id}}"
         >
-        <div class="col-10 col-xl-8 mx-auto mb-4 mt5">
-            <section title="Dados da OS" class="card shadow">
+        <section class="col-10 col-xl-8 mx-auto mb-4 mt5">
+            <div title="Dados da OS" class="card shadow">
                 <h5 class="card-header">Dados da Ordem de Serviço</h5>
                 <div class="card-body">
                     <div class="row mb-3 mx-auto">
@@ -128,8 +128,8 @@
                         </div>
                     </div> 
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
         <div class="col-10 col-xl-8 mx-auto mb-4 d-flex justify-content-between">
             <a class="btn btn-mcb" href="{{Session::get('clientEditAllUrl')}}">Voltar</a>
             <button class="btn btn-mcb" type="submit">Salvar</button>

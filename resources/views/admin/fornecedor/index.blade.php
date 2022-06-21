@@ -103,12 +103,12 @@
                       Editar
                       </a>
                       <a 
-                        href="{{route('fornecedores.destroy', $item->id)}}"
-                        class="btn btn-sm btn-outline-danger choose-provider-button" 
+                        href="{{route('fornecedorToNewOrder.selectToNewOrder', $item->id)}}"
+                        class="btn btn-sm btn-mcb choose-provider-button" 
                         id=""
-                        title="Apagar fornecedor"
+                        title="Selecionar fornecedor"
                       >
-                      Apagar
+                      Selecionar
                       </a>
                     </td>
                   @endif

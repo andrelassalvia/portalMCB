@@ -9,7 +9,7 @@
             <h3>Detalhes do Fornecedor</h3>
           </header>
           <form 
-            action="{{route('fornecedores.create')}}"
+            action="{{route('fornecedores.store')}}"
             method="post"
             id="createProvider"
           >

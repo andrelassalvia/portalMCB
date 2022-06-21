@@ -42,40 +42,13 @@ class OrdemController extends Controller
      * @param id from client because an order is binded with a client.
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
     {
-        // $cliente = Cliente::find($id);
-        // if(isset($cliente->ordens[0])){
-        //     $ordemId = $cliente->ordens[0]->id;
-        // } else{
-        //     return redirectAlertsMessages::redirectErrors(
-        //         ['errors' => 'Cadastrar uma demanda'],
-        //         'Ok',
-        //         ['route' => 'clients.potential']
-        //     );
-        // }
-        // $ordem = $cliente->ordens[0];
-        // $occupations = Occupation::orderBy('nome')->get();
-        // $maritalStatus = MaritalStatus::orderBy('nome')->get();
-        // $estados = EstadoBrasil::orderBy('nome')->get();
-        // $countries = Pais::orderBy('nome')->get();        
-        // $demandas = TipoServico::orderBy('nome')->get();
-        // $providers = Fornecedor::all();
-       
-        // return view(
-        //     'admin.ordem.create', 
-        //     compact(
-        //         'cliente', 
-        //         'occupations', 
-        //         'maritalStatus', 
-        //         'estados',
-        //         'countries', 
-        //         'demandas',
-        //         'ordemId',
-        //         'ordem',
-        //         'providers'
-        //     )
-        // );
+        $clienteId = session()->get('clienteId');
+        session()->get('provider') ? $provider = session()->get('provider') : $provider = "";
+        $demandas = TipoServico::all();
+
+        return view('admin.ordem.create', compact('clienteId', 'demandas', 'provider'));
     }
 
     /**

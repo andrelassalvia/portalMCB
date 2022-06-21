@@ -81,7 +81,8 @@ Route::prefix('/ordens')
         ->controller('App\Http\Controllers\Admin\OrdemController')
         ->group(function(){
             route::get('/', 'index')->name('ordens.index');
-            route::get('/create/{id?}', 'create')->name('ordens.create');
+            route::get('/create', 'create')->name('ordens.create');
+            route::post('', 'store')->name('ordens.store');
             route::get('/{ordem}', 'show')->name('ordens.show');
             route::get('/{ordem}/edit', 'edit')->name('ordens.edit');
             route::any('/{id}/update', 'update')->name('ordens.update');
@@ -153,7 +154,17 @@ Route::prefix('/providers')
         route::get('/{ordem?}', 'listProviders')->name('providers.list');
         route::get('/create/{ordem}', 'createProvider')->name('providers.create');
         route::get('/{provider}/{ordem}', 'selectProvider')->name('providers.select');
+        route::get('/select/{provider}', 'selectToNewOrder')->name('providers.selectToNewOrder');
     });
+
+// FORNECEDOR TO NEW ORDER
+Route::prefix('/fornecedorToNewOrder')
+    ->middleware(['auth'])
+    ->controller('App\Http\Controllers\Admin\Fornecedor\FornecedorToNewOrderController')
+    ->group(function(){
+        route::get('/{fornecedor}', 'selectToNewOrder')->name('fornecedorToNewOrder.selectToNewOrder');
+    });
+
 // COMENTARIOS
 Route::prefix('comentarios')
     ->middleware(['auth'])

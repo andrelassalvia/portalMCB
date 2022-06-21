@@ -18,6 +18,7 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use App\Traits\redirectAlertsMessages;
 
@@ -130,6 +131,8 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
+        Session::put('clientShowUrl', request()->fullUrl());
+        Session::put('clienteId', $id);
         $cliente = Cliente::find($id);
         $orders = OrdemServico::where('cliente_id', $id)->where('updated_at','<>', null)->orderBy('updated_at', 'desc')->get();
         return  view('admin.cliente.show', compact('cliente', 'orders'));                        
@@ -248,7 +251,7 @@ class ClienteController extends Controller
             return redirectAlertsMessages::redirectSuccess(
                 ['success' => 'Dados do cliente alterados com sucesso'],
                 'Ok',
-                ['route' => 'clients.potential']
+                ['route' => session()->get('clientShowUrl')]
             );
         } else {
             return redirectAlertsMessages::redirectErrors(

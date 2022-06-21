@@ -243,6 +243,6 @@
   @endif
 </div>
 <div class="row d-flex justify-content-center mb-3 p-4">
-  <a href="{{route('fornecedores.index')}}" class="col-2 btn btn-mcb me-2">Cancelar</a>  
+  <a href="{{route('fornecedores.index')}}" class="col-2 btn btn-mcb me-2">Voltar</a>  
   <button type="submit" class="col-2 btn btn-mcb" id="submitButton">Salvar</button>  
 </div>
