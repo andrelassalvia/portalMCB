@@ -61,7 +61,7 @@ class FornecedorToOrdemController extends Controller
         // Load only cities from the client state - reduce the amount of registers
         $cityIdBegin = Str::padRight($this->fornecedor->estadobrasil_id, 7,'0');
         $cityIdEnd = Str::padRight($this->fornecedor->estadobrasil_id, 7, '9');
-        $cities = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
-        return view('admin.fornecedor.create', compact('ordem', 'estados', 'cities'));
+        $cidades = CidadeBrasil::whereBetween('id', [$cityIdBegin, $cityIdEnd])->get();
+        return view('admin.fornecedor.create', compact('ordem', 'estados', 'cidades'));
     }
 }

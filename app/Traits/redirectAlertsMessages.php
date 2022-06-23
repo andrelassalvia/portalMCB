@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+
 use Barryvdh\Debugbar\Facades\Debugbar;
 
 
@@ -16,9 +18,14 @@ trait redirectAlertsMessages
   protected static function findRoute(array $path = null)
   {
     if($path){
+      // se path tiver '.' direcionar para route('name')
       $route = Arr::get($path, 'route');
-      Debugbar::info($route);
-      return $route;
+      $param = Arr::get($path, 'param');
+      if(Str::contains($route, '.')){
+        return route($route, $param);
+      } else {
+        return $route;
+      }
     }
   }
   /**

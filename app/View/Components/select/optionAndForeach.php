@@ -14,14 +14,12 @@ class optionAndForeach extends Component
     public $arr;
     public $column;
     public $value;
-    public $name;
 
-    public function __construct($arr, $column, $value, $name)
+    public function __construct($arr, $column, $value)
     {
         $this->arr = $arr;
         $this->column = $column;
         $this->value = $value;
-        $this->name = $name;
     }
 
     /**

@@ -113,14 +113,25 @@ class OrdemServico extends Model
     // ================= SCOPE and LOCAL METHODS ====================
 
         // build array with partial rules to run with PATCH method
-        public function partialRules($req)
-        {
-            $rules = array();
-            foreach(OrdemServico::rules() as $input => $rule){
-                if(array_key_exists($input, $req)){
-                    $rules[$input] = $rule;
-                }
-            }  
-            return $rules;
-        }
+    public function partialRules($req)
+    {
+        $rules = array();
+        foreach(OrdemServico::rules() as $input => $rule){
+            if(array_key_exists($input, $req)){
+                $rules[$input] = $rule;
+            }
+        }  
+        return $rules;
+    }
+
+        // search query
+    public function scopeSearch($query, $q)
+    {
+        if($q == null) return $query; // no search query
+
+        return $query
+            ->where('nome', 'LIKE', "%{$q}%") // tem q ser o o nome do cliente
+            ->orWhere('email', 'LIKE', "%{{$q}}%") // status da ordem nome nao id
+            ->orWhere('telefone', 'LIKE', "%{$q}%"); // demanda - nome nao id
+    }
 }

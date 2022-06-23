@@ -4,15 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Cliente;
 use App\Models\Comentarios;
-use App\Models\CidadeBrasil;
-use App\Models\EstadoBrasil;
-use App\Models\Fornecedor;
-use App\Models\MaritalStatus;
-use App\Models\Occupation;
 use App\Models\OrdemServico;
-use App\Models\Pais;
 use App\Models\TipoServico;
 use Barryvdh\Debugbar\Facade as Debugbar;
 use App\Traits\redirectAlertsMessages;
@@ -32,9 +27,25 @@ class OrdemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        Session::put('ordersList', request()->fullUrl());
+        $sortBy = 'created_at'; // Column to sort by
+        $orderBy = 'desc'; // ascending or descending
+        $perPage = 10;
+        $q = null; // Search query
+
+        $orders = OrdemServico::search($q)->orderBy($sortBy, $orderBy)->paginate($perPage);
+
+        if($request->has('orderBy')) $orderBy = $request->query('orderBy');
+        if($request->has('sortBy')) $sortBy = $request->query('sortBy');
+        if($request->has('perPage')) $perPage = $request->query('perPage');
+        if($request->has('q')) $q = $request->query('q');
+
+        return view(
+            'admin.ordem.index', 
+            compact('orders', 'sortBy', 'orderBy', 'perPage', 'q')
+        );
     }
 
     /**
@@ -45,8 +56,8 @@ class OrdemController extends Controller
     public function create()
     {
         $clienteId = session()->get('clienteId');
-        session()->get('provider') ? $provider = session()->get('provider') : $provider = "";
-        $demandas = TipoServico::all();
+        session()->get('provider') ? $provider = session()->get('provider') : $provider = null;
+        $demandas = TipoServico::orderBy('nome')->get();
 
         return view('admin.ordem.create', compact('clienteId', 'demandas', 'provider'));
     }
@@ -59,7 +70,20 @@ class OrdemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->ordem->rules(), $this->ordem->errorMsg());
+        $createOrder = OrdemServico::create($request->all());
+        if($createOrder) {
+            return redirectAlertsMessages::redirectSuccess(
+                ['success' => 'Ordem inserida com sucesso'],
+                'Ok',
+                ['route' => session()->get('clientShowUrl')]
+            );
+        } else {
+            return redirectAlertsMessages::redirectErrors(
+                ['errors' => 'Falha na alteração. Tente novamente'],
+                'Ok'
+            );
+        }
     }
 
     /**
